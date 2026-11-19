@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:material_ui/material_ui.dart';
 
 import 'pages/analyzing_page.dart';
@@ -19,28 +21,12 @@ class RedPenApp extends StatefulWidget {
 }
 
 class _RedPenAppState extends State<RedPenApp> {
-  final GlobalKey<ScaffoldMessengerState> _messenger = GlobalKey<ScaffoldMessengerState>();
   late final ReviewController _controller;
 
   @override
   void initState() {
     super.initState();
-    _controller = ReviewController()
-      ..onNotice = (message) {
-        final state = _messenger.currentState;
-        if (state == null) return;
-        final context = state.context;
-        final wide = MediaQuery.sizeOf(context).width >= 760;
-        state
-          ..hideCurrentSnackBar()
-          ..showSnackBar(
-            SnackBar(
-              content: Text(message),
-              width: wide ? 420 : null,
-              duration: const Duration(seconds: 2),
-            ),
-          );
-      };
+    _controller = ReviewController();
   }
 
   @override
@@ -54,17 +40,48 @@ class _RedPenAppState extends State<RedPenApp> {
     return MaterialApp(
       title: '红笔 · 签约前 5 分钟',
       debugShowCheckedModeBanner: false,
-      scaffoldMessengerKey: _messenger,
       theme: R.theme(),
       home: HomeShell(controller: _controller),
     );
   }
 }
 
-class HomeShell extends StatelessWidget {
+class HomeShell extends StatefulWidget {
   const HomeShell({super.key, required this.controller});
 
   final ReviewController controller;
+
+  @override
+  State<HomeShell> createState() => _HomeShellState();
+}
+
+class _HomeShellState extends State<HomeShell> {
+  ReviewController get controller => widget.controller;
+
+  String? _notice;
+  Timer? _noticeTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    controller.onNotice = _showNotice;
+  }
+
+  @override
+  void dispose() {
+    _noticeTimer?.cancel();
+    controller.onNotice = null;
+    super.dispose();
+  }
+
+  void _showNotice(String message) {
+    _noticeTimer?.cancel();
+    if (!mounted) return;
+    setState(() => _notice = message);
+    _noticeTimer = Timer(const Duration(seconds: 3), () {
+      if (mounted) setState(() => _notice = null);
+    });
+  }
 
   Future<void> _requestNewDocument(BuildContext context) async {
     if (controller.phase == Phase.analyzing) {
@@ -77,7 +94,7 @@ class HomeShell extends StatelessWidget {
     }
     final replace = await showDialog<bool>(
       context: context,
-      barrierColor: const Color(0x661D201A),
+      barrierColor: R.barrier,
       builder: (context) => const _NewDocumentDialog(),
     );
     if (replace == true) controller.resetAll();
@@ -95,48 +112,80 @@ class HomeShell extends StatelessWidget {
           },
           child: Scaffold(
             backgroundColor: R.desk,
-            body: Column(
+            body: Stack(
               children: [
-                DeskTopBar(
-                  controller: controller,
-                  onHome: () => _requestNewDocument(context),
-                  onRules: () => showRulesPanel(context),
-                  onCopyReport: controller.copyReport,
-                  onNewDocument: () => _requestNewDocument(context),
-                ),
-                Expanded(
-                  child: AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 300),
-                    switchInCurve: Curves.easeOutCubic,
-                    switchOutCurve: Curves.easeInCubic,
-                    layoutBuilder: (current, previous) => Stack(
-                      alignment: Alignment.topCenter,
-                      children: [...previous, ?current],
+                Column(
+                  children: [
+                    DeskTopBar(
+                      controller: controller,
+                      onHome: () => _requestNewDocument(context),
+                      onRules: () => showRulesPanel(context),
+                      onCopyReport: controller.copyReport,
+                      onNewDocument: () => _requestNewDocument(context),
                     ),
-                    transitionBuilder: (child, animation) {
-                      final slide = Tween<Offset>(
-                        begin: const Offset(0, 0.012),
-                        end: Offset.zero,
-                      ).animate(animation);
-                      return FadeTransition(
-                        opacity: animation,
-                        child: SlideTransition(position: slide, child: child),
-                      );
-                    },
-                    child: switch (controller.phase) {
-                      Phase.intake => IntakePage(
-                          key: const ValueKey('intake'),
-                          controller: controller,
+                    Expanded(
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 300),
+                        switchInCurve: Curves.easeOutCubic,
+                        switchOutCurve: Curves.easeInCubic,
+                        layoutBuilder: (current, previous) => Stack(
+                          alignment: Alignment.topCenter,
+                          children: [...previous, ?current],
                         ),
-                      Phase.analyzing => AnalyzingPage(
-                          key: const ValueKey('analyzing'),
-                          controller: controller,
+                        transitionBuilder: (child, animation) {
+                          final slide = Tween<Offset>(
+                            begin: const Offset(0, 0.012),
+                            end: Offset.zero,
+                          ).animate(animation);
+                          return FadeTransition(
+                            opacity: animation,
+                            child: SlideTransition(position: slide, child: child),
+                          );
+                        },
+                        child: switch (controller.phase) {
+                          Phase.intake => IntakePage(
+                              key: const ValueKey('intake'),
+                              controller: controller,
+                            ),
+                          Phase.analyzing => AnalyzingPage(
+                              key: const ValueKey('analyzing'),
+                              controller: controller,
+                            ),
+                          Phase.report => ReviewPage(
+                              key: const ValueKey('report'),
+                              controller: controller,
+                            ),
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+                Positioned(
+                  left: 20,
+                  right: 20,
+                  bottom: 20,
+                  child: IgnorePointer(
+                    child: Align(
+                      alignment: Alignment.bottomLeft,
+                      child: AnimatedSwitcher(
+                        duration: const Duration(milliseconds: 180),
+                        switchInCurve: Curves.easeOut,
+                        switchOutCurve: Curves.easeIn,
+                        transitionBuilder: (child, animation) => FadeTransition(
+                          opacity: animation,
+                          child: SlideTransition(
+                            position: Tween<Offset>(
+                              begin: const Offset(0, 0.15),
+                              end: Offset.zero,
+                            ).animate(animation),
+                            child: child,
+                          ),
                         ),
-                      Phase.report => ReviewPage(
-                          key: const ValueKey('report'),
-                          controller: controller,
-                        ),
-                    },
+                        child: _notice == null
+                            ? const SizedBox.shrink()
+                            : _NoticeToast(key: ValueKey(_notice), message: _notice!),
+                      ),
+                    ),
                   ),
                 ),
               ],
@@ -144,6 +193,29 @@ class HomeShell extends StatelessWidget {
           ),
         );
       },
+    );
+  }
+}
+
+class _NoticeToast extends StatelessWidget {
+  const _NoticeToast({super.key, required this.message});
+
+  final String message;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      constraints: const BoxConstraints(maxWidth: 380),
+      padding: const EdgeInsets.fromLTRB(14, 10, 14, 11),
+      decoration: BoxDecoration(
+        color: R.pine,
+        borderRadius: BorderRadius.circular(6),
+        boxShadow: R.shadowSheet,
+      ),
+      child: Text(
+        message,
+        style: R.sans(size: 12.5, color: R.cream, height: 1.55),
+      ),
     );
   }
 }

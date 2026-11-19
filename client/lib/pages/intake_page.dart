@@ -69,7 +69,7 @@ class _IntakePageState extends State<IntakePage> {
     final choice = await showModalBottomSheet<_ImageSource>(
       context: context,
       backgroundColor: Colors.transparent,
-      barrierColor: const Color(0x661D201A),
+      barrierColor: R.barrier,
       builder: (context) => const _ImageSourceSheet(),
     );
     if (choice == null) return;
@@ -302,11 +302,11 @@ class _EditorCardState extends State<_EditorCard> {
       padding: EdgeInsets.fromLTRB(wide ? 22 : 17, 20, wide ? 22 : 17, 18),
       decoration: BoxDecoration(
         color: R.sheet,
-        border: Border.all(color: _focused ? const Color(0xFFB5AA90) : R.rule),
+        border: Border.all(color: _focused ? R.focusBorder : R.rule),
         borderRadius: BorderRadius.circular(6),
         boxShadow: _focused
             ? const [
-                BoxShadow(color: Color(0x14214C3E), blurRadius: 0, spreadRadius: 3),
+                BoxShadow(color: R.focusRing, blurRadius: 0, spreadRadius: 3),
                 ...R.shadowSheet,
               ]
             : R.shadowSheet,
@@ -463,17 +463,13 @@ class _EditorCardState extends State<_EditorCard> {
           const Divider(height: 1, color: R.rule2),
           const SizedBox(height: 14),
           if (width < 560) ...[
-            Row(
-              children: [
-                const Icon(Icons.lock_outline, size: 13, color: R.muted),
-                const SizedBox(width: 6),
-                Expanded(
-                  child: Text(
-                    '只在本机核对，不上传、不保留',
-                    style: R.sans(size: 11.5, color: R.muted, height: 1.4),
-                  ),
-                ),
-              ],
+            IconLabel(
+              icon: Icons.lock_outline,
+              label: '只在本机核对，不上传、不保留',
+              iconSize: RI.dense,
+              gap: RI.gapDense,
+              color: R.muted,
+              style: R.sans(size: 11.5, color: R.muted, height: 1.4),
             ),
             const SizedBox(height: 12),
             Row(
@@ -498,10 +494,12 @@ class _EditorCardState extends State<_EditorCard> {
           ] else
             Row(
               children: [
-                const Icon(Icons.lock_outline, size: 13, color: R.muted),
-                const SizedBox(width: 6),
-                Text(
-                  '只在本机核对，不上传、不保留',
+                IconLabel(
+                  icon: Icons.lock_outline,
+                  label: '只在本机核对，不上传、不保留',
+                  iconSize: RI.dense,
+                  gap: RI.gapDense,
+                  color: R.muted,
                   style: R.sans(size: 11.5, color: R.muted, height: 1.4),
                 ),
                 const Spacer(),
@@ -577,7 +575,7 @@ class _DocTypeButtonState extends State<_DocTypeButton> {
                   SizedBox(
                     width: 20,
                     child: entry.$1 == c.docTypeChoice
-                        ? const Icon(Icons.check, size: 15, color: R.pine)
+                        ? const Icon(Icons.check, size: RI.inline, color: R.pine)
                         : null,
                   ),
                   Text(entry.$2, style: R.sans(size: 12.5, color: R.ink2)),
@@ -606,8 +604,8 @@ class _DocTypeButtonState extends State<_DocTypeButton> {
                 c.docTypeLabel,
                 style: R.sans(size: 11.5, color: R.ink2, height: 1.3),
               ),
-              const SizedBox(width: 3),
-              const Icon(Icons.expand_more, size: 14, color: R.faint),
+              const SizedBox(width: 4),
+              const Icon(Icons.expand_more, size: RI.inline, color: R.faint),
             ],
           ),
         ),
@@ -797,7 +795,7 @@ class _SampleRowState extends State<_SampleRow> {
                       ),
                       child: Icon(
                         Icons.arrow_forward,
-                        size: 14,
+                        size: RI.inline,
                         color: _hover ? R.cream : R.muted,
                       ),
                     ),
@@ -922,7 +920,7 @@ class _SourceOption extends StatelessWidget {
                   border: Border.all(color: R.rule),
                   borderRadius: BorderRadius.circular(4),
                 ),
-                child: Icon(icon, size: 18, color: R.pine),
+                child: Icon(icon, size: RI.leading, color: R.pine),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -935,7 +933,7 @@ class _SourceOption extends StatelessWidget {
                   ],
                 ),
               ),
-              const Icon(Icons.chevron_right, size: 18, color: R.faint),
+              const Icon(Icons.chevron_right, size: RI.leading, color: R.faint),
             ],
           ),
         ),

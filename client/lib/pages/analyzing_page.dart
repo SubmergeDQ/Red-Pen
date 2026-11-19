@@ -3,6 +3,7 @@ import 'package:material_ui/material_ui.dart';
 import '../engine/engine.dart';
 import '../state/review_controller.dart';
 import '../theme.dart';
+import '../ui/common.dart';
 
 class AnalyzingPage extends StatefulWidget {
   const AnalyzingPage({super.key, required this.controller});
@@ -153,10 +154,12 @@ class _AnalyzingPageState extends State<AnalyzingPage> with SingleTickerProvider
                       const SizedBox(height: 16),
                       Row(
                         children: [
-                          const Icon(Icons.lock_outline, size: 13, color: R.muted),
-                          const SizedBox(width: 6),
-                          Text(
-                            '文本不会离开这台设备',
+                          IconLabel(
+                            icon: Icons.lock_outline,
+                            label: '文本不会离开这台设备',
+                            iconSize: RI.dense,
+                            gap: RI.gapDense,
+                            color: R.muted,
                             style: R.sans(size: 11.5, color: R.muted, height: 1.5),
                           ),
                         ],

@@ -634,7 +634,7 @@ class _HighlightedText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final base = R.serif(size: 15, weight: FontWeight.w400, color: const Color(0xFF2B3026), height: 2);
+    final base = R.serif(size: 15, weight: FontWeight.w400, color: R.prose, height: 2);
     final ranges = <(int, int, Color)>[];
     for (final finding in findings) {
       final quote = finding.quote.trim();
@@ -827,7 +827,7 @@ class _ReportPane extends StatelessWidget {
                             size: 12,
                             color: R.pine,
                             height: 1.5,
-                          ).copyWith(decoration: TextDecoration.underline, decorationColor: const Color(0x4DA9B8A5)),
+                          ).copyWith(decoration: TextDecoration.underline, decorationColor: R.linkUnderline),
                         ),
                       ),
                     ),
@@ -1088,7 +1088,7 @@ class _FindingCardState extends State<_FindingCard> {
             AnimatedRotation(
               turns: widget.expanded ? 0.5 : 0,
               duration: const Duration(milliseconds: 180),
-              child: Icon(Icons.expand_more, size: 16, color: _hover ? R.ink2 : R.faint),
+              child: Icon(Icons.expand_more, size: RI.control, color: _hover ? R.ink2 : R.faint),
             ),
           ],
         );
@@ -1263,16 +1263,13 @@ class _FindingDetail extends StatelessWidget {
                 onTap: onLocate,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(vertical: 3),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.location_on_outlined, size: 13, color: R.pine),
-                      const SizedBox(width: 4),
-                      Text(
-                        '在原文中定位',
-                        style: R.sans(size: 11.5, weight: FontWeight.w500, color: R.pine, height: 1.4),
-                      ),
-                    ],
+                  child: IconLabel(
+                    icon: Icons.location_on_outlined,
+                    label: '在原文中定位',
+                    iconSize: RI.dense,
+                    gap: RI.gapDense,
+                    color: R.pine,
+                    style: R.sans(size: 11.5, weight: FontWeight.w500, color: R.pine, height: 1.4),
                   ),
                 ),
               ),
@@ -1347,7 +1344,7 @@ class _AdviceRow extends StatelessWidget {
                 border: Border.all(color: R.rule),
                 borderRadius: BorderRadius.circular(3),
               ),
-              child: const Icon(Icons.copy_outlined, size: 12, color: R.muted),
+              child: const Icon(Icons.copy_outlined, size: RI.dense, color: R.muted),
             ),
           ),
         ),

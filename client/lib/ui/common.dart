@@ -39,13 +39,13 @@ class SealMark extends StatelessWidget {
             borderRadius: BorderRadius.circular(3),
             border: Border.all(color: const Color(0x3DFFFFFF)),
             boxShadow: const [
-              BoxShadow(color: Color(0x381D201A), offset: Offset(0, 2), blurRadius: 8),
+              BoxShadow(color: Color(0x38101B16), offset: Offset(0, 2), blurRadius: 8),
             ],
           ),
           alignment: Alignment.center,
           child: Text(
             '签',
-            style: R.serif(size: size * 0.6, weight: FontWeight.w700, color: const Color(0xFFF8F1DF), height: 1),
+            style: R.serif(size: size * 0.6, weight: FontWeight.w700, color: R.cream, height: 1),
           ),
         ),
       ),
@@ -54,6 +54,65 @@ class SealMark extends StatelessWidget {
 }
 
 enum DeskButtonKind { primary, outline, quiet }
+
+/// Vertical offset that puts an icon on the first line of a text block.
+double iconTopOffset(TextStyle style, double iconSize) {
+  final fontSize = style.fontSize ?? 14;
+  final height = style.height ?? 1.2;
+  return ((fontSize * height) - iconSize) / 2;
+}
+
+/// Icon + label on one shared line box.
+///
+/// The icon is centred inside a box exactly as tall as the label's line, so a
+/// 12px label and a 18px label both keep the glyph on the same optical line.
+class IconLabel extends StatelessWidget {
+  const IconLabel({
+    super.key,
+    required this.icon,
+    required this.label,
+    this.iconSize = RI.dense,
+    this.gap = RI.gapDense,
+    this.color = R.muted,
+    this.style,
+    this.maxLines = 1,
+    this.overflow = TextOverflow.ellipsis,
+  });
+
+  final IconData icon;
+  final String label;
+  final double iconSize;
+  final double gap;
+  final Color color;
+  final TextStyle? style;
+  final int maxLines;
+  final TextOverflow overflow;
+
+  @override
+  Widget build(BuildContext context) {
+    final textStyle = style ?? R.sans(size: 11.5, color: color, height: 1.45);
+    final lineHeight = (textStyle.fontSize ?? 11.5) * (textStyle.height ?? 1.2);
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        SizedBox(
+          width: iconSize,
+          height: lineHeight,
+          child: Center(child: Icon(icon, size: iconSize, color: color)),
+        ),
+        SizedBox(width: gap),
+        Flexible(
+          child: Text(
+            label,
+            style: textStyle,
+            maxLines: maxLines,
+            overflow: overflow,
+          ),
+        ),
+      ],
+    );
+  }
+}
 
 class DeskButton extends StatefulWidget {
   const DeskButton({
@@ -93,7 +152,7 @@ class _DeskButtonState extends State<DeskButton> {
         ),
       DeskButtonKind.outline => (
           _hover && enabled ? R.sheet2 : R.sheet,
-          _hover && enabled ? const Color(0xFFAFA48B) : R.ruleStrong,
+          _hover && enabled ? R.focusBorder : R.ruleStrong,
           enabled ? R.ink2 : R.faint,
         ),
       DeskButtonKind.quiet => (
@@ -121,9 +180,7 @@ class _DeskButtonState extends State<DeskButton> {
           color: bg,
           border: Border.all(color: border),
           borderRadius: BorderRadius.circular(6),
-          boxShadow: widget.kind == DeskButtonKind.primary && enabled
-              ? const [BoxShadow(color: Color(0x14212F26), offset: Offset(0, 1), blurRadius: 0)]
-              : null,
+          boxShadow: widget.kind == DeskButtonKind.primary && enabled ? R.shadowButton : null,
         ),
         child: Material(
           color: Colors.transparent,
@@ -137,8 +194,12 @@ class _DeskButtonState extends State<DeskButton> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (widget.icon != null) ...[
-                    Icon(widget.icon, size: widget.compact ? 15 : 16, color: enabled ? fg : fg.withValues(alpha: 0.7)),
-                    const SizedBox(width: 7),
+                    Icon(
+                      widget.icon,
+                      size: widget.compact ? RI.inline : RI.control,
+                      color: enabled ? fg : fg.withValues(alpha: 0.7),
+                    ),
+                    const SizedBox(width: RI.gap),
                   ],
                   Flexible(
                     child: Text(
@@ -252,10 +313,10 @@ class InfoNote extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final (bg, border, fg) = switch (tone) {
-      NoteTone.warning => (R.amberSoft, const Color(0xFFDDCBA3), const Color(0xFF624712)),
-      NoteTone.danger => (R.vermilionSoft, const Color(0xFFDFC0B5), const Color(0xFF6C241B)),
-      NoteTone.success => (R.mossSoft, const Color(0xFFC9D8C1), const Color(0xFF2D4A36)),
-      NoteTone.pine => (R.pineSoft, const Color(0xFFCBD9C9), const Color(0xFF24452F)),
+      NoteTone.warning => (R.amberSoft, R.amberBorder, R.amberInk),
+      NoteTone.danger => (R.vermilionSoft, R.vermilionBorder, R.vermilionInk),
+      NoteTone.success => (R.mossSoft, R.mossBorder, R.mossInk),
+      NoteTone.pine => (R.pineSoft, R.pineBorder, R.pineInk),
       NoteTone.neutral => (R.sheet2, R.rule, R.ink2),
     };
     return Container(
@@ -268,12 +329,15 @@ class InfoNote extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Icon(
-            icon ?? (tone == NoteTone.danger ? Icons.error_outline : Icons.info_outline),
-            size: 15,
-            color: fg.withValues(alpha: 0.8),
+          Padding(
+            padding: EdgeInsets.only(top: iconTopOffset(R.sans(size: 12, height: 1.65), 15)),
+            child: Icon(
+              icon ?? (tone == NoteTone.danger ? Icons.error_outline : Icons.info_outline),
+              size: 15,
+              color: fg.withValues(alpha: 0.8),
+            ),
           ),
-          const SizedBox(width: 8),
+          const SizedBox(width: RI.gap),
           Expanded(
             child: Text(
               message,
@@ -350,9 +414,9 @@ class _TopBarButtonState extends State<TopBarButton> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(widget.icon, size: 15, color: R.cream.withValues(alpha: enabled ? 0.92 : 0.4)),
+                  Icon(widget.icon, size: RI.control, color: R.cream.withValues(alpha: enabled ? 0.92 : 0.4)),
                   if (widget.label != null) ...[
-                    const SizedBox(width: 7),
+                    const SizedBox(width: RI.gap),
                     Text(
                       widget.label!,
                       style: R.sans(
@@ -422,7 +486,7 @@ class DeskTopBar extends StatelessWidget {
     return Container(
       decoration: const BoxDecoration(
         color: R.pine,
-        boxShadow: [BoxShadow(color: Color(0x8CAE3A2B), offset: Offset(0, 2), blurRadius: 0)],
+        boxShadow: [BoxShadow(color: R.topBarEdge, offset: Offset(0, 2), blurRadius: 8)],
       ),
       child: SafeArea(
         bottom: false,
@@ -502,21 +566,18 @@ class DeskTopBar extends StatelessWidget {
                     ] else
                       const Spacer(),
                     if (showPrivacy) ...[
-                      Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(Icons.lock_outline, size: 13, color: R.cream.withValues(alpha: 0.6)),
-                          const SizedBox(width: 5),
-                          Text(
-                            '仅本机处理',
-                            style: R.sans(
-                              size: 11.5,
-                              color: R.cream.withValues(alpha: 0.6),
-                              letterSpacing: 0.4,
-                              height: 1.2,
-                            ),
-                          ),
-                        ],
+                      IconLabel(
+                        icon: Icons.lock_outline,
+                        label: '仅本机处理',
+                        iconSize: RI.dense,
+                        gap: RI.gapDense,
+                        color: R.cream.withValues(alpha: 0.6),
+                        style: R.sans(
+                          size: 11.5,
+                          color: R.cream.withValues(alpha: 0.6),
+                          letterSpacing: 0.4,
+                          height: 1.2,
+                        ),
                       ),
                       const SizedBox(width: 18),
                     ],
@@ -579,7 +640,7 @@ Future<void> showRulesPanel(BuildContext context) {
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
-      barrierColor: const Color(0x661D201A),
+      barrierColor: R.barrier,
       builder: (context) => SizedBox(
         height: size.height * 0.92,
         child: const _RulesCard(roundedTop: true),
@@ -588,7 +649,7 @@ Future<void> showRulesPanel(BuildContext context) {
   }
   return showDialog<void>(
     context: context,
-    barrierColor: const Color(0x661D201A),
+    barrierColor: R.barrier,
     builder: (context) => Dialog(
       backgroundColor: Colors.transparent,
       insetPadding: const EdgeInsets.all(24),
@@ -641,7 +702,7 @@ class _RulesCard extends StatelessWidget {
                 IconButton(
                   onPressed: () => Navigator.of(context).pop(),
                   tooltip: '关闭',
-                  icon: const Icon(Icons.close, size: 18),
+                  icon: const Icon(Icons.close, size: RI.leading),
                   color: R.muted,
                   style: IconButton.styleFrom(
                     shape: RoundedRectangleBorder(

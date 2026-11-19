@@ -50,3 +50,6 @@ app.*.map.json
 # Native build output of vendored plugins
 third_party/*/android/.cxx/
 third_party/*/android/.lib/
+
+# Release signing material
+android/key.properties
