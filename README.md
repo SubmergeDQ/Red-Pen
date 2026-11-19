@@ -4,7 +4,7 @@
 
 **一句话**：把合同当作业交上来，红笔先过一遍。
 
-[在线体验](#) · [规则库](#规则库) · [技术架构](#技术架构)
+[快速开始](#快速开始) · [规则库](#规则库) · [技术架构](#技术架构)
 
 ---
 
@@ -28,7 +28,7 @@
 
 ## 它是什么
 
-一个纯前端的单页工具。粘贴条款或拍照，30 秒内输出一份逐条判定报告。
+一个纯前端的单页工具。粘贴条款，30 秒内输出一份逐条判定报告。
 
 核心不是"读懂合同"，而是回答三个问题：
 
@@ -50,27 +50,55 @@
 ## 怎么用
 
 ```
-1. 选文件类型        三方协议 / 实习协议 / 劳动合同 / 培训贷
-2. 粘贴或拍照        支持直接粘贴文本；拍照走 OCR，失败可手动补
+1. 选文件类型        自动识别 / 劳动合同 / 实习协议 / 三方协议 / 培训贷
+2. 粘贴条款          Ctrl+V，或点"读取剪贴板"
 3. 看判定报告        逐条卡片：原文摘录 / 依据原文 / 签了会怎样 / 该问谁
-4. 导出              PDF 或纯文本，方便发给家长、发给 HR
+4. 打印 / 另存 PDF   调起浏览器打印，选择"另存为 PDF"
 ```
 
 **不需要注册，不需要登录，所有内容只在你的浏览器内存里。**
 
+文件类型默认自动识别。识别不准时，可以在粘贴前手动指定，也可以在审阅台切到「合同原文」标签页后，在顶部随时改选；手动指定只覆盖"主类型"，正文里出现的其他类型条款仍会追加对应规则包。
+
+## 快速开始
+
+没有构建步骤，也没有运行时依赖。
+
+```bash
+# 方式一：直接打开
+# 双击 index.html 即可。部分浏览器会限制 file:// 下的剪贴板读取，此时用 Ctrl+V。
+
+# 方式二：本地静态服务
+python -m http.server 4173
+# 打开 http://127.0.0.1:4173
+
+# 运行规则引擎测试（Node.js 18+，零依赖）
+npm test
+```
+
+部署到任意静态托管即可。没有后端、数据库、账号体系和第三方字体请求，断网也能运行。
+
 ## 规则库
 
-判定不在模型里，在规则表里。每一条规则长这样：
+判定不在模型里，在规则表里。每条规则由三部分组成：
+
+- **触发**：正则匹配条款文本；
+- **排除**：把法定例外（服务期、竞业限制、保密协议）从命中结果里剔除；
+- **输出**：结构化结论，包含依据、后果、问法和改法。
+
+字段示意：
 
 ```js
 {
   id: "R4",
   name: "违约金法定情形限制",
-  scope: ["劳动合同"],
-  severity: "red",
-  match: [/离职.*违约/i, /未满.*(年|月).*(赔|赔偿|扣)/i, /违约金/, /押金|保证金|押身份证/],
+  verdict: "red",
+  match: [
+    /(违约金|赔偿|罚款|扣除[^。；\n]{0,8}工资)/,
+    /(提前(?:离职|辞职|解除|终止)|未满.*(?:年|月).*(?:赔|赔偿|扣))/
+  ],
   // 命中后再排除：只有"服务期""竞业限制"两种情形才可能合法
-  exclude: [/服务期/, /竞业限制/, /保密协议/],
+  exclude: [/服务期/, /专项培训/, /竞业限制/, /保密协议/],
   basis: {
     law: "《劳动合同法》",
     article: "第二十五条",
@@ -82,20 +110,43 @@
 }
 ```
 
+实际实现里，规则是 `engine.js` 中的函数，不是纯 JSON；上面的字段用于说明判定结构。
+
+### 多规则包
+
+一份文件可能同时包含多类条款。红笔不只看文件标题，还会扫描正文信号：
+
+| 规则包 | 覆盖规则 | 触发方式 |
+|---|---|---|
+| 劳动合同 | R4–R7、R11–R12 + 常规绿线 | 标题/正文出现劳动合同、劳动者、用人单位等信号 |
+| 试用期 | R1–R3 | 正文出现"试用期" |
+| 实习协议 | R10 | 实习协议、实习单位、实习学生等信号 |
+| 三方协议 | R8 | 三方协议、毕业生就业协议等信号 |
+| 培训贷 | R9 | 培训分期、教育分期、还款、服务费等信号 |
+
+因此，一份劳动合同里如果夹着"培训费分 12 期"，会同时跑劳动合同规则和培训贷规则；报告顶部会写明实际应用的规则包。
+
+两个有意的边界：
+
+- **三方协议不按劳动合同判违约金。** 三方协议使用《民法典》的民事违约金规则，不会因为文本里出现"用人单位"就套用《劳动合同法》第二十五条。
+- **纯实习协议里的"试用期"不直接套用劳动合同试用期上限。** 只有正文同时出现劳动者、用人单位等劳动信号时，才追加试用期规则；否则只提示实习协议自身的保障缺口。
+
 ### 为什么判定不交给模型
 
 | 做法 | 问题 |
 |---|---|
 | 让模型直接读合同给结论 | 结论不可复核，模型可能编造法条序号；断网演示就崩 |
-| 规则判定 + 模型改写 | 判定逻辑可被逐条验证；每一条规则都能单独截图演示；断网可用 |
+| 规则判定 + 模板解释 | 判定逻辑可被逐条验证；每一条规则都能单独截图演示；断网可用 |
 
-模型只做最后一件事：把规则引擎的结构化输出改写成通顺的人话。**它不负责判定，也不负责引用法条。**
+当前版本没有模型改写层。报告里的解释文本由规则模板直接生成，**判定、法条引用和金额计算都不经过模型**。
 
 ### `exclude` 比 `match` 更重要
 
 `/违约金/` 这个正则会命中几乎所有正常合同——因为合法情形（服务期、竞业限制）也会出现这个词。
 
 没有 `exclude` 的规则库会把每一条都标红，产品第一眼就不可信。**这是这个项目最容易做错的地方。**
+
+实际实现里，排除判断下沉到了句子级：同一条里出现"服务期"不会让另一句违法的"提前离职赔 2 万"被漏掉。
 
 ### 已实现的规则（部分）
 
@@ -109,37 +160,43 @@
 | R6 | 竞业限制范围与补偿 | 第二十三条、第二十四条 |
 | R7 | 无效条款情形 | 第二十六条 |
 | R8 | 三方协议违约金调整 | 《民法典》第五百八十五条 |
-| R9 | 培训贷利率上限 | 民间借贷利率司法保护上限 |
-| R10 | 实习协议必备条款（含意外险） | 《民法典》+ 职业教育相关规定 |
-| R11 | 不得扣押证件、收取财物 | 第九条 |
+| R9 | 培训贷利率上限 | 民间借贷司法解释（签约时一年期 LPR 四倍） |
+| R10 | 实习协议保障（含意外险） | 《职业学校学生实习管理规定》（条文序号需核对） |
+| R11 | 不得扣押证件、收取财物 | 《劳动合同法》第九条 |
 | R12 | 劳动者解除的通知期 | 第三十七条 |
 
-> 法条序号在交稿前已逐条核对。R9 引用的司法解释文件名存在年份修订，README 中不锁定具体文号。
+> R1–R8、R11、R12 的条文序号已核对。R10 引用的《职业学校学生实习管理规定》存在版本修订，具体条文序号仍以最新有效版本为准，界面中会标注"需核对"而不是猜测。
 
 ## 技术架构
 
 ```
-纯前端 · 无后端 · 无登录 · 数据不出浏览器
+纯前端 · 无后端 · 无登录 · 无第三方请求 · 数据不出浏览器
 ```
 
-| 层 | 选型 | 说明 |
+| 层 | 文件 | 说明 |
 |---|---|---|
-| 界面 | 单页 Web App | 移动端优先，字体 ≥15px，适合截图传播 |
-| 判定 | `rules.js` 规则表 | 全部在前端执行，断网可用 |
-| 解释 | LLM 改写层 | 可开关。关掉后仍输出结构化结论，只是语言更硬 |
+| 界面 | `index.html` | 单页 Web App，移动端优先，字体 ≥15px，适合截图传播 |
+| 判定 | `engine.js` | UMD 模块，浏览器和 Node 共用；12 条规则 + 多规则包调度 |
+| 解释 | 规则模板 | 由结构化结果直接生成，不调用模型 |
+| 测试 | `tests/engine.test.js` | `node --test`，覆盖误判修复与多规则包 |
 | 存储 | 无 | 刷新即清空，不写 localStorage |
-| 部署 | 静态托管 | 公网可访问，评委点开即用 |
+| 部署 | 静态托管 | 无构建步骤，公网可访问，评委点开即用 |
+
+**为什么拆出 `engine.js`**：规则需要能单独测试。拆出来后，同一套判定既能在浏览器里跑，也能用 `node --test` 做回归，不需要启动页面或模拟 DOM。
 
 **为什么不做后端**：这个产品处理的是合同文本，天然带敏感信息。不做后端 = 不需要承诺"我们不会存你的合同"，因为根本没有地方存。这既是隐私设计，也是最省事的合规设计。
+
+**为什么不用外部字体**：页面只使用系统中文字体，避免打开页面时向第三方发起请求，保持"断网可用、文本不上传"的一致性。
 
 ## Qoder 过程
 
 这个项目全程用 Qoder 完成，分工大致是：
 
-- **规则库结构化**：把《劳动合同法》相关条款整理成规则表，让 Qoder 按 schema 补齐 `basis` / `consequence` / `ask` 字段。人工逐条核对了法条序号和原文。
-- **判定引擎**：`match` + `exclude` 的双阶段匹配逻辑，由 Qoder 生成初版，人工调整优先级和排除规则。
+- **规则库结构化**：把《劳动合同法》相关条款整理成规则，让 Qoder 按统一 schema 补齐 `basis` / `consequence` / `ask` 字段。人工逐条核对了法条序号和原文。
+- **判定引擎**：`match` + `exclude` 的双阶段匹配，以及"先看句子、再看条款"的排除逻辑，由 Qoder 生成初版，人工调整优先级和排除规则。
+- **多规则包**：从"一个文件只跑一种规则"改成"主类型 + 内容信号追加规则包"，并补了手动类型覆盖。Qoder 生成调度骨架，人工处理三方协议与劳动合同的判定冲突。
 - **界面**：判定卡片的四段式布局（原文 / 依据 / 后果 / 动作），反复调了三轮才把"体检报告感"做出来。
-- **LLM 改写层**：系统提示词经过多轮迭代，重点是禁止它写"存在法律风险"这类空话，强制要求具体场景。
+- **测试**：把规则引擎从单文件 HTML 中拆出，补了 11 个回归用例，专门盯住"百分比掩盖具体金额""同一条出现服务期导致漏判""甲方通知期误报"这类容易复发的问题。
 
 ## 不足与反思
 
@@ -147,13 +204,15 @@
 
 **1. 规则库覆盖不完整。** 目前 12 条规则覆盖的是最高频的坑，但劳动合同里的坑远不止这些——比如工时制度、加班费计算基数、调岗调薪条款、保密协议范围，都还没做。一个只覆盖 12 条规则的工具，会有明显的"漏检"感。
 
-**2. 条款定位不精确。** 用户粘贴一段文本，我能判断内容，但很难准确定位到"第几条第几款"。目前只能输出"未标明条款位置"。这对正式使用是个硬伤。
+**2. 条款定位不精确。** 用户粘贴一段文本，我能判断内容，但很难准确定位到"第几条第几款"。目前只能依赖用户文本里的编号；没有编号时，只能输出段落位置。这对正式使用是个硬伤。
 
-**3. 无法处理扫描件和手写批注。** OCR 只做了最基础的一层，遇到盖章、手写、表格排版就会失败。而真实的合同照片，几乎都带这些。
+**3. 不支持扫描件和手写批注。** 当前版本只接受文本粘贴，没有 OCR。真实的合同照片往往带盖章、手写和表格排版，这一版直接不处理。
 
-**4. 最根本的问题：我不知道它有没有用。** 我做了判定逻辑，做了界面，但没有找真实的应届生用过。他们会不会在签字前想起来打开这个东西？他们看得懂"服务期"和"竞业限制"的区别吗？这些我都不知道。这是我这个作品最大的空白。
+**4. 手动选类型可能选错。** 手动指定能兜住自动识别失败的情况，但如果用户自己选错类型，规则包也会跟着偏。报告顶部会显示实际应用的规则包，算是一个补救，但不能完全避免。
 
-**5. 法条是静态的。** 法律会修订，规则库需要持续维护。现在它只是一个快照。
+**5. 最根本的问题：我不知道它有没有用。** 我做了判定逻辑，做了界面，但没有找真实的应届生用过。他们会不会在签字前想起来打开这个东西？他们看得懂"服务期"和"竞业限制"的区别吗？这些我都不知道。这是我这个作品最大的空白。
+
+**6. 法条是静态的。** 法律会修订，规则库需要持续维护。现在它只是一个快照。
 
 ## 关于我
 
@@ -173,11 +232,13 @@
 
 Students in China face three documents at graduation: the tripartite employment agreement, internship agreements, and employment contracts with probation clauses. These are signed without explanation, are hard to reverse, and problems surface only after it's too late.
 
-Red Pen takes the contract text, runs it through a local rule engine (12 rules mapped to specific articles of the Labor Contract Law and Civil Code), and returns a clause-by-clause verdict: **what happens if you sign this**, **which article it violates (with the original text)**, and **what to ask and how to negotiate**.
+Red Pen takes pasted contract text, runs it through a local rule engine (12 rules mapped to specific articles of the Labor Contract Law and Civil Code), and returns a clause-by-clause verdict: **what happens if you sign this**, **which article it violates (with the original text)**, and **what to ask and how to negotiate**.
 
 Verdicts are graded 🔴 red (legally void or conflicting), 🟡 yellow (legal but unfavorable), ⚪ gray (depends on your situation), 🟢 green (standard).
 
-The rule engine runs entirely in the browser — no backend, no login, no data leaves the device. The LLM only rewrites structured verdicts into plain language; it never makes the legal judgment and never cites statutes.
+The rule engine runs entirely in the browser — no backend, no login, no third-party requests, and no data leaves the device. It starts with the detected document type and adds rule packs when the text contains signals for probation, internships, tripartite agreements, or training loans. The document type can also be overridden manually. Explanations are generated from deterministic templates; no LLM is involved in the judgment or the citations.
+
+Open `index.html` directly, or run `python -m http.server 4173`. Run `npm test` for the zero-dependency rule-engine tests. Print or save the report as PDF through the browser print dialog.
 
 Built end-to-end with Qoder.
 

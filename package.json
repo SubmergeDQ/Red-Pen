@@ -1,0 +1,14 @@
+{
+  "name": "red-pen",
+  "version": "1.0.0",
+  "private": true,
+  "description": "红笔 · 学生签约前风险提示（本地规则引擎）",
+  "license": "MIT",
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "serve": "python -m http.server 4173"
+  }
+}
