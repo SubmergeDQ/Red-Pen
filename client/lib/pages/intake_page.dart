@@ -706,7 +706,7 @@ class _SampleRail extends StatelessWidget {
           style: R.sans(
             size: 11,
             weight: FontWeight.w500,
-            color: R.faint,
+            color: R.muted,
             letterSpacing: 1.3,
             height: 1.4,
           ),

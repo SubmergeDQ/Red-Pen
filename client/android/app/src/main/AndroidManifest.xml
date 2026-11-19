@@ -1,6 +1,12 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools">
+    <!-- Plugins (pdfrx's http client, ML Kit telemetry) add this during the
+         manifest merge. Red Pen never talks to the network, so drop it. -->
+    <uses-permission
+        android:name="android.permission.INTERNET"
+        tools:node="remove" />
     <application
-        android:label="red_pen"
+        android:label="红笔"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

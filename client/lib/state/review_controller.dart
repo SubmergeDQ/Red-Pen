@@ -10,6 +10,7 @@ import '../engine/engine.dart';
 import '../services/document_parser.dart';
 import '../services/ocr/ocr.dart';
 import '../services/ocr/ocr_service.dart';
+import '../services/pdf_export.dart';
 
 enum Phase { intake, analyzing, report }
 
@@ -36,6 +37,7 @@ class ReviewController extends ChangeNotifier {
   String? error;
   List<String> notes = const [];
   bool ocrUsed = false;
+  bool exporting = false;
   String? activeSample;
 
   Verdict? filter;
@@ -491,6 +493,26 @@ class ReviewController extends ChangeNotifier {
     _notice('$label已复制。');
   }
 
+  Future<void> exportPdf() async {
+    final a = analysis;
+    if (a == null || exporting) return;
+    exporting = true;
+    notifyListeners();
+    try {
+      final name = await PdfExporter.export(
+        a,
+        sourceName: sourceName,
+        ocrUsed: ocrUsed,
+      );
+      _notice(name == null ? '已取消导出。' : '核对报告已导出。');
+    } on Object {
+      _notice('PDF 没有生成成功。可以先用「复制核对报告」。');
+    } finally {
+      exporting = false;
+      notifyListeners();
+    }
+  }
+
   Future<void> copyReport() async {
     final a = analysis;
     if (a == null) return;
@@ -534,7 +556,7 @@ class ReviewController extends ChangeNotifier {
       ..writeln('以上为签约前风险提示，基于你提供的文本和通用规定，不构成法律意见。')
       ..writeln('涉及金额较大或已产生争议，请拨打 12348 公共法律服务热线，或联系学校法律援助中心。')
       ..writeln('规则在本机运行，正文没有上传，也没有保存到磁盘。');
-    await copy(buffer.toString(), '审阅报告');
+    await copy(buffer.toString(), '核对报告');
   }
 
   @override

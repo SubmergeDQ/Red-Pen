@@ -94,7 +94,7 @@ class _ReviewPageState extends State<ReviewPage> {
   Widget build(BuildContext context) {
     final analysis = a;
     if (analysis == null) {
-      return const Center(child: Text('还没有审阅结果。'));
+      return const Center(child: Text('还没有核对结果。'));
     }
     final size = MediaQuery.sizeOf(context);
     final wide = size.width >= 960;
@@ -163,7 +163,7 @@ class _MobileTabs extends StatelessWidget {
             onTap: () => controller.setMobileTab(1),
           ),
           _Tab(
-            label: '审阅报告',
+            label: '核对报告',
             count: controller.riskCount,
             selected: controller.mobileTab == 0,
             onTap: () => controller.setMobileTab(0),
@@ -375,16 +375,16 @@ class _Paper extends StatelessWidget {
       child: Stack(
         children: [
           Positioned(
-            left: narrow ? 20 : 44,
+            left: narrow ? 10 : 44,
             top: 0,
             bottom: 0,
             child: Container(width: 1, color: R.vermilion.withValues(alpha: 0.13)),
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(
-              narrow ? 28 : 66,
+              narrow ? 18 : 66,
               narrow ? 30 : 46,
-              narrow ? 20 : 52,
+              narrow ? 16 : 52,
               narrow ? 52 : 80,
             ),
             child: Column(
@@ -716,7 +716,7 @@ class _ReportPane extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const Eyebrow('审阅结果'),
+                    const Eyebrow('核对结果'),
                     const SizedBox(height: 13),
                     Container(
                       padding: const EdgeInsets.only(left: 16),
@@ -839,13 +839,21 @@ class _ReportPane extends StatelessWidget {
                         DeskButton(
                           label: '回到交稿台',
                           icon: Icons.arrow_back,
-                          kind: DeskButtonKind.outline,
+                          kind: DeskButtonKind.quiet,
                           height: 40,
                           compact: true,
                           onPressed: controller.editText,
                         ),
                         DeskButton(
-                          label: '复制审阅报告',
+                          label: '导出 PDF',
+                          icon: Icons.picture_as_pdf_outlined,
+                          kind: DeskButtonKind.outline,
+                          height: 40,
+                          compact: true,
+                          onPressed: controller.exporting ? null : controller.exportPdf,
+                        ),
+                        DeskButton(
+                          label: '复制核对报告',
                           icon: Icons.copy,
                           kind: DeskButtonKind.primary,
                           height: 40,
@@ -935,7 +943,7 @@ class _FilterChipState extends State<_FilterChip> {
   @override
   Widget build(BuildContext context) {
     final enabled = widget.onTap != null;
-    final color = widget.value == null ? R.vermilion : verdictColor(widget.value!);
+    final color = widget.value == null ? R.ink : verdictColor(widget.value!);
     return MouseRegion(
       cursor: enabled ? SystemMouseCursors.click : SystemMouseCursors.basic,
       onEnter: (_) => setState(() => _hover = true),
@@ -959,7 +967,7 @@ class _FilterChipState extends State<_FilterChip> {
               border: Border(
                 right: widget.last ? BorderSide.none : const BorderSide(color: R.rule),
                 bottom: BorderSide(
-                  color: widget.selected ? R.vermilion : Colors.transparent,
+                  color: widget.selected ? color : Colors.transparent,
                   width: 2,
                 ),
               ),
@@ -973,7 +981,7 @@ class _FilterChipState extends State<_FilterChip> {
                   style: R.num(
                     size: 22,
                     weight: FontWeight.w600,
-                    color: widget.selected ? R.vermilion : R.ink,
+                    color: widget.selected ? color : R.ink,
                   ),
                 ),
                 const SizedBox(height: 1),
@@ -1193,7 +1201,13 @@ class _FindingDetail extends StatelessWidget {
                 children: [
                   Text(
                     '原文',
-                    style: R.sans(size: 10.5, color: R.faint, letterSpacing: 1.4, height: 1.4),
+                    style: R.sans(
+                      size: 10.5,
+                      weight: FontWeight.w600,
+                      color: R.muted,
+                      letterSpacing: 1.2,
+                      height: 1.4,
+                    ),
                   ),
                   const SizedBox(height: 3),
                   Text(
@@ -1207,7 +1221,13 @@ class _FindingDetail extends StatelessWidget {
           if (f.basis != null) ...[
             Text(
               '法律依据',
-              style: R.sans(size: 10.5, color: R.faint, letterSpacing: 1.4, height: 1.4),
+              style: R.sans(
+                size: 10.5,
+                weight: FontWeight.w600,
+                color: R.muted,
+                letterSpacing: 1.2,
+                height: 1.4,
+              ),
             ),
             const SizedBox(height: 3),
             Text(
@@ -1228,14 +1248,15 @@ class _FindingDetail extends StatelessWidget {
               onCopy: () => onCopy(f.ask, '这句话'),
             ),
           if (f.counter.isNotEmpty) ...[
-            const SizedBox(height: 10),
+            const SizedBox(height: 14),
             _AdviceRow(
               label: '可以怎么改',
               text: f.counter,
+              emphasis: true,
               onCopy: () => onCopy(f.counter, '这句话'),
             ),
           ],
-          const SizedBox(height: 12),
+          const SizedBox(height: 16),
           Row(
             children: [
               InkWell(
@@ -1273,11 +1294,13 @@ class _AdviceRow extends StatelessWidget {
     required this.label,
     required this.text,
     required this.onCopy,
+    this.emphasis = false,
   });
 
   final String label;
   final String text;
   final VoidCallback onCopy;
+  final bool emphasis;
 
   @override
   Widget build(BuildContext context) {
@@ -1290,12 +1313,20 @@ class _AdviceRow extends StatelessWidget {
             children: [
               Text(
                 label,
-                style: R.sans(size: 10.5, color: R.faint, letterSpacing: 1.4, height: 1.4),
+                style: R.sans(
+                  size: 10.5,
+                  weight: FontWeight.w600,
+                  color: R.muted,
+                  letterSpacing: 1.2,
+                  height: 1.4,
+                ),
               ),
               const SizedBox(height: 3),
               Text(
                 text,
-                style: R.sans(size: 12.5, color: R.ink2, height: 1.7),
+                style: emphasis
+                    ? R.sans(size: 13, weight: FontWeight.w600, color: R.ink, height: 1.65)
+                    : R.sans(size: 12.5, color: R.ink2, height: 1.7),
               ),
             ],
           ),

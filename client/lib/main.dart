@@ -176,7 +176,7 @@ class _NewDocumentDialog extends StatelessWidget {
               ),
               const SizedBox(height: 8),
               Text(
-                '当前正文和审阅结果会从内存里清掉。红笔不保存合同，清掉之后无法找回。',
+                '当前正文和核对结果会从内存里清掉。红笔不保存合同，清掉之后无法找回。',
                 style: R.sans(size: 13, color: R.muted, height: 1.75),
               ),
               const SizedBox(height: 20),

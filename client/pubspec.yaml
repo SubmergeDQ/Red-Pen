@@ -45,6 +45,8 @@ dependencies:
   path_provider: ^2.1.6
   image: ^4.13.1
   charset: ^2.0.1
+  pdf: ^3.11.3
+  printing: ^5.14.2
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +72,7 @@ flutter:
 
   assets:
     - assets/ocr/win_ocr.ps1
+    - assets/fonts/NotoSansSC-Regular.ttf
 
   fonts:
     - family: RedPenSerifA

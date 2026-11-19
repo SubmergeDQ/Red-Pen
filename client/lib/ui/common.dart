@@ -306,12 +306,16 @@ class TopBarButton extends StatefulWidget {
     this.label,
     required this.onPressed,
     this.tooltip,
+    this.height = 36,
+    this.minWidth = 0,
   });
 
   final IconData icon;
   final String? label;
   final VoidCallback? onPressed;
   final String? tooltip;
+  final double height;
+  final double minWidth;
 
   @override
   State<TopBarButton> createState() => _TopBarButtonState();
@@ -329,7 +333,8 @@ class _TopBarButtonState extends State<TopBarButton> {
       onExit: (_) => setState(() => _hover = false),
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 140),
-        height: 36,
+        height: widget.height,
+        constraints: BoxConstraints(minWidth: widget.minWidth),
         decoration: BoxDecoration(
           color: _hover && enabled ? R.cream.withValues(alpha: 0.08) : Colors.transparent,
           border: Border.all(color: R.cream.withValues(alpha: _hover && enabled ? 0.34 : 0.18)),
@@ -397,6 +402,22 @@ class DeskTopBar extends StatelessWidget {
         : controller.riskCount == 0
             ? '${a.docType} · 未发现明显红线'
             : '${a.docType} · ${controller.riskCount} 处需看';
+    final touch = width < 760;
+
+    TopBarButton barButton({
+      required IconData icon,
+      String? label,
+      String? tooltip,
+      VoidCallback? onPressed,
+    }) =>
+        TopBarButton(
+          icon: icon,
+          label: label,
+          tooltip: tooltip,
+          onPressed: onPressed,
+          height: touch ? 44 : 36,
+          minWidth: touch ? 44 : 0,
+        );
 
     return Container(
       decoration: const BoxDecoration(
@@ -502,7 +523,7 @@ class DeskTopBar extends StatelessWidget {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        TopBarButton(
+                        barButton(
                           icon: Icons.menu_book_outlined,
                           label: compact ? null : '核对依据',
                           tooltip: '核对依据',
@@ -510,21 +531,28 @@ class DeskTopBar extends StatelessWidget {
                         ),
                         const SizedBox(width: 8),
                         if (controller.phase == Phase.report) ...[
-                          TopBarButton(
+                          barButton(
+                            icon: Icons.picture_as_pdf_outlined,
+                            label: compact ? null : '导出 PDF',
+                            tooltip: '导出 PDF 报告',
+                            onPressed: controller.exporting ? null : controller.exportPdf,
+                          ),
+                          const SizedBox(width: 8),
+                          barButton(
                             icon: Icons.copy,
                             label: compact ? null : '复制报告',
-                            tooltip: '复制审阅报告',
+                            tooltip: '复制核对报告',
                             onPressed: onCopyReport,
                           ),
                           const SizedBox(width: 8),
-                          TopBarButton(
+                          barButton(
                             icon: Icons.refresh,
                             label: width >= 1180 ? '换一份' : null,
                             tooltip: '换一份合同',
                             onPressed: onNewDocument,
                           ),
                         ] else if (controller.phase == Phase.analyzing)
-                          TopBarButton(
+                          barButton(
                             icon: Icons.close,
                             label: compact ? null : '取消',
                             tooltip: '取消核对',
