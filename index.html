@@ -434,7 +434,7 @@ svg.icon{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-w
       <div class="eyebrow"><span class="eyebrow-rule"></span>签约前自查 · 学生与应届生</div>
       <div class="intake-head">
         <h1>签下去之前，<br>先看清<em>最坏</em>会怎样。</h1>
-        <p class="lede">把协议条款粘贴进来，按 12 类常见规则逐条核对：哪条是红线、哪条能谈、该问谁、要改成什么。</p>
+        <p class="lede">把协议条款粘贴进来，按 <span data-rule-count>20</span> 类常见规则逐条核对：哪条是红线、哪条能谈、该问谁、要改成什么。</p>
       </div>
       <div class="intake-grid">
         <form class="paste-card" id="pasteForm" novalidate>
@@ -488,7 +488,7 @@ svg.icon{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-w
           <div class="sample-list" id="sampleList"></div>
           <div class="coverage">
             <span class="coverage-label">核对范围</span>
-            <p>试用期 · 违约金 · 服务期 · 竞业限制 · 押金扣证 · 实习保障 · 培训贷 · 解除通知</p>
+            <p>试用期 · 违约金 · 服务期 · 竞业 · 押金扣证 · 工时加班 · 工资社保 · 休假 · 保密 · 离职手续 · 合同签订 · 实习 · 培训贷</p>
           </div>
         </aside>
       </div>
@@ -549,7 +549,7 @@ svg.icon{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-w
               </li>
               <li class="stage" data-stage="2">
                 <span class="stage-dot"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span>
-                <div class="stage-copy"><strong>逐条核对 12 类规则</strong><span data-stage-note>正在扫描</span></div>
+                <div class="stage-copy"><strong>逐条核对 <span data-rule-count>20</span> 类规则</strong><span data-stage-note>正在扫描</span></div>
               </li>
               <li class="stage" data-stage="3">
                 <span class="stage-dot"><svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg></span>
@@ -579,7 +579,7 @@ svg.icon{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-w
             </section>
             <footer class="report-foot">
               <p>以上为签约前风险提示，基于你提供的文本和你所在地区的通用规定，不构成法律意见。涉及金额较大或已产生争议，请拨打 12348 公共法律服务热线或联系学校法律援助中心。</p>
-              <button class="linkbtn" id="rulesLink" type="button">查看 12 类核对依据与法律出处</button>
+              <button class="linkbtn" id="rulesLink" type="button">查看 <span data-rule-count>20</span> 类核对依据与法律出处</button>
             </footer>
           </div>
         </div>
@@ -593,7 +593,7 @@ svg.icon{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-w
   <header class="drawer-head">
     <div>
       <div class="eyebrow"><span class="eyebrow-rule"></span>核对依据</div>
-      <h2 id="drawerTitle">12 类规则与法律出处</h2>
+      <h2 id="drawerTitle"><span data-rule-count>20</span> 类规则与法律出处</h2>
     </div>
     <button class="iconbtn" id="drawerClose" type="button" aria-label="关闭核对依据">
       <svg class="icon" viewBox="0 0 24 24" aria-hidden="true"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
@@ -1155,6 +1155,7 @@ function resetApp(){
 }
 
 function renderRules(){
+  document.querySelectorAll('[data-rule-count]').forEach(el => { el.textContent = RULE_LIBRARY.length; });
   els.drawerBody.innerHTML = RULE_LIBRARY.map(r => `
     <div class="rule-row">
       <span class="rule-id">${r.id}</span>

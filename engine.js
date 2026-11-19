@@ -7,6 +7,9 @@
 'use strict';
 
 const LAW = {
+  L10:{law:'《中华人民共和国劳动合同法》',article:'第十条',text:'建立劳动关系，应当订立书面劳动合同。已建立劳动关系，未同时订立书面劳动合同的，应当自用工之日起一个月内订立书面劳动合同。用人单位与劳动者在用工前订立劳动合同的，劳动关系自用工之日起建立。'},
+  L16:{law:'《中华人民共和国劳动合同法》',article:'第十六条',text:'劳动合同由用人单位与劳动者协商一致，并经用人单位与劳动者在劳动合同文本上签字或者盖章生效。劳动合同文本由用人单位和劳动者各执一份。'},
+  L17:{law:'《中华人民共和国劳动合同法》',article:'第十七条',text:'劳动合同应当具备以下条款：（一）用人单位的名称、住所和法定代表人或者主要负责人；（二）劳动者的姓名、住址和居民身份证或者其他有效身份证件号码；（三）劳动合同期限；（四）工作内容和工作地点；（五）工作时间和休息休假；（六）劳动报酬；（七）社会保险；（八）劳动保护、劳动条件和职业危害防护；（九）法律、法规规定应当纳入劳动合同的其他事项。'},
   L19:{law:'《中华人民共和国劳动合同法》',article:'第十九条',text:'劳动合同期限三个月以上不满一年的，试用期不得超过一个月；劳动合同期限一年以上不满三年的，试用期不得超过二个月；三年以上固定期限和无固定期限的劳动合同，试用期不得超过六个月。同一用人单位与同一劳动者只能约定一次试用期。以完成一定工作任务为期限的劳动合同或者劳动合同期限不满三个月的，不得约定试用期。试用期包含在劳动合同期限内。劳动合同仅约定试用期的，试用期不成立，该期限为劳动合同期限。'},
   L20:{law:'《中华人民共和国劳动合同法》',article:'第二十条',text:'劳动者在试用期的工资不得低于本单位相同岗位最低档工资或者劳动合同约定工资的百分之八十，并不得低于用人单位所在地的最低工资标准。'},
   L21:{law:'《中华人民共和国劳动合同法》',article:'第二十一条',text:'在试用期中，除劳动者有本法第三十九条和第四十条第一项、第二项规定的情形外，用人单位不得解除劳动合同。用人单位在试用期解除劳动合同的，应当向劳动者说明理由。'},
@@ -15,13 +18,28 @@ const LAW = {
   L24:{law:'《中华人民共和国劳动合同法》',article:'第二十四条',text:'竞业限制的人员限于用人单位的高级管理人员、高级技术人员和其他负有保密义务的人员。竞业限制的范围、地域、期限由用人单位与劳动者约定，竞业限制的约定不得违反法律、法规的规定。在解除或者终止劳动合同后，前款规定的人员到与本单位生产或者经营同类产品、从事同类业务的有竞争关系的其他用人单位，或者自己开业生产或者经营同类产品、从事同类业务的竞业限制期限，不得超过二年。'},
   L25:{law:'《中华人民共和国劳动合同法》',article:'第二十五条',text:'除本法第二十二条和第二十三条规定的情形外，用人单位不得与劳动者约定由劳动者承担违约金。'},
   L26:{law:'《中华人民共和国劳动合同法》',article:'第二十六条',text:'下列劳动合同无效或者部分无效：（一）以欺诈、胁迫的手段或者乘人之危，使对方在违背真实意思的情况下订立或者变更劳动合同的；（二）用人单位免除自己的法定责任、排除劳动者权利的；（三）违反法律、行政法规强制性规定的。对劳动合同的无效或者部分无效有争议的，由劳动争议仲裁机构或者人民法院确认。'},
+  L30:{law:'《中华人民共和国劳动合同法》',article:'第三十条',text:'用人单位应当按照劳动合同约定和国家规定，向劳动者及时足额支付劳动报酬。用人单位拖欠或者未足额支付劳动报酬的，劳动者可以依法向当地人民法院申请支付令，人民法院应当依法发出支付令。'},
+  L31:{law:'《中华人民共和国劳动合同法》',article:'第三十一条',text:'用人单位应当严格执行劳动定额标准，不得强迫或者变相强迫劳动者加班。用人单位安排加班的，应当按照国家有关规定向劳动者支付加班费。'},
   L37:{law:'《中华人民共和国劳动合同法》',article:'第三十七条',text:'劳动者提前三十日以书面形式通知用人单位，可以解除劳动合同。劳动者在试用期内提前三日通知用人单位，可以解除劳动合同。'},
+  L44:{law:'《中华人民共和国劳动法》',article:'第四十四条',text:'有下列情形之一的，用人单位应当按照下列标准支付高于劳动者正常工作时间工资的工资报酬：（一）安排劳动者延长工作时间的，支付不低于工资的百分之一百五十的工资报酬；（二）休息日安排劳动者工作又不能安排补休的，支付不低于工资的百分之二百的工资报酬；（三）法定休假日安排劳动者工作的，支付不低于工资的百分之三百的工资报酬。'},
+  L50:{law:'《中华人民共和国劳动合同法》',article:'第五十条',text:'用人单位应当在解除或者终止劳动合同时出具解除或者终止劳动合同的证明，并在十五日内为劳动者办理档案和社会保险关系转移手续。劳动者应当按照双方约定，办理工作交接。用人单位依照本法有关规定应当向劳动者支付经济补偿的，在办结工作交接时支付。用人单位对已经解除或者终止的劳动合同的文本，至少保存二年备查。'},
+  L58:{law:'《中华人民共和国社会保险法》',article:'第五十八条',text:'用人单位应当自用工之日起三十日内为其职工向社会保险经办机构申请办理社会保险登记。未办理社会保险登记的，由社会保险经办机构核定其应当缴纳的社会保险费。'},
+  L60:{law:'《中华人民共和国社会保险法》',article:'第六十条',text:'用人单位应当自行申报、按时足额缴纳社会保险费，非因不可抗力等法定事由不得缓缴、减免。职工应当缴纳的社会保险费由用人单位代扣代缴，用人单位应当按月将缴纳社会保险费的明细情况告知本人。'},
+  L82:{law:'《中华人民共和国劳动合同法》',article:'第八十二条',text:'用人单位自用工之日起超过一个月不满一年未与劳动者订立书面劳动合同的，应当向劳动者每月支付二倍的工资。用人单位违反本法规定不与劳动者订立无固定期限劳动合同的，自应当订立无固定期限劳动合同之日起向劳动者每月支付二倍的工资。'},
+  L85:{law:'《中华人民共和国劳动合同法》',article:'第八十五条',text:'用人单位有下列情形之一的，由劳动行政部门责令限期支付劳动报酬、加班费或者经济补偿；劳动报酬低于当地最低工资标准的，应当支付其差额部分；逾期不支付的，责令用人单位按应付金额百分之五十以上百分之一百以下的标准向劳动者加付赔偿金：（一）未按照劳动合同的约定或者国家规定及时足额支付劳动者劳动报酬的；（二）低于当地最低工资标准支付劳动者工资的；（三）安排加班不支付加班费的；（四）解除或者终止劳动合同，未依照本法规定向劳动者支付经济补偿的。'},
+  L86:{law:'《中华人民共和国社会保险法》',article:'第八十六条',text:'用人单位未按时足额缴纳社会保险费的，由社会保险费征收机构责令限期缴纳或者补足，并自欠缴之日起，按日加收万分之五的滞纳金；逾期仍不缴纳的，由有关行政部门处欠缴数额一倍以上三倍以下的罚款。'},
+  L89:{law:'《中华人民共和国劳动合同法》',article:'第八十九条',text:'用人单位违反本法规定未向劳动者出具解除或者终止劳动合同的书面证明，由劳动行政部门责令改正；给劳动者造成损害的，应当承担赔偿责任。'},
   L09:{law:'《中华人民共和国劳动合同法》',article:'第九条',text:'用人单位招用劳动者，不得扣押劳动者的居民身份证和其他证件，不得要求劳动者提供担保或者以其他名义向劳动者收取财物。'},
   C585:{law:'《中华人民共和国民法典》',article:'第五百八十五条',text:'当事人可以约定一方违约时应当根据违约情况向对方支付一定数额的违约金，也可以约定因违约产生的损失赔偿额的计算方法。约定的违约金低于造成的损失的，人民法院或者仲裁机构可以根据当事人的请求予以增加；约定的违约金过分高于造成的损失的，人民法院或者仲裁机构可以根据当事人的请求予以适当减少。当事人就迟延履行约定违约金的，违约方支付违约金后，还应当履行债务。'},
   C497:{law:'《中华人民共和国民法典》',article:'第四百九十七条',text:'有下列情形之一的，该格式条款无效：（一）具有本法第一编第六章第三节和本法第五百零六条规定的无效情形；（二）提供格式条款一方不合理地免除或者减轻其责任、加重对方责任、限制对方主要权利；（三）提供格式条款一方排除对方主要权利。'},
   C562:{law:'《中华人民共和国民法典》',article:'第五百六十二条',text:'当事人协商一致，可以解除合同。当事人可以约定一方解除合同的事由。解除合同的事由发生时，解除权人可以解除合同。'},
   C470:{law:'《中华人民共和国民法典》',article:'第四百七十条',text:'合同的内容由当事人约定，一般包括下列条款：（一）当事人的姓名或者名称和住所；（二）标的；（三）数量；（四）质量；（五）价款或者报酬；（六）履行期限、地点和方式；（七）违约责任；（八）解决争议的方法。'},
   LPR25:{law:'《最高人民法院关于审理民间借贷案件适用法律若干问题的规定》',article:'第二十五条',text:'出借人请求借款人按照合同约定利率支付利息的，人民法院应予支持，但是双方约定的利率超过合同成立时一年期贷款市场报价利率四倍的除外。前款所称“一年期贷款市场报价利率”，是指中国人民银行授权全国银行间同业拆借中心自2019年8月20日起每月发布的一年期贷款市场报价利率。'},
+  HF20:{law:'《住房公积金管理条例》',article:'第二十条',text:'单位应当按时、足额缴存住房公积金，不得逾期缴存或者少缴。对缴存住房公积金确有困难的单位，经本单位职工代表大会或者工会讨论通过，并经住房公积金管理中心审核，报住房公积金管理委员会批准后，可以降低缴存比例或者缓缴；待单位经济效益好转后，再提高缴存比例或者补缴缓缴。'},
+  ANNUAL5:{law:'《职工带薪年休假条例》',article:'第五条',text:'单位根据生产、工作的具体情况，并考虑职工本人意愿，统筹安排职工年休假。年休假在1个年度内可以集中安排，也可以分段安排，一般不跨年度安排。单位因生产、工作特点确有必要跨年度安排职工年休假的，可以跨1个年度安排。单位确因工作需要不能安排职工休年休假的，经职工本人同意，可以不安排职工休年休假。对职工应休未休的年休假天数，单位应当按照该职工日工资收入的300%支付年休假工资报酬。'},
+  LADY5:{law:'《女职工劳动保护特别规定》',article:'第五条',text:'用人单位不得因女职工怀孕、生育、哺乳降低其工资、予以辞退、与其解除劳动或者聘用合同。'},
+  AD24:{law:'《中华人民共和国广告法》',article:'第二十四条',text:'教育、培训广告不得含有下列内容：（一）对升学、通过考试、获得学位学历或者合格证书，或者对教育、培训的效果作出明示或者暗示的保证性承诺；（二）明示或者暗示有相关考试机构或者其工作人员、考试命题人员参与教育、培训；（三）利用科研单位、学术机构、教育机构、行业协会、专业人士、受益者的名义或者形象作推荐、证明。'},
+  C20:{law:'《中华人民共和国消费者权益保护法》',article:'第二十条',text:'经营者向消费者提供有关商品或者服务的质量、性能、用途、有效期限等信息，应当真实、全面，不得作虚假或者引人误解的宣传。'},
   R10:{law:'《职业学校学生实习管理规定》',article:'需核对',text:'该规定要求实习单位为学生投保实习责任保险；具体条文序号需核对原文。'}
 };
 
@@ -32,12 +50,20 @@ const RULE_LIBRARY = [
   {id:'R4',name:'违约金法定情形',cite:'《劳动合同法》第二十五条',gist:'除服务期与竞业限制外，不得约定由劳动者承担违约金。'},
   {id:'R5',name:'服务期违约金上限',cite:'《劳动合同法》第二十二条',gist:'只能为有凭证的专项培训约定服务期，违约金不得超过培训费用，并按未履行部分分摊。'},
   {id:'R6',name:'竞业限制',cite:'《劳动合同法》第二十三条、第二十四条',gist:'限于高管、高技与负保密义务人员；期限不超过 2 年；须按月支付补偿。'},
-  {id:'R7',name:'无效条款',cite:'《劳动合同法》第二十六条',gist:'免除单位法定责任、排除劳动者权利的条款无效，例如放弃社保、单方调岗降薪。'},
+  {id:'R7',name:'无效条款',cite:'《劳动合同法》第二十六条',gist:'免除单位法定责任、排除劳动者权利的条款无效，例如放弃社保、单方调岗降薪、随时解除不补偿。'},
   {id:'R8',name:'三方协议违约金',cite:'《民法典》第五百八十五条',gist:'三方协议属民事协议，违约金一般有效；过分高于实际损失的可请求调减。'},
   {id:'R9',name:'培训贷与分期',cite:'民间借贷司法解释第二十五条',gist:'年利率含各项费用超过签约时一年期 LPR 四倍的部分不受保护；放款主体与退费规则要写清。'},
   {id:'R10',name:'实习协议保障',cite:'《职业学校学生实习管理规定》（条文序号需核对）',gist:'报酬、工时、意外险与解除条件要写清；缺意外伤害保险是常见缺口。'},
   {id:'R11',name:'押金与扣证',cite:'《劳动合同法》第九条',gist:'不得扣押身份证等证件，不得要求担保或以其他名义收取财物。'},
-  {id:'R12',name:'解除与通知期',cite:'《劳动合同法》第三十七条',gist:'提前 30 日书面通知即可解除；试用期内提前 3 日通知。'}
+  {id:'R12',name:'解除与通知期',cite:'《劳动合同法》第三十七条',gist:'提前 30 日书面通知即可解除；试用期内提前 3 日通知。'},
+  {id:'R13',name:'工时与加班费',cite:'《劳动合同法》第三十一条、《劳动法》第四十四条',gist:'加班应支付 150%/200%/300% 工资；法定节假日不能只用调休替代，也不能约定工资已包含加班费。'},
+  {id:'R14',name:'工资支付与扣款',cite:'《劳动合同法》第三十条、第五十条、第八十五条',gist:'工资应按月足额支付；押工资、离职不结算、无依据罚款、随意扣减或离职取消年终奖都要看清。'},
+  {id:'R15',name:'社保与公积金',cite:'《社会保险法》第五十八条、第六十条、第八十六条；《住房公积金管理条例》第二十条',gist:'用工之日起 30 日内参保；试用期不缴、按最低基数缴、让员工全额承担或发补贴代替都不合规。'},
+  {id:'R16',name:'休假与特殊保护',cite:'《职工带薪年休假条例》、《女职工劳动保护特别规定》',gist:'年假不能随意作废；婚育限制、产假降薪或辞退等条款无效。'},
+  {id:'R17',name:'保密与成果归属',cite:'《劳动合同法》第二十三条、第二十六条',gist:'保密和成果归属要写清范围；把个人作品、业余成果全部收归公司或设置无上限赔偿，风险较高。'},
+  {id:'R18',name:'离职手续与结算',cite:'《劳动合同法》第三十七条、第五十条、第八十九条',gist:'离职不需要公司批准；不得以未交接为由扣工资，解除时还应出具证明并办理档案社保转移。'},
+  {id:'R19',name:'合同签订与文本',cite:'《劳动合同法》第十条、第十六条、第八十二条',gist:'建立劳动关系应签书面合同并各执一份；试用期后再签、只签试用期、空白合同都可能放大风险。'},
+  {id:'R20',name:'就业承诺与培训服务',cite:'《广告法》第二十四条、《消费者权益保护法》第二十条',gist:'“包就业”“保底薪资”“不过退费”要写清条件和退款路径，口头承诺不等于合同义务。'}
 ];
 
 const SAMPLES = [
@@ -278,7 +304,12 @@ function sentenceOf(text,re){
 }
 function parseProbation(text){
   const s = String(text || '');
-  let m = s.match(/试用期(?:限|期限|时间)?\s*(?:为|是|：|:|共)?\s*(\d{1,3}|[一二两三四五六七八九十]{1,4})\s*个?月/);
+  let m = s.match(/试用期(?:限|期限|时间)?\s*(?:为|是|：|:|共)?\s*(\d{1,3}|[一二两三四五六七八九十]{1,4})\s*(?:至|到|—|-|~|～)\s*(\d{1,3}|[一二两三四五六七八九十]{1,4})\s*个?月/);
+  if(m){
+    const a = cnNum(m[1]), b = cnNum(m[2]);
+    if(Number.isFinite(a) && Number.isFinite(b) && b > 0) return Math.max(a,b);
+  }
+  m = s.match(/试用期(?:限|期限|时间)?\s*(?:为|是|：|:|共)?\s*(\d{1,3}|[一二两三四五六七八九十]{1,4})\s*个?月/);
   if(m){
     const n = cnNum(m[1]);
     if(Number.isFinite(n) && n > 0) return n;
@@ -594,12 +625,66 @@ function addGreen(ctx,clause,ruleName,re,line){
     quote:q.quote,range:q.range===null?null:q,consequence:line,basis:null,ask:'',counter:'',confidence:'高',loss:0
   });
 }
+function addPatternItem(ctx,c,data,quoteRe,sentenceExclude){
+  const q = c ? (qFilter(c,quoteRe,sentenceExclude) || qAny(c,quoteRe)) : null;
+  addItem(ctx,Object.assign({
+    quote:q ? q.quote : '',range:q||null,
+    clauseIndex:c ? c.index : null,location:c ? clauseLabel(c,c.index) : '全文'
+  },data));
+}
+function commaParts(text){
+  const s = String(text || '');
+  const out = [];
+  let start = 0;
+  for(let i = 0; i <= s.length; i++){
+    const ch = s[i];
+    if(i === s.length || ch === '，' || ch === ','){
+      const raw = s.slice(start, i).trim();
+      if(raw){
+        const lead = s.slice(start, i).search(/\S/);
+        const st = start + Math.max(0, lead);
+        out.push({quote:raw,start:st,end:st + raw.length});
+      }
+      start = i + 1;
+    }
+  }
+  return out;
+}
 function addPending(ctx,list){
   (list || []).forEach(p => { if(p && !ctx.pending.includes(p)) ctx.pending.push(p); });
 }
 
 /* R1 试用期期限 */
 function runR1(ctx){
+  const extendRe = /(?:试用期[^。；\n]{0,16}(?:可以|可|经[^。；\n]{0,8}同意)?(?:延长|顺延|再延)|(?:延长|顺延)[^。；\n]{0,12}试用期|再次约定[^。；\n]{0,10}试用期|二次试用|重复试用|续签[^。；\n]{0,16}约定[^。；\n]{0,6}试用期)/;
+  const extendC = ctx.clauses.find(cl => extendRe.test(clauseFull(cl)) && !/(不得|禁止|不能|不再)[^。；\n]{0,8}(?:延长|顺延)/.test(clauseFull(cl)));
+  if(extendC){
+    addPatternItem(ctx,extendC,{
+      base:'R1',ruleId:'R1',verdict:'red',ruleName:'延长或重复约定试用期',
+      short:'试用期被延长或重复约定',consequence:'同一单位与同一劳动者只能约定一次试用期；延长、二次试用或续签时重新约定，超出法定上限的部分不成立，但公司可能先按延长后的低工资执行。',
+      ask:'HR：这次是第几次约定试用期？延长依据是什么？',counter:'删除延长或二次试用；同一段劳动关系只保留一次法定上限内的试用期。',
+      basis:LAW.L19,confidence:'高',loss:0
+    },extendRe);
+  }
+  const includeRe = /(?:试用期[^。；\n]{0,16}(?:不(?:计入|包括在|包含在)|另行计算|除外)[^。；\n]{0,10}(?:合同期限|劳动合同期限)|(?:合同期限|劳动合同期限)[^。；\n]{0,16}(?:不(?:包括|含|计入))[^。；\n]{0,8}试用期)/;
+  const includeC = ctx.clauses.find(cl => includeRe.test(clauseFull(cl)));
+  if(includeC){
+    addPatternItem(ctx,includeC,{
+      base:'R1',ruleId:'R1',verdict:'red',ruleName:'试用期不计入合同期限',
+      short:'试用期被排除在合同期外',consequence:'试用期依法包含在劳动合同期限内。把它排除在外，会连带影响合同期限、社保起算和试用期上限的判断。',
+      ask:'HR：试用期是否包含在劳动合同期限内？',counter:'改为“试用期包含在劳动合同期限内”，并写清合同起止日期。',
+      basis:LAW.L19,confidence:'高',loss:0
+    },includeRe);
+  }
+  const trialLikeC = ctx.clauses.find(cl => !/试用期/.test(clauseFull(cl)) && /(试岗期|见习期|适应期|磨合期)/.test(clauseFull(cl)));
+  if(trialLikeC){
+    addPatternItem(ctx,trialLikeC,{
+      base:'R1',ruleId:'R1',verdict:'gray',ruleName:'非试用期名义的考察期',
+      short:'试岗/见习期性质不明',consequence:'文本没有写“试用期”，但出现试岗期、见习期或适应期。名称不同不代表不受试用期规则约束；如果实际按低工资、随意辞退管理，仍可能被认定为试用期。',
+      ask:'HR：这段考察期的工资、社保和解除条件是否与正式员工一致？',counter:'写清考察期性质与待遇；如按试用期管理，直接使用“试用期”并遵守法定上限。',
+      basis:LAW.L19,confidence:'中',loss:0
+    },/(试岗期|见习期|适应期|磨合期)/);
+  }
   const c = ctx.clauses.find(cl => /试用期/.test(clauseFull(cl)) && parseProbation(clauseFull(cl)));
   if(!c) return;
   const prob = parseProbation(clauseFull(c));
@@ -671,6 +756,26 @@ function runR2(ctx){
   const floor = reg != null ? reg * 0.8 : null;
   const amountTooLow = probPay != null && floor != null && probPay < floor - 0.5;
   const percentTooLow = probPercent != null && probPercent < 80;
+  const noPayRe = /(?:试用期[^。；\n]{0,20}(?:无薪|不发工资|无工资|不支付工资|零工资)|(?:无薪|免费)[^。；\n]{0,8}试用)/;
+  if(noPayRe.test(full)){
+    addPatternItem(ctx,c,{
+      base:'R2',ruleId:'R2',verdict:'red',ruleName:'试用期不支付工资',
+      short:'试用期无薪',consequence:'试用期也是劳动关系，必须支付工资且不得低于当地最低工资标准；“无薪试用”的约定不产生效力，但这段时间你可能先拿不到钱。',
+      ask:'HR：试用期按什么标准发工资？',counter:'删除无薪约定，按不低于约定工资 80% 且不低于当地最低工资支付。',
+      basis:LAW.L20,confidence:'高',loss:0
+    },noPayRe);
+    return;
+  }
+  const scopeRe = /(?:试用期[^。；\n]{0,24}(?:只|仅)[^。；\n]{0,10}(?:发放|发|领取|按)[^。；\n]{0,8}(?:基本工资|底薪)|试用期[^。；\n]{0,20}(?:不享受|不参与|不含|不含绩效)[^。；\n]{0,10}(?:绩效|奖金|提成|补贴))/;
+  if(scopeRe.test(full) && !amountTooLow && !percentTooLow){
+    addPatternItem(ctx,c,{
+      base:'R2',ruleId:'R2',verdict:'gray',ruleName:'试用期工资口径不明',
+      short:'试用期只发基本工资',consequence:'合同把试用期工资限定为基本工资，或不参与绩效、奖金。80% 的比较基数应是约定工资；如果转正工资还包含固定发放的绩效或补贴，实际试用期工资可能低于下限。',
+      ask:'HR：试用期工资是否包含绩效、补贴？转正工资的固定部分是多少？',counter:'写明试用期与转正工资的完整构成，按同一口径计算 80% 下限。',
+      basis:LAW.L20,confidence:'中',loss:0
+    },scopeRe);
+    return;
+  }
 
   if(amountTooLow || percentTooLow){
     const diff = amountTooLow ? floor - probPay : 0;
@@ -743,13 +848,13 @@ function runR2(ctx){
 function runR3(ctx){
   const matches = ctx.clauses.filter(cl => {
     const t = clauseFull(cl);
-    return /试用期/.test(t) && /(解除|辞退|终止|不予录用)/.test(t) &&
-      /(不合格|不符合录用条件|不能胜任|考核不通过|考核不合格)/.test(t) &&
+    return /试用期/.test(t) && /(解除|辞退|终止|不予录用|不予转正|淘汰)/.test(t) &&
+      /(不合格|不符合(?:录用条件|岗位要求|工作要求)|不胜任|不能胜任|考核(?:不通过|不合格|未通过|不达标)|评分(?:不合格|不达标)|排名末位|末位淘汰|不适合(?:本)?岗位|不符合要求)/.test(t) &&
       !/(?:^|[^无])(?:应|需|必须|要)[^。；\n]{0,4}说明理由/.test(t);
   });
   matches.forEach(c => {
     const t = clauseFull(c);
-    const explicit = /(无需|无须|不需|不必|不用)[^。；\n]{0,4}理由|不(?:再|另行)?说明理由/.test(t);
+    const explicit = /(无需|无须|不需|不必|不用)[^。；\n]{0,6}(?:说明)?理由|不(?:再|另行|需要)?说明理由|可(?:随时|直接)(?:辞退|解除)/.test(t);
     const q = qAny(c,/(解除|辞退|终止|不予录用)/);
     addItem(ctx,{
       base:'R3',ruleId:'R3',verdict:explicit?'red':'yellow',
@@ -767,19 +872,35 @@ function runR3(ctx){
 
 /* R4 违约金（劳动合同） */
 function runR4(ctx){
-  const penaltyRe = /(违约金|赔偿|罚款|扣除[^。；\n]{0,8}工资)/;
-  const exitRe = /(提前(?:离职|辞职|解除|终止)|未满[^。；\n]{0,12}(?:离职|辞职|解除)|擅自(?:离职|辞职|离岗)|(?:辞职|离职)[^。；\n]{0,24}(?:违约金|赔偿|罚款|扣除|扣发)|(?:违约金|赔偿|罚款|扣除|扣发)[^。；\n]{0,16}(?:辞职|离职)|(?:乙方|劳动者)[^。；\n]{0,8}解除[^。；\n]{0,6}(?:合同|协议|劳动关系))/;
+  const penaltyRe = /(违约金|违约赔偿|赔偿金|赔偿|罚款|罚金|扣除[^。；\n]{0,10}(?:工资|薪资|报酬)|扣发[^。；\n]{0,10}(?:工资|薪资|报酬))/;
+  const exitRe = /(提前(?:离职|辞职|解除|终止|走人)|未满[^。；\n]{0,12}(?:离职|辞职|解除)|擅自(?:离职|辞职|离岗|走人)|未(?:提前|按)[^。；\n]{0,12}(?:通知|申请)[^。；\n]{0,10}(?:离职|辞职|解除)|未(?:办理|完成)[^。；\n]{0,10}(?:交接|离职手续)|不辞而别|自动离职|(?:辞职|离职|擅离)[^。；\n]{0,26}(?:违约金|赔偿|罚款|扣除|扣发)|(?:违约金|赔偿|罚款|扣除|扣发)[^。；\n]{0,18}(?:辞职|离职)|(?:乙方|劳动者)[^。；\n]{0,10}解除[^。；\n]{0,8}(?:合同|协议|劳动关系))/;
   const legalRe = /(服务期|专项培训|竞业限制|竞业|保密协议)/;
+  const legalPenaltyRe = /(?:服务期|专项培训|竞业限制|竞业|保密协议)[^。；\n]{0,36}(?:违约金|赔偿|罚款)|(?:违约金|赔偿|罚款)[^。；\n]{0,36}(?:服务期|专项培训|竞业限制|竞业|保密协议)/;
   const hits = [];
   ctx.clauses.forEach(c => {
-    if(!penaltyRe.test(clauseFull(c))) return;
-    const sentences = sentenceList(c.body || '');
-    for(const s of sentences){
-      if(legalRe.test(s.quote)) continue;
-      if(!penaltyRe.test(s.quote) || !exitRe.test(s.quote)) continue;
-      hits.push({clause:c, sentence:s});
-      break;
+    const full = clauseFull(c);
+    if(!penaltyRe.test(full)) return;
+    if(legalRe.test(full) && !exitRe.test(full)) return;
+    let hit = null;
+    for(const sentence of sentenceList(c.body || '')){
+      const parts = commaParts(sentence.quote);
+      for(const p of parts){
+        if(penaltyRe.test(p.quote) && exitRe.test(p.quote) && !legalPenaltyRe.test(p.quote)){
+          hit = {quote:p.quote, start:sentence.start + p.start, end:sentence.start + p.end};
+          break;
+        }
+      }
+      if(hit) break;
+      for(let i = 0; i < parts.length - 1; i++){
+        const raw = sentence.quote.slice(parts[i].start, parts[i+1].end);
+        if(penaltyRe.test(raw) && exitRe.test(raw) && !legalPenaltyRe.test(raw)){
+          hit = {quote:raw, start:sentence.start + parts[i].start, end:sentence.start + parts[i+1].end};
+          break;
+        }
+      }
+      if(hit) break;
     }
+    if(hit) hits.push({clause:c, sentence:hit});
   });
   hits.forEach(({clause:c, sentence:s}) => {
     const pm = penaltyRe.exec(s.quote);
@@ -803,19 +924,20 @@ function runR4(ctx){
 
 /* R5 服务期违约金 */
 function runR5(ctx){
-    const feeM = ctx.text.match(/培训费(?:用)?(?:共计|合计|总计|为|是|：|:)?[^。；\n]{0,24}?([\d,]+(?:\.\d+)?)\s*(万元|万|千元|千|元)/);
-  const fee = feeM ? parseAmount(feeM[0]) : null;
+  const feeSent = sentenceList(ctx.text).find(s => /(专项培训费|培训费用|培训费|培训成本|培养费|进修费|学费)/.test(s.quote) && parseAmount(s.quote) != null);
+  const fee = feeSent ? parseAmount(feeSent.quote) : null;
   const matches = ctx.clauses.filter(cl => {
     const t = clauseFull(cl);
-    return /服务期/.test(t) && /(违约金|赔偿)/.test(t) && /(提前|离职|解除|未满|违反)/.test(t);
+    return /(服务期|服务年限|最低服务年限|培训服务期)/.test(t) && /(违约金|赔偿|退还|返还|补缴|承担)/.test(t) && /(提前|离职|解除|未满|违反|不足|不满)/.test(t);
   });
+  const fullRefundRe = /(?:未满|违反|提前[^。；\n]{0,10}(?:离职|解除))[^。；\n]{0,30}(?:全额|全部|100\s*%|所有)[^。；\n]{0,12}(?:退还|返还|赔偿|支付)|(?:全额|全部)[^。；\n]{0,10}(?:退还|返还|赔偿)[^。；\n]{0,10}(?:培训费|培训费用|学费)/;
   matches.forEach(c => {
-    const q = qAny(c,/(服务期|违约金|赔偿)/);
-    const penSentence = sentenceOf(c.body,/(违约金|赔偿)/);
+    const q = qAny(c,/(服务期|违约金|赔偿|退还|返还)/);
+    const penSentence = sentenceOf(c.body,/(违约金|赔偿|退还|返还|补缴|承担)/);
     let penalty = null;
     if(penSentence){
       const raw = penSentence.quote;
-      const penM = raw.slice(Math.max(0, raw.search(/(违约金|赔偿)/))).match(/(违约金|赔偿)[^。；\n]{0,24}?([\d,]+(?:\.\d+)?)\s*(万元|万|千元|千|元)/);
+      const penM = raw.slice(Math.max(0, raw.search(/(违约金|赔偿|退还|返还|补缴|承担)/))).match(/(违约金|赔偿|退还|返还|补缴|承担)[^。；\n]{0,30}?([\d,]+(?:\.\d+)?)\s*(万元|万|千元|千|元)/);
       if(penM) penalty = parseAmount(penM[2] + penM[3]);
     }
     if(penalty == null) penalty = parseAmount(c.body);
@@ -832,6 +954,14 @@ function runR5(ctx){
         quote:q ? q.quote : '',range:q||null,consequence:`写了服务期违约金${penalty ? ` ${fmtYuan(penalty)} 元` : ''}，但文本里没有专项培训费用；公司拿不出培训费凭证时，这笔钱没有依据，但离职时你可能先被索赔。`,
         ask:'HR：专项培训费用是多少？有发票或支付凭证吗？',counter:'删除服务期违约金，或按实际培训费用写明并只按未履行部分分摊。',
         basis:LAW.L22,confidence:'中',loss:penalty || 0
+      });
+    }else if(fullRefundRe.test(c.body)){
+      addItem(ctx,{
+        base:'R5',ruleId:'R5',verdict:'red',ruleName:'服务期违约金未按未履行部分分摊',
+        short:'服务期要求全额退培训费',clauseIndex:c.index,location:loc,
+        quote:q ? q.quote : '',range:q||null,consequence:`培训费 ${fmtYuan(fee)} 元，条款要求离职时全额退还或赔偿；法定上限是按服务期未履行部分分摊，已经履行期间对应的培训费不应再赔。`,
+        ask:'HR：服务期多长？未履行部分怎么折算？',counter:'改为按未履行期限比例分摊，并写明培训费凭证。',
+        basis:LAW.L22,confidence:'高',loss:penalty || fee
       });
     }else if(penalty && penalty > fee){
       addItem(ctx,{
@@ -855,39 +985,76 @@ function runR5(ctx){
 
 /* R6 竞业限制 */
 function runR6(ctx){
-    const matches = ctx.clauses.filter(cl => /竞业/.test(clauseFull(cl)) && /(限制|禁止|不得|义务)/.test(clauseFull(cl)));
+  const matches = ctx.clauses.filter(cl => /(竞业|不竞争)/.test(clauseFull(cl)) && /(限制|禁止|不得|义务|补偿)/.test(clauseFull(cl)));
   if(!matches.length) return;
-  const durM = ctx.text.match(/(?:竞业限制(?:期限|期)?|竞业期限|限制期限|离职后|离职之日起)[^。；\n]{0,26}?([一二两三四五六七八九十\d]{1,3})\s*(年|个月|月)/)
-    || ctx.text.match(/([一二两三四五六七八九十\d]{1,3})\s*(年|个月|月)[^。；\n]{0,16}内?[^。；\n]{0,10}(?:不得|不能|禁止)[^。；\n]{0,10}(?:竞业|同类|竞争)/);
+  const permanentRe = /(?:竞业|不竞争)[^。；\n]{0,30}(?:永久|无限期|长期)|(?:永久|无限期)[^。；\n]{0,20}(?:竞业|不竞争|不得从事)/;
+  const durM = ctx.text.match(/(?:竞业限制(?:期限|期)?|竞业期限|竞业禁止(?:期限|期)?|限制期限|离职后|离职之日起)[^。；\n]{0,30}?([一二两三四五六七八九十\d]{1,3})\s*(年|个月|月)/)
+    || ctx.text.match(/([一二两三四五六七八九十\d]{1,3})\s*(年|个月|月)[^。；\n]{0,20}(?:内|以内)?[^。；\n]{0,12}(?:不得|不能|禁止|不从事)[^。；\n]{0,12}(?:竞业|同类|竞争)/)
+    || ctx.text.match(/(?:竞业|不竞争)[^。；\n]{0,40}?([一二两三四五六七八九十\d]{1,3})\s*(年|个月|月)/);
   const durNum = durM ? cnNum(durM[1]) : null;
-  const durMonths = durNum && Number.isFinite(durNum) ? (durM[2] === '年' ? durNum * 12 : durNum) : null;
-  const negCompGlobal = /(无需|不需|不用|不予|不支付|不再支付|没有|无)[^。；\n]{0,14}(经济补偿|补偿)/.test(ctx.text)
-    || /(经济补偿|补偿)[^。；\n]{0,10}(没有|不支付|不予|无需)/.test(ctx.text);
+  const durMonths = permanentRe.test(ctx.text) ? 999 : (durNum && Number.isFinite(durNum) ? (durM[2] === '年' ? durNum * 12 : durNum) : null);
+  const negCompGlobal = /(无需|不需|不用|不予|不支付|不再支付|没有|无)[^。；\n]{0,16}(经济补偿|补偿)/.test(ctx.text)
+    || /(经济补偿|补偿)[^。；\n]{0,12}(没有|不支付|不予|无需)/.test(ctx.text);
+  const compInSalaryRe = /(?:经济补偿|竞业补偿|补偿金?)[^。；\n]{0,24}(?:已包含|包含在|计入|随工资|在职期间发放|每月工资中)|(?:工资|薪资|月薪)[^。；\n]{0,20}(?:已包含|包含|含)[^。；\n]{0,12}(?:竞业|经济补偿)/;
   const compMention = /(竞业|离职后|限制期)[^。；\n]{0,40}(经济补偿|补偿)|(经济补偿|补偿)[^。；\n]{0,40}(竞业|离职后|限制期)/.test(ctx.text);
-  const hasComp = compMention && !negCompGlobal;
+  const compAmount = /(?:经济补偿|竞业补偿|补偿金?)[^。；\n]{0,24}(?:每月|按月|月工资|年薪|百分之|\d+\s*%|\d+\s*元|不低于)/.test(ctx.text);
+  const scopeWide = /(?:竞业|不竞争)[^。；\n]{0,30}(?:全国|全球|全行业|所有行业|任何(?:公司|单位|行业)|同行业所有|不限地域)|(?:全国|全球|全行业)[^。；\n]{0,20}(?:竞业|不竞争)/.test(ctx.text);
+  const hasComp = compMention && !negCompGlobal && !compInSalaryRe.test(ctx.text);
   matches.forEach(c => {
-    const q = qAny(c,/(竞业限制|竞业|经济补偿|补偿|不得从事)/);
+    const q = qAny(c,/(竞业限制|竞业|不竞争|经济补偿|补偿|不得从事)/);
     const loc = clauseLabel(c,c.index);
     if(durMonths && durMonths > 24){
       addItem(ctx,{
         base:'R6',ruleId:'R6',verdict:'red',ruleName:'竞业限制超过两年上限',
-        short:'竞业限制超过 2 年',clauseIndex:c.index,location:loc,
-        quote:q ? q.quote : '',range:q||null,consequence:`竞业限制约 ${durMonths} 个月，超过法定 2 年上限；多出的 ${Math.ceil(durMonths/12)-2} 年约定不受支持，但可能吓退下家${!hasComp ? '，且没有写补偿' : ''}。`,
+        short:permanentRe.test(ctx.text) ? '竞业限制无期限' : '竞业限制超过 2 年',clauseIndex:c.index,location:loc,
+        quote:q ? q.quote : '',range:q||null,consequence:`竞业限制约 ${durMonths === 999 ? '无固定期限' : durMonths + ' 个月'}，超过法定 2 年上限；多出的约定不受支持，但可能吓退下家${!hasComp ? '，且没有写补偿' : ''}。`,
         ask:'HR：竞业限制为什么超过 2 年？范围包括哪些公司？',counter:'期限改为不超过 2 年，范围列明具体竞品，按月支付补偿。',
         basis:LAW.L24,confidence:'高',loss:0
       });
     }else if(!hasComp){
       addItem(ctx,{
-        base:'R6',ruleId:'R6',verdict:'gray',ruleName:'竞业限制未约定补偿',
-        short:'竞业限制没有补偿',clauseIndex:c.index,location:loc,
-        quote:q ? q.quote : '',range:q||null,consequence:`离职后${durMonths ? ` ${durMonths} 个月内` : '竞业期内'}不能去同类公司，合同没写按月补偿；公司不付补偿时你可主张不受限制，但要先发函或申请仲裁确认。`,
+        base:'R6',ruleId:'R6',verdict:'gray',ruleName:compInSalaryRe.test(ctx.text) ? '竞业补偿包含在工资中' : '竞业限制未约定补偿',
+        short:compInSalaryRe.test(ctx.text) ? '竞业补偿已在工资里' : '竞业限制没有补偿',clauseIndex:c.index,location:loc,
+        quote:q ? q.quote : '',range:q||null,consequence:compInSalaryRe.test(ctx.text)
+          ? `合同把竞业补偿写成已包含在工资或随工资发放；离职后的竞业限制补偿原则上应在竞业期内按月另行支付，这种写法可能被认定为没有约定补偿。`
+          : `离职后${durMonths ? ` ${durMonths} 个月内` : '竞业期内'}不能去同类公司，合同没写按月补偿；公司不付补偿时你可主张不受限制，但要先发函或申请仲裁确认。`,
         ask:'HR：竞业补偿按什么标准、离职后怎么发？',counter:'离职时另签竞业协议；按月补偿，期限不超过 2 年，范围写明具体竞品。',
         basis:LAW.L23,confidence:durMonths ? '高' : '中',loss:0
+      });
+    }else if(!compAmount){
+      addItem(ctx,{
+        base:'R6',ruleId:'R6',verdict:'gray',ruleName:'竞业补偿标准不明',
+        short:'竞业补偿没写标准',clauseIndex:c.index,location:loc,
+        quote:q ? q.quote : '',range:q||null,consequence:'写了竞业限制和补偿，但没有每月金额、比例或计算方式；离职后实际发多少、能不能覆盖生活成本，现在无法判断。',
+        ask:'HR：竞业补偿每月多少？按离职前工资的什么比例？',counter:'写明补偿标准、发放日和支付方式，再签竞业协议。',
+        basis:LAW.L23,confidence:'中',loss:0
+      });
+    }else if(scopeWide){
+      addItem(ctx,{
+        base:'R6',ruleId:'R6',verdict:'yellow',ruleName:'竞业限制范围过宽',
+        short:'竞业范围覆盖全行业',clauseIndex:c.index,location:loc,
+        quote:q ? q.quote : '',range:q||null,consequence:'竞业范围写成全国、全行业或任何单位；范围过宽会实际限制你换工作，超出合理保护范围的部分可请求调整，但先会被条款吓住。',
+        ask:'HR：竞业范围具体包括哪些产品或公司？',counter:'把范围限定到有竞争关系的具体业务、地域和岗位。',
+        basis:LAW.L24,confidence:'中',loss:0
       });
     }else{
       addGreen(ctx,c,'竞业限制',/(竞业|补偿)/,`竞业限制${durMonths ? ` ${durMonths} 个月` : ''}并约定补偿，属常规安排；仍需确认你是否属于应签人员。`);
     }
   });
+  if(scopeWide){
+    matches.forEach(c => {
+      const already = ctx.items.some(it => it.ruleId === 'R6' && it.clauseIndex === c.index && (it.ruleName === '竞业限制范围过宽' || it.verdict === 'green'));
+      if(already) return;
+      const q = qAny(c,/(竞业|不竞争|范围|全国|全球|全行业)/);
+      addItem(ctx,{
+        base:'R6',ruleId:'R6',verdict:'yellow',ruleName:'竞业限制范围过宽',
+        short:'竞业范围覆盖全行业',clauseIndex:c.index,location:clauseLabel(c,c.index),
+        quote:q ? q.quote : '',range:q||null,consequence:'竞业范围写成全国、全行业或任何单位；范围过宽会实际限制你换工作，超出合理保护范围的部分可请求调整，但先会被条款吓住。',
+        ask:'HR：竞业范围具体包括哪些产品或公司？',counter:'把范围限定到有竞争关系的具体业务、地域和岗位。',
+        basis:LAW.L24,confidence:'中',loss:0
+      });
+    });
+  }
 }
 
 /* R7 无效与单方变更 */
@@ -919,46 +1086,105 @@ function runR7(ctx){
       basis:LAW.L26,confidence:'中',loss:0
     });
   });
-  const injuryRe = /(工伤|因工受伤|工伤事故)[^。；\n]{0,16}(自负|自理|自行承担|不负责|不承担|概不负责)/;
+  const injuryRe = /(?:工伤|职业病|因工受伤|上下班途中|工作期间|工作场所)[^。；\n]{0,30}(?:受伤|事故|伤害|损害)[^。；\n]{0,24}(?:自负|自理|自行承担|不负责|不承担|概不负责|与甲方无关)|(?:工伤|职业病|因工受伤)[^。；\n]{0,24}(?:自负|自理|自行承担|不负责|不承担|概不负责|与甲方无关)/;
   ctx.clauses.filter(cl => injuryRe.test(clauseFull(cl))).forEach(c3 => {
-    const q = qAny(c3, /(工伤|自负|自理|不承担)/);
+    const q = qFilter(c3, /(工伤|职业病|受伤|事故|自负|自理|不承担|与甲方无关)/, /甲方[^。；\n]{0,12}(?:负责|承担|支付)/) || qAny(c3, /(工伤|自负|自理|不承担)/);
+    if(!q) return;
     addItem(ctx,{
       base:'R7',ruleId:'R7',verdict:'red',ruleName:'工伤责任自负（无效）',
       short:'工伤责任自负',clauseIndex:c3.index,location:clauseLabel(c3,c3.index),
-      quote:q ? q.quote : '',range:q||null,consequence:'公司把工伤责任推给你；这类免除单位法定责任的约定无效，但真出事时医疗费可能先由你垫付，再走认定和追偿。',
+      quote:q.quote,range:q,consequence:'公司把工伤责任推给你；这类免除单位法定责任的约定无效，但真出事时医疗费可能先由你垫付，再走认定和追偿。',
       ask:'HR：工伤申报和医疗费垫付由谁负责？',counter:'删除工伤自负条款，按工伤保险规定处理。',
       basis:LAW.L26,confidence:'高',loss:0
+    });
+  });
+  const rightsWaiverRe = /(?:放弃|自愿放弃|不要求|不主张)[^。；\n]{0,18}(?:经济补偿|经济补偿金|赔偿金|工伤保险待遇|工伤赔偿)/;
+  ctx.clauses.filter(cl => rightsWaiverRe.test(clauseFull(cl))).forEach(c4 => {
+    const q = qFilter(c4, rightsWaiverRe, /甲方[^。；\n]{0,12}(?:支付|承担|补偿)/) || qAny(c4, rightsWaiverRe);
+    if(!q) return;
+    addItem(ctx,{
+      base:'R7',ruleId:'R7',verdict:'red',ruleName:'放弃法定补偿（无效）',
+      short:'放弃经济补偿或赔偿',clauseIndex:c4.index,location:clauseLabel(c4,c4.index),
+      quote:q.quote,range:q,consequence:'让你提前放弃经济补偿、赔偿金或工伤待遇；这类放弃通常不产生效力，但真发生争议时，公司会拿它作为抗辩，你需要额外举证。',
+      ask:'HR：为什么要求提前放弃法定补偿？',counter:'删除放弃条款；补偿金额在解除或工伤认定后再依法协商。',
+      basis:LAW.L26,confidence:'高',loss:0
+    });
+  });
+  const arbitraryFireRe = /(?:甲方|公司|用人单位)[^。；\n]{0,18}(?:有权|可以|可)[^。；\n]{0,12}(?:随时|直接|单方)[^。；\n]{0,10}(?:解除|终止|辞退)[^。；\n]{0,16}(?:劳动合同|劳动关系|合同|乙方)/;
+  const faultFireRe = /严重违纪|严重违反|不符合录用条件|不胜任|不能胜任|经济性裁员|协商一致|合同期满|法定情形/;
+  ctx.clauses.filter(cl => arbitraryFireRe.test(clauseFull(cl))).forEach(c6 => {
+    const q = qFilter(c6, arbitraryFireRe, faultFireRe) || (faultFireRe.test(clauseFull(c6)) ? null : qAny(c6, arbitraryFireRe));
+    if(!q) return;
+    addItem(ctx,{
+      base:'R7',ruleId:'R7',verdict:'red',ruleName:'单位可随时解除（无效）',
+      short:'公司可随时辞退',clauseIndex:c6.index,location:clauseLabel(c6,c6.index),
+      quote:q.quote,range:q,consequence:'合同给公司保留“随时/单方解除”的权利；除法定情形和法定程序外，单位不能随意解除，真被辞退时要先固定解除通知和理由。',
+      ask:'HR：公司依据哪一条法定情形解除？会出具书面解除通知吗？',counter:'删除“随时解除”；解除条件按法定情形列明，并写明补偿。',
+      basis:LAW.L26,confidence:'高',loss:0
+    });
+  });
+  const noCompRe = /(?:甲方|公司|用人单位)[^。；\n]{0,26}(?:解除|终止|辞退|裁员)[^。；\n]{0,20}(?:无需|无须|不支付|不予支付|不承担|不予补偿)[^。；\n]{0,12}(?:经济补偿|经济补偿金|赔偿金|补偿)/;
+  ctx.clauses.filter(cl => noCompRe.test(clauseFull(cl))).forEach(c7 => {
+    const q = qFilter(c7, noCompRe, faultFireRe) || (faultFireRe.test(clauseFull(c7)) ? null : qAny(c7, noCompRe));
+    if(!q) return;
+    addItem(ctx,{
+      base:'R7',ruleId:'R7',verdict:'red',ruleName:'解除不支付经济补偿（无效）',
+      short:'辞退不给补偿',clauseIndex:c7.index,location:clauseLabel(c7,c7.index),
+      quote:q.quote,range:q,consequence:'合同提前排除单位解除时的经济补偿；符合法定补偿情形时，这类约定不能免除支付义务，但你需要先证明解除事实和工作年限。',
+      ask:'HR：解除时经济补偿按什么标准算？',counter:'删除“无需补偿”；按工作年限和法定标准写明经济补偿。',
+      basis:LAW.L26,confidence:'高',loss:0
+    });
+  });
+  const rulesChangeRe = /(?:规章制度|员工手册)[^。；\n]{0,30}(?:随时|单方|无需协商)[^。；\n]{0,10}(?:修改|变更|调整)[^。；\n]{0,20}(?:无需|不需)[^。；\n]{0,10}(?:通知|公示|协商)|(?:规章制度|员工手册)[^。；\n]{0,30}(?:最终解释权|解释权归)[^。；\n]{0,10}(?:甲方|公司)/;
+  ctx.clauses.filter(cl => rulesChangeRe.test(clauseFull(cl))).forEach(c5 => {
+    const q = qFilter(c5, rulesChangeRe) || qAny(c5, /(规章制度|员工手册|最终解释权|解释权)/);
+    if(!q) return;
+    addItem(ctx,{
+      base:'R7',ruleId:'R7',verdict:'yellow',ruleName:'规章制度可单方变更',
+      short:'规章制度单方变更',clauseIndex:c5.index,location:clauseLabel(c5,c5.index),
+      quote:q.quote,range:q,consequence:'公司保留随时修改规章制度或最终解释权；涉及工资、考勤、处罚的规则如果未经民主程序和公示，可能不能直接约束你，但实际管理中会先按公司版本执行。',
+      ask:'HR：员工手册有没有公示、签收和民主程序记录？',counter:'写明制度变更需公示或送达；涉及切身利益的重大事项依法协商。',
+      basis:LAW.L26,confidence:'中',loss:0
     });
   });
 }
 
 /* R8 三方协议违约金 */
 function runR8(ctx){
-    const studentSide = s => {
-    const x = s.replace(/违约金/g, '赔偿金');
-    return /(任何一方|双方)[^。；\n]{0,8}(违约|解约|解除)/.test(x)
-      || /(乙方|学生|毕业生|本人)[^。；\n]{0,20}(提前(?:解除|离职|终止)|解约|违约|擅自|未按期|未按|不报到|拒绝|违反)/.test(x);
-  };
+  const penaltyRe = /(违约金|违约责任|违约赔偿|赔偿(?:金|损失)?|诚信金|意向金|押金|保证金|定金)/;
+  const actionRe = /(提前(?:解除|离职|终止)|解约|解除|违约|擅自|未按期|未按|不报到|拒绝|放弃|变更|升学|考公|参军|不去|不履行|违反)/;
+  const studentSide = s => /(任何一方|双方)[^。；\n]{0,10}(?:违约|解约|解除)/.test(s)
+    || new RegExp(`(?:乙方|学生|毕业生|本人)[^。；\\n]{0,24}(?:${actionRe.source})`).test(s);
   const skipRe = /不得(?:约定|要求)|无权|无效|不承担/;
-  const employerSide = s => {
-    const x = s.replace(/违约金/g, '赔偿金');
-    return /(甲方|用人单位)[^。；\n]{0,12}(违约|违反)[^。；\n]{0,20}(向|给)?[^。；\n]{0,8}(乙方|学生|毕业生)/.test(x)
-      && !/(乙方|学生|毕业生)[^。；\n]{0,12}(违约|解约|违反)/.test(x);
-  };
-  ctx.clauses.filter(cl => /违约金/.test(clauseFull(cl))).forEach(c => {
-    let q = qFilter(c, /违约金/, s => skipRe.test(s) || employerSide(s) || !studentSide(s));
+  const employerSide = s => /(甲方|用人单位)[^。；\n]{0,14}(?:违约|违反)[^。；\n]{0,24}(?:向|给)?[^。；\n]{0,10}(?:乙方|学生|毕业生)/.test(s)
+    && !/(乙方|学生|毕业生)[^。；\n]{0,14}(?:违约|解约|违反)/.test(s);
+  ctx.clauses.filter(cl => penaltyRe.test(clauseFull(cl))).forEach(c => {
+    let q = qFilter(c, penaltyRe, s => skipRe.test(s) || employerSide(s) || !studentSide(s));
     if(!q && c.heading && /(乙方|学生|毕业生|任何一方)/.test(c.heading)
-      && !sentenceList(c.body || '').some(s => employerSide(s.quote) || skipRe.test(s.quote))) q = qAny(c, /违约金/);
+      && !sentenceList(c.body || '').some(s => employerSide(s.quote) || skipRe.test(s.quote))) q = qAny(c, penaltyRe);
     if(!q) return;
-    const amt = maxAmountAfter(q.raw || q.quote, /违约金/) ?? parseAmount(q.raw || q.quote);
+    const amt = maxAmountAfter(q.raw || q.quote, penaltyRe) ?? parseAmount(q.raw || q.quote);
+    const isLiquidated = /违约金|违约责任|违约赔偿/.test(q.raw || q.quote);
     addItem(ctx,{
-      base:'R8',ruleId:'R8',verdict:'yellow',ruleName:'三方协议解约违约金',
-      short:amt ? `${fmtWan(amt)}解约违约金` : '三方解约违约金',clauseIndex:c.index,location:clauseLabel(c,c.index),
+      base:'R8',ruleId:'R8',verdict:'yellow',ruleName:isLiquidated ? '三方协议解约违约金' : '三方协议违约赔偿',
+      short:amt ? `${fmtWan(amt)}${isLiquidated ? '解约违约金' : '违约赔偿'}` : (isLiquidated ? '三方解约违约金' : '三方违约赔偿'),clauseIndex:c.index,location:clauseLabel(c,c.index),
       quote:q.quote,range:q,consequence:amt
-        ? `解约时单位可主张 ${fmtYuan(amt)} 元违约金；三方协议属民事约定，一般有效，若远超单位实际支出可请求调减（司法实践常以实际损失的 30% 作为参考），但你要先应对违约主张。`
-        : '写了违约金但没有金额；解约时单位可能按实际损失索赔，金额和计算方式要让它写明。',
-      ask:'就业办或单位：这笔违约金对应哪些实际损失？',counter:'把违约金降到有据可查的实际招聘支出，并写明解约流程。',
+        ? `${isLiquidated ? '解约' : '违约'}时单位可主张 ${fmtYuan(amt)} 元${isLiquidated ? '违约金' : '赔偿'}；三方协议属民事约定，一般有效，若远超单位实际支出可请求调减（司法实践常以实际损失的 30% 作为参考），但你要先应对违约主张。`
+        : `写了${isLiquidated ? '违约金' : '违约赔偿'}但没有金额；解约时单位可能按实际损失索赔，金额和计算方式要让它写明。`,
+      ask:'就业办或单位：这笔违约金或赔偿对应哪些实际损失？',counter:'把金额降到有据可查的实际招聘支出，并写明解约流程。',
       basis:LAW.C585,confidence:'高',loss:amt || 0
+    });
+  });
+  const employerOnlyRe = /(?:甲方|用人单位)[^。；\n]{0,24}(?:有权|可以|可)[^。；\n]{0,18}(?:解除|终止)[^。；\n]{0,26}(?:不承担|无需|不予|不支付)[^。；\n]{0,14}(?:违约|赔偿|补偿)/;
+  ctx.clauses.filter(cl => employerOnlyRe.test(clauseFull(cl))).forEach(c => {
+    const q = qFilter(c, employerOnlyRe) || qAny(c, /(解除|终止|不承担|无需赔偿)/);
+    if(!q) return;
+    addItem(ctx,{
+      base:'R8',ruleId:'R8',verdict:'yellow',ruleName:'单位单方解约不担责',
+      short:'单位解约不承担违约责任',clauseIndex:c.index,location:clauseLabel(c,c.index),
+      quote:q.quote,range:q,consequence:'协议把单位的解约责任排除掉，只约束学生一方；真到单位反悔时，你很难按同一条款要求赔偿，三方协议的权利义务明显不对等。',
+      ask:'就业办或单位：单位解约时学生可以主张哪些损失？',counter:'改为双方对等承担违约责任，或明确单位解约的赔偿标准。',
+      basis:LAW.C497,confidence:'中',loss:0
     });
   });
 }
@@ -985,29 +1211,29 @@ function parseRate(text){
   return {rate,daily,monthly};
 }
 function runR9(ctx){
-    const feeSent = sentenceList(ctx.text).find(s => /(培训费|学费|课程费|教育服务费|总费用)/.test(s.quote) && parseAmount(s.quote) != null);
+  const feeSent = sentenceList(ctx.text).find(s => /(培训费|学费|课程费|教育服务费|总费用|贷款本金|借款本金|分期总额)/.test(s.quote) && parseAmount(s.quote) != null);
   const principal = feeSent ? parseAmount(feeSent.quote) : null;
-  let payClauses = ctx.clauses.filter(cl => /(分\s*[一二两三四五六七八九十\d]{1,3}\s*期|每期(?:还款|应还|支付)?|月供|每月还款|还款计划)/.test(clauseFull(cl)));
+  let payClauses = ctx.clauses.filter(cl => /(分\s*[一二两三四五六七八九十\d]{1,3}\s*期|分\s*[一二两三四五六七八九十\d]{1,3}\s*个?月|每期(?:还款|应还|偿还|支付)?|月供|每月(?:还款|应还|支付)|还款计划|先学后付|边学边付|学费分期)/.test(clauseFull(cl)));
   if(!payClauses.length){
-    payClauses = ctx.clauses.filter(cl => /(分期|贷款|借款|放款)/.test(clauseFull(cl))).slice(0,1);
+    payClauses = ctx.clauses.filter(cl => /(分期|贷款|借款|放款|助学贷款|培训贷|分期平台|贷款机构|出借人|资方)/.test(clauseFull(cl))).slice(0,1);
   }
   let primaryPay = null, primaryQ = null, primaryTotal = null;
   payClauses.forEach(cPay => {
     const t = clauseFull(cPay);
     let periods = null, per = null, feePer = null, perTotal = null, total = null, over = null;
-    let m = t.match(/(?:分|共)?\s*([一二两三四五六七八九十\d]{1,3})\s*期/);
+    let m = t.match(/(?:分|共)\s*([一二两三四五六七八九十\d]{1,3})\s*(?:期|个?月)/);
     if(m){ const n = cnNum(m[1]); if(Number.isFinite(n)) periods = n; }
-    m = t.match(/(?:每期还款|每期应还|每期支付|每月还款|月供|每期)[^。；\n]{0,14}?([\d,]+(?:\.\d+)?)\s*(万元|万|千元|千|元)/);
+    m = t.match(/(?:每期还款|每期应还|每期偿还|每期支付|每月还款|每月应还|月供|每期)[^。；\n]{0,16}?([\d,]+(?:\.\d+)?)\s*(万元|万|千元|千|元)/);
     if(m) per = parseAmount(m[0]);
-    m = t.match(/(?:平台服务费|服务费|管理费|手续费)[^。；\n]{0,16}?([\d,]+(?:\.\d+)?)\s*(万元|万|千元|千|元)/)
-      || t.match(/([\d,]+(?:\.\d+)?)\s*(万元|万|千元|千|元)[^。；\n]{0,8}(?:平台服务费|服务费|管理费|手续费)/);
+    m = t.match(/(?:平台服务费|技术服务费|咨询服务费|服务费|管理费|手续费|担保费|保险费)[^。；\n]{0,18}?([\d,]+(?:\.\d+)?)\s*(万元|万|千元|千|元)/)
+      || t.match(/([\d,]+(?:\.\d+)?)\s*(万元|万|千元|千|元)[^。；\n]{0,10}(?:平台服务费|技术服务费|咨询服务费|服务费|管理费|手续费|担保费|保险费)/);
     if(m) feePer = parseAmount(m[0]);
-    m = t.match(/(?:还款总额|共还|共计还款|总还款)[^。；\n]{0,14}?([\d,]+(?:\.\d+)?)\s*(万元|万|千元|千|元)/);
+    m = t.match(/(?:还款总额|共还|共计还款|总还款|本息合计|合计还款)[^。；\n]{0,16}?([\d,]+(?:\.\d+)?)\s*(万元|万|千元|千|元)/);
     if(m) total = parseAmount(m[0]);
     if(per != null) perTotal = per + (feePer || 0);
     if(!total && periods && perTotal) total = periods * perTotal;
     if(total && principal && total > principal) over = total - principal;
-    const q = qFilter(cPay,/(平台服务费|服务费|管理费|分期|每期|月供)/) || qAny(cPay,/(分期|每期|月供)/);
+    const q = qFilter(cPay,/(平台服务费|技术服务费|咨询服务费|服务费|管理费|分期|每期|月供)/) || qAny(cPay,/(分期|每期|月供)/);
     const cons = periods && perTotal
       ? `分 ${periods} 期、每期 ${fmtYuan(perTotal)} 元，共还 ${fmtYuan(total)} 元${over ? `，比 ${fmtYuan(principal)} 元本金多 ${fmtYuan(over)} 元` : ''}；放款主体和年化成本没写清。`
       : '把培训费拆成分期贷款，但没写清放款主体和年化综合成本；签了之后还款义务先落在你身上。';
@@ -1061,6 +1287,54 @@ function runR9(ctx){
       basis:LAW.C497,confidence:'中',loss:0
     });
   });
+  const refundFeeRe = /(?:退费|退款)[^。；\n]{0,24}(?:扣除|扣收|收取)[^。；\n]{0,14}(?:手续费|违约金|服务费|管理费)|(?:扣除|扣收)[^。；\n]{0,14}(?:手续费|违约金)[^。；\n]{0,20}(?:退费|退款|退还)/;
+  ctx.clauses.filter(cl => refundFeeRe.test(clauseFull(cl))).forEach(cR => {
+    const q = qFilter(cR, refundFeeRe) || qAny(cR, /(退费|退款|手续费|违约金)/);
+    if(!q) return;
+    addItem(ctx,{
+      base:'R9',ruleId:'R9',verdict:'yellow',ruleName:'退费扣手续费或违约金',
+      short:'退费要扣手续费',clauseIndex:cR.index,location:clauseLabel(cR,cR.index),
+      quote:q.quote,range:q,consequence:'退费要扣手续费或违约金，但扣多少、对应什么成本没写清；真退学时可能先扣一笔，再让你继续还剩余分期。',
+      ask:'机构：退费手续费按什么比例？对应哪些已发生成本？',counter:'按已上课时和已发生费用结算，未发生的学费与分期应停止。',
+      basis:LAW.C497,confidence:'中',loss:0
+    });
+  });
+  const upfrontRe = /(砍头息|前置利息|预先扣除[^。；\n]{0,10}(?:服务费|利息|手续费)|先扣[^。；\n]{0,10}(?:服务费|利息|手续费))/;
+  ctx.clauses.filter(cl => upfrontRe.test(clauseFull(cl))).forEach(cU => {
+    const q = qFilter(cU, upfrontRe) || qAny(cU, /(砍头息|前置利息|预先扣除|先扣)/);
+    if(!q) return;
+    addItem(ctx,{
+      base:'R9',ruleId:'R9',verdict:'yellow',ruleName:'贷款费用预先扣除',
+      short:'预扣服务费或利息',clauseIndex:cU.index,location:clauseLabel(cU,cU.index),
+      quote:q.quote,range:q,consequence:'放款前先扣服务费、利息或手续费，实际到手会少于合同本金，但还款仍按合同本金计算；真实年化成本会被抬高。',
+      ask:'机构：实际放款金额是多少？预扣费用是否计入年化成本？',counter:'按实际到手金额计算本金和年化成本，所有费用写入同一份披露表。',
+      basis:LAW.LPR25,confidence:'中',loss:0
+    });
+  });
+  const advanceRe = /(提前(?:还款|结清|还清))[^。；\n]{0,24}(?:违约金|手续费|服务费|不予减免|仍需支付全部利息)|(?:违约金|手续费|服务费)[^。；\n]{0,20}(?:提前(?:还款|结清|还清))/;
+  ctx.clauses.filter(cl => advanceRe.test(clauseFull(cl))).forEach(cA => {
+    const q = qFilter(cA, advanceRe) || qAny(cA, /(提前还款|提前结清|提前还清)/);
+    if(!q) return;
+    addItem(ctx,{
+      base:'R9',ruleId:'R9',verdict:'gray',ruleName:'提前结清仍收费用',
+      short:'提前还款仍收费',clauseIndex:cA.index,location:clauseLabel(cA,cA.index),
+      quote:q.quote,range:q,consequence:'提前还款仍要收违约金、手续费或全部利息；想早点止损时，实际结清金额可能高于剩余本金。',
+      ask:'机构：提前结清要付多少？剩余利息能否减免？',counter:'写明提前结清公式，未发生的利息和管理费不再收取。',
+      basis:LAW.C585,confidence:'中',loss:0
+    });
+  });
+  const agencyRe = /(?:贷款|分期)[^。；\n]{0,24}(?:由甲方|由机构|由平台)[^。；\n]{0,10}(?:代办|代签|代为办理|操作)|(?:代(?:为)?(?:办理|申请|签署))[^。；\n]{0,12}(?:贷款|分期)|(?:签署本协议即视为同意)[^。；\n]{0,16}(?:贷款|分期)/;
+  ctx.clauses.filter(cl => agencyRe.test(clauseFull(cl))).forEach(cG => {
+    const q = qFilter(cG, agencyRe) || qAny(cG, /(贷款|分期|代签|代办|视为同意)/);
+    if(!q) return;
+    addItem(ctx,{
+      base:'R9',ruleId:'R9',verdict:'yellow',ruleName:'贷款由机构代办或默示同意',
+      short:'签协议即视为同意贷款',clauseIndex:cG.index,location:clauseLabel(cG,cG.index),
+      quote:q.quote,range:q,consequence:'签培训协议就被视为同意贷款，或由机构代为操作；你可能没看到借款合同、放款人和真实利率，就已经背上还款义务。',
+      ask:'机构：贷款合同和放款人是谁？能否先看完整借款合同再签字？',counter:'培训协议与贷款合同分开签署，单独确认放款主体、金额、利率和退费。',
+      basis:LAW.C497,confidence:'中',loss:0
+    });
+  });
   const cCourse = ctx.clauses.find(cl => /(培训项目|培训周期|培训费)/.test(clauseFull(cl)) && parseAmount(cl.body));
   addGreen(ctx,cCourse,'培训项目与周期',/(培训周期|培训费)/,'培训项目、周期和总费用已写明。');
 }
@@ -1086,6 +1360,70 @@ function runR10(ctx){
       basis:LAW.R10,confidence:'中',loss:0
     });
   }
+  const noPayRe = /(?:无薪|无偿|不支付(?:实习)?(?:补贴|报酬|工资)|没有(?:实习)?(?:补贴|报酬|工资))/;
+  ctx.clauses.filter(cl => noPayRe.test(clauseFull(cl))).forEach(cNoPay => {
+    const q = qFilter(cNoPay, noPayRe) || qAny(cNoPay, /(无薪|无偿|不支付|没有)/);
+    if(!q) return;
+    addItem(ctx,{
+      base:'R10',ruleId:'R10',verdict:'yellow',ruleName:'无薪或无偿实习',
+      short:'无薪实习',clauseIndex:cNoPay.index,location:clauseLabel(cNoPay,cNoPay.index),
+      quote:q.quote,range:q,consequence:'协议明确不支付补贴或报酬；短期体验尚可，但如果按固定工时承担实际工作，既没有收入，也可能掩盖应得的劳动报酬。',
+      ask:'HR：实习补贴为什么没有？每月出勤和请假怎么算？',counter:'写明补贴标准与发放日；实际承担岗位工作的，按约定支付报酬。',
+      basis:LAW.C470,confidence:'中',loss:0
+    });
+  });
+  const hoursRe = /每周[^。；\n]{0,12}(?:[6六]\s*天|超过\s*40\s*小时)|(?:单休|做六休一|996|007)|每(?:日|天)[^。；\n]{0,10}(?:工作|实习)?(?:9|10|11|12)\s*小时/;
+  ctx.clauses.filter(cl => hoursRe.test(clauseFull(cl))).forEach(cH => {
+    const q = qFilter(cH, hoursRe) || qAny(cH, /(每周|每天|单休|996)/);
+    if(!q) return;
+    addItem(ctx,{
+      base:'R10',ruleId:'R10',verdict:'yellow',ruleName:'实习工时偏高',
+      short:'实习工时超过 40 小时/周',clauseIndex:cH.index,location:clauseLabel(cH,cH.index),
+      quote:q.quote,range:q,consequence:'每周 6 天、单休或每天 9 小时以上，工时已接近或超过标准工时；实习协议不当然排除劳动保护，长期超时还会挤占课程和休息。',
+      ask:'HR：每周实际实习几天、每天几小时？超时怎么调休或补贴？',counter:'写明每周上限、休息日和超时处理，避免把实习生当全职员工使用。',
+      basis:LAW.C470,confidence:'中',loss:0
+    });
+  });
+  const internFeeRe = /(押金|保证金|培训费|服装费|工装费|体检费|管理费|建档费|报名费|设备费)/;
+  const internFeePayRe = /(交纳|缴纳|收取|支付|从补贴[^。；\n]{0,8}扣)/;
+  ctx.clauses.filter(cl => {
+    const t = clauseFull(cl);
+    return internFeeRe.test(t) && internFeePayRe.test(t) && !/(甲方|实习单位|公司)[^。；\n]{0,14}(承担|支付|报销)/.test(t);
+  }).forEach(cF => {
+    const q = qFilter(cF, internFeeRe, /(甲方|实习单位|公司)[^。；\n]{0,14}(承担|支付|报销)/) || qAny(cF, internFeeRe);
+    if(!q) return;
+    addItem(ctx,{
+      base:'R10',ruleId:'R10',verdict:'yellow',ruleName:'向实习生收费或收押金',
+      short:'实习要交押金或费用',clauseIndex:cF.index,location:clauseLabel(cF,cF.index),
+      quote:q.quote,range:q,consequence:'实习还要交押金、培训费或服装费；这笔钱可能以“违约”“损坏”“未满期”为由不退，事后追要成本很高。',
+      ask:'HR：这笔费用对应什么成本？有没有收据和退还条件？',counter:'删除向学生收费的条款；必要的工装和设备由实习单位提供。',
+      basis:LAW.C470,confidence:'中',loss:0
+    });
+  });
+  const renewRe = /(?:自动续期|自动延长|单方延长|期满后继续有效|未提出异议视为续期)/;
+  ctx.clauses.filter(cl => renewRe.test(clauseFull(cl))).forEach(cRn => {
+    const q = qFilter(cRn, renewRe) || qAny(cRn, /(续期|延长|继续有效)/);
+    if(!q) return;
+    addItem(ctx,{
+      base:'R10',ruleId:'R10',verdict:'yellow',ruleName:'实习协议自动续期',
+      short:'实习协议自动续期',clauseIndex:cRn.index,location:clauseLabel(cRn,cRn.index),
+      quote:q.quote,range:q,consequence:'协议可自动续期或由单位单方延长；到期后你可能在不知情的情况下继续受约束，影响返校、考试和找工作。',
+      ask:'HR：续期需要谁确认？每次续多久？',counter:'改为双方书面确认后续期，到期自动终止。',
+      basis:LAW.C562,confidence:'中',loss:0
+    });
+  });
+  const noLaborRe = /(?:不构成|不属于|并非)[^。；\n]{0,8}劳动关系/;
+  ctx.clauses.filter(cl => noLaborRe.test(clauseFull(cl))).forEach(cN => {
+    const q = qFilter(cN, noLaborRe) || qAny(cN, /(不构成|不属于|劳动关系)/);
+    if(!q) return;
+    addItem(ctx,{
+      base:'R10',ruleId:'R10',verdict:'gray',ruleName:'实习关系被单方定性',
+      short:'协议否认劳动关系',clauseIndex:cN.index,location:clauseLabel(cN,cN.index),
+      quote:q.quote,range:q,consequence:'协议声明不构成劳动关系。实习通常确实不按劳动关系处理，但如果实际存在固定岗位、考勤、绩效和持续报酬，仍可能被认定为劳动关系。',
+      ask:'HR 或学校：这份实习是否在学校的实习计划内？日常是否按员工考核？',counter:'保留实习计划、考勤、报酬和管理记录，必要时再判断关系性质。',
+      basis:LAW.C470,confidence:'中',loss:0
+    });
+  });
   const endRe = /(甲方|实习单位|公司)[^。；\n]{0,26}(随时|有权|可以)[^。；\n]{0,18}(终止|解除)|(甲方|实习单位|公司)[^。；\n]{0,26}(无需|不需|不必)(?:说明)?理由/;
   ctx.clauses.filter(cl => endRe.test(clauseFull(cl))).forEach(cEnd => {
     const q = qFilter(cEnd,/(随时(?:终止|解除)|无需(?:说明)?理由)/) || qFilter(cEnd,/(终止|解除)/);
@@ -1132,19 +1470,18 @@ function runR10(ctx){
 
 /* R11 押金与扣证 */
 function runR11(ctx){
-    const feeRe = /(押金|保证金|抵押金|担保金|风险金|服装费|工装费|体检费|培训费|管理费|建档费|报名费|设备费|工具费|资料费)/;
-  const payRe = /(交纳|缴纳|收取|交付|支付|交|扣)/;
-  const employerPayRe = /(甲方|公司|用人单位)[^。；\n]{0,12}(承担|支付|提供|报销)/;
-  ctx.clauses.filter(cl => {
-    const t = clauseFull(cl);
-    return feeRe.test(t) && payRe.test(t) && !employerPayRe.test(t);
-  }).forEach(cDep => {
-    const t = clauseFull(cDep);
-    const kindM = t.match(feeRe);
+  const feeRe = /(押金|保证金|抵押金|担保金|风险金|风险抵押金|履约保证金|保密保证金|培训押金|服装费|工装费|工服费|工牌费|体检费|培训费|入职费|管理费|建档费|报名费|设备费|工具费|资料费|电脑押金|住宿押金|水电押金|背景调查费|招聘费|集资款|入股款)/;
+  const payRe = /(交纳|缴纳|收取|交付|支付|预交|预缴|代收|扣留|扣除|从工资[^。；\n]{0,8}扣)/;
+  const employerPayRe = /(甲方|公司|用人单位)[^。；\n]{0,14}(承担|支付|提供|报销|退还)/;
+  ctx.clauses.forEach(cDep => {
+    const sentence = sentenceList(clauseFull(cDep)).find(s => feeRe.test(s.quote) && payRe.test(s.quote) && !employerPayRe.test(s.quote));
+    if(!sentence) return;
+    const kindM = sentence.quote.match(feeRe);
     const kind = kindM ? kindM[1] : '费用';
-    const deposit = /押金|保证金|抵押金|担保金|风险金/.test(kind);
-    const amt = amountNear(cDep.body, feeRe);
-    const q = qFilter(cDep, /(押金|保证金|抵押金|担保金|风险金|服装费|工装费|体检费|培训费|管理费|建档费|报名费|设备费|工具费|资料费|交纳|缴纳|收取)/) || qAny(cDep, feeRe);
+    const deposit = /押金|保证金|抵押金|担保金|风险金|集资款|入股款/.test(kind);
+    const amt = amountNear(sentence.quote, feeRe);
+    const fm = feeRe.exec(sentence.quote);
+    const q = fm ? {quote:clipQuote(sentence.quote, fm.index, fm.index + fm[0].length),raw:sentence.quote,start:sentence.start,end:sentence.end} : null;
     addItem(ctx,{
       base:'R11',ruleId:'R11',verdict:'red',ruleName:deposit ? '向劳动者收取押金或保证金' : '以其他名义向劳动者收费',
       short:amt ? `${fmtWan(amt)}${kind}` : `收取${kind}`,clauseIndex:cDep.index,location:clauseLabel(cDep,cDep.index),
@@ -1155,8 +1492,20 @@ function runR11(ctx){
       basis:LAW.L09,confidence:'高',loss:amt || 0
     });
   });
+  const guaranteeRe = /(?:要求|需|须|应)[^。；\n]{0,12}(?:乙方|劳动者|员工)[^。；\n]{0,10}(?:提供|找|出具)[^。；\n]{0,10}(?:担保|保证人)|(?:担保人|保证人)[^。；\n]{0,14}(?:签字|提供|承担连带)/;
+  ctx.clauses.filter(cl => guaranteeRe.test(clauseFull(cl))).forEach(cG => {
+    const q = qFilter(cG, guaranteeRe) || qAny(cG, /(担保|保证人|连带)/);
+    if(!q) return;
+    addItem(ctx,{
+      base:'R11',ruleId:'R11',verdict:'red',ruleName:'要求劳动者提供担保',
+      short:'要求提供担保人',clauseIndex:cG.index,location:clauseLabel(cG,cG.index),
+      quote:q.quote,range:q,consequence:'入职还要求担保人或连带责任保证；用人单位招用劳动者不得要求提供担保，这类条款会把你和家人的财产一起卷进来。',
+      ask:'HR：为什么要求提供担保？依据是什么？',counter:'删除担保条款；如涉及财物保管，用岗位制度和交接清单解决。',
+      basis:LAW.L09,confidence:'高',loss:0
+    });
+  });
   const idRe = /(扣押|扣留|收走|收缴|保管)/;
-  const certRe = /(身份证|毕业证|学位证|学历证|资格证|证件|证书)/;
+  const certRe = /(身份证|毕业证|学位证|学历证|资格证|证件|证书|户口本|护照)/;
   const keepCopyRe = /(乙方|本人)[^。；\n]{0,8}(自行|自己)[^。；\n]{0,4}保管|复印件|扫描件|影印件/;
   ctx.clauses.filter(cl => idRe.test(clauseFull(cl)) && certRe.test(clauseFull(cl))).forEach(cId => {
     const q = qFilter(cId, /(扣押|扣留|收走|收缴|保管|原件)/, keepCopyRe);
@@ -1188,10 +1537,12 @@ function runR12(ctx){
     if(employerRe.test(h)) return 'employer';
     return 'unknown';
   };
-  ctx.clauses.filter(cl => /提前[^。；\n]{0,10}(日|天|个?工作日|个月|月|周|星期)/.test(clauseFull(cl)) && noticeRe.test(clauseFull(cl))).forEach(c => {
+  ctx.clauses.filter(cl => /提前[^。；\n]{0,12}(日|天|个?工作日|个?自然日|个?日历日|个月|月|周|星期)/.test(clauseFull(cl)) && noticeRe.test(clauseFull(cl))).forEach(c => {
+    const isTrial = /试用期/.test(clauseFull(c));
     let found = null;
+    let trialFound = null;
     sentenceList(c.body || '').forEach(s => {
-      const re = /提前\s*([一二两三四五六七八九十百零〇\d]{1,4})\s*(个?工作日|日|天|个月|月|周|星期)/g;
+      const re = /提前\s*([一二两三四五六七八九十百零〇\d]{1,4})\s*(个?工作日|个?自然日|个?日历日|日|天|个月|月|周|星期)/g;
       let m;
       while((m = re.exec(s.quote))){
         const n = cnNum(m[1]);
@@ -1199,34 +1550,525 @@ function runR12(ctx){
         let days = n;
         if(m[2] === '个月' || m[2] === '月') days = n * 30;
         else if(m[2] === '周' || m[2] === '星期') days = n * 7;
-        else if(m[2] === '工作日' || m[2] === '个工作日') days = Math.round(n * 7 / 5);
-        if(days <= 30) continue;
+        else if(/工作日/.test(m[2])) days = Math.round(n * 7 / 5);
         const subject = subjectOf(s.quote, c.heading, m.index);
         if(subject === 'employer') continue;
         if(subject === 'unknown' && !employeeLeaningRe.test(s.quote)) continue;
-        if(!found || days > found.days){
-          const ms = m.index;
-          found = {days, quote:clipQuote(s.quote, ms, ms + m[0].length), raw:s.quote, start:s.start, end:s.end};
-        }
+        const candidate = {days, quote:clipQuote(s.quote, m.index, m.index + m[0].length), raw:s.quote, start:s.start, end:s.end};
+        if(isTrial && days > 3 && days <= 30 && (!trialFound || days > trialFound.days)) trialFound = candidate;
+        if(days > 30 && (!found || days > found.days)) found = candidate;
       }
     });
-    if(!found) return;
-    addItem(ctx,{
-      base:'R12',ruleId:'R12',verdict:'gray',ruleName:'离职通知期高于法定 30 天',
-      short:`${found.days} 天离职通知期`,clauseIndex:c.index,location:clauseLabel(c,c.index),
-      quote:found.quote,range:found,consequence:`合同要求你提前 ${found.days} 天通知离职，高于法定的 30 天；多出的时间可能拖住下家和入职，超出部分是否有效要个案判断。`,
-      ask:'HR：这条通知期能否按法定 30 天执行？',counter:'改为提前 30 日书面通知，试用期内提前 3 日。',
-      basis:LAW.L37,confidence:'中',loss:0
-    });
+    if(found){
+      addItem(ctx,{
+        base:'R12',ruleId:'R12',verdict:'gray',ruleName:'离职通知期高于法定 30 天',
+        short:`${found.days} 天离职通知期`,clauseIndex:c.index,location:clauseLabel(c,c.index),
+        quote:found.quote,range:found,consequence:`合同要求你提前 ${found.days} 天通知离职，高于法定的 30 天；多出的时间可能拖住下家和入职，超出部分是否有效要个案判断。`,
+        ask:'HR：这条通知期能否按法定 30 天执行？',counter:'改为提前 30 日书面通知，试用期内提前 3 日。',
+        basis:LAW.L37,confidence:'中',loss:0
+      });
+    }else if(trialFound){
+      addItem(ctx,{
+        base:'R12',ruleId:'R12',verdict:'gray',ruleName:'试用期通知期高于法定 3 天',
+        short:`试用期 ${trialFound.days} 天通知期`,clauseIndex:c.index,location:clauseLabel(c,c.index),
+        quote:trialFound.quote,range:trialFound,consequence:`合同要求试用期离职提前 ${trialFound.days} 天通知，高于法定的 3 天；多出的通知时间可能被公司拿来做交接或拖延。`,
+        ask:'HR：试用期离职能否按法定 3 天执行？',counter:'改为试用期内提前 3 日通知，转正后提前 30 日书面通知。',
+        basis:LAW.L37,confidence:'中',loss:0
+      });
+    }
   });
+}
+
+/* R13 工时与加班费 */
+function runR13(ctx){
+  const find = re => ctx.clauses.find(cl => re.test(clauseFull(cl)));
+  const waiverRe = /(?:加班费|加班工资|加班报酬)[^。；\n]{0,32}(?:不再|不另|无需|无须|不予|不支付|不计算|不计发|包含(?:在|于)[^。；\n]{0,10}(?:工资|薪资|月薪)|已包含|已含)|(?:放弃|不要求|自愿放弃)[^。；\n]{0,14}(?:加班费|加班工资|加班报酬)/;
+  const waiverC = find(waiverRe);
+  if(waiverC){
+    addPatternItem(ctx,waiverC,{
+      base:'R13',ruleId:'R13',verdict:'red',ruleName:'加班费被排除或已包含',
+      short:'不另付加班费',consequence:'合同把加班费排除掉，或写成工资已经包含加班费；只要实际存在单位安排的加班，仍应按法定标准补足，但你要先证明加班事实。',
+      ask:'HR：加班费按什么基数、什么比例计算？',counter:'删除“不再支付/已包含”的写法，按 150%/200%/300% 法定标准另行列明。',
+      basis:LAW.L44,confidence:'高',loss:0
+    },waiverRe);
+  }
+  const holidayRe = /(?:法定节假日|法定假日)[^。；\n]{0,32}(?:安排调休|调休|补休)[^。；\n]{0,22}(?:不(?:再)?支付|无需支付|不另支付)|(?:法定节假日|法定假日)[^。；\n]{0,24}(?:按|只按|仅按)(?:正常工资|基本工资|1(?:\.0)?倍|一(?:倍|倍工资)|100\s*%)(?:支付|计算|计发)?/;
+  const holidayC = find(holidayRe);
+  if(holidayC){
+    addPatternItem(ctx,holidayC,{
+      base:'R13',ruleId:'R13',verdict:'red',ruleName:'法定节假日加班只调休或按一倍算',
+      short:'法定节假日加班费不足',consequence:'法定节假日加班不能只用调休替代，也不应按正常工资计算；依法应支付不低于 300% 的工资报酬。',
+      ask:'HR：法定节假日加班的 300% 工资怎么发？',counter:'按法定节假日 300% 标准支付，不能以调休或正常工资替代。',
+      basis:LAW.L44,confidence:'高',loss:0
+    },holidayRe);
+  }
+  const lowBaseRe = /(?:加班|加班费|加班工资)[^。；\n]{0,26}(?:按|按照|以)[^。；\n]{0,18}(?:基本工资|底薪|最低工资|当地最低工资|1(?:\.0)?倍|一(?:倍|倍工资)|100\s*%|百分之百)[^。；\n]{0,14}(?:计算|支付|计发|为基数)?/;
+  const lowBaseC = find(lowBaseRe);
+  if(lowBaseC){
+    addPatternItem(ctx,lowBaseC,{
+      base:'R13',ruleId:'R13',verdict:'yellow',ruleName:'加班费计算基数偏低',
+      short:'加班费按基本工资或最低工资算',consequence:'把加班费基数压到基本工资、底薪或最低工资，会让实际加班费低于按正常工资计算的法定标准；差额可以主张，但需要工资条和考勤。',
+      ask:'HR：加班费基数是否包含绩效、补贴等正常工资？',counter:'按正常工作时间工资作为加班费基数，并在合同中写清构成。',
+      basis:LAW.L44,confidence:'中',loss:0
+    },lowBaseRe);
+  }
+  const scheduleRe = /(996|007|朝九晚九|早9晚9|早九晚九|大小周|单休|做六休一|月休[二两三四2-4]天|每月(?:休息|休)[二两三四2-4]天|每周(?:工作)?[6六]天|六天工作制)/;
+  const scheduleC = find(scheduleRe);
+  if(scheduleC){
+    const term = (clauseFull(scheduleC).match(scheduleRe) || [''])[0];
+    addPatternItem(ctx,scheduleC,{
+      base:'R13',ruleId:'R13',verdict:'yellow',ruleName:'工时安排超过标准工时风险',
+      short:`工时安排：${term || '单休/超时'}`,consequence:`合同出现“${term || '单休'}”等安排，可能超过每日 8 小时、每周 40 小时的标准工时；如果公司没有经过审批实行综合工时或不定时工时，超时部分应支付加班费。`,
+      ask:'HR：公司实行哪种工时制度？综合工时或不定时工时有没有审批？',counter:'写明标准工时与休息日；确需轮班的，先确认工时制度审批和加班费。',
+      basis:LAW.L31,confidence:'中',loss:0
+    },scheduleRe);
+  }
+  const approvalRe = /(?:加班|延时工作)[^。；\n]{0,18}(?:须|需|必须|应)[^。；\n]{0,12}(?:审批|申请|批准|同意)|未经[^。；\n]{0,14}(?:审批|批准)[^。；\n]{0,14}(?:不(?:视为|算作|属于)加班|无加班费|不支付加班费)/;
+  const approvalC = find(approvalRe);
+  if(approvalC){
+    addPatternItem(ctx,approvalC,{
+      base:'R13',ruleId:'R13',verdict:'gray',ruleName:'加班认定受审批限制',
+      short:'加班需审批才算',consequence:'公司规定加班必须事先审批，未审批不算加班；实际被安排加班但没走流程时，你需要用排班、聊天记录、打卡和工作成果证明。',
+      ask:'HR：主管口头安排的加班算不算？审批流程怎么留痕？',counter:'保留加班安排和考勤记录；确需审批的，写明补批机制。',
+      basis:LAW.L31,confidence:'中',loss:0
+    },approvalRe);
+  }
+  if(!ctx.items.some(it => it.ruleId === 'R13')){
+    const cGreen = find(/(?:依法|按法定标准|按照法定标准)[^。；\n]{0,24}(?:支付|计发)?[^。；\n]{0,8}加班费|加班费[^。；\n]{0,20}(?:150%|200%|300%|百分之一百五十|百分之二百|百分之三百)/);
+    if(cGreen) addGreen(ctx,cGreen,'加班费',/(加班费|加班工资)/,'加班费按法定标准支付，属常规安排。');
+  }
+}
+
+/* R14 工资支付与扣款 */
+function runR14(ctx){
+  const r4Clauses = new Set(ctx.items.filter(it => it.ruleId === 'R4').map(it => it.clauseIndex));
+  const r13Clauses = new Set(ctx.items.filter(it => it.ruleId === 'R13').map(it => it.clauseIndex));
+  const find = re => ctx.clauses.find(cl => !r4Clauses.has(cl.index) && !r13Clauses.has(cl.index) && re.test(clauseFull(cl)));
+  const withholdRe = /(?:压|押)(?:一个月|1个月|半个月|十五天|15天|两个月|2个月|三十天|30天)?[^。；\n]{0,10}(?:工资|薪资)|(?:工资|薪资)[^。；\n]{0,16}(?:年底|年后|次次月|第三个月|下下月|统一)[^。；\n]{0,10}(?:发放|结算|支付)|(?:离职|辞职)[^。；\n]{0,22}(?:工资|薪资)[^。；\n]{0,14}(?:不(?:予|再)?(?:发放|结算|支付)|暂缓|延后|扣发|扣除|年底|年后|次次月|第三个月|下下月|统一发放)|(?:离职|辞职)[^。；\n]{0,16}(?:不予结算|不结算|不发放工资|视为放弃)/;
+  const handoverRe = /(?:未|不|拒绝)[^。；\n]{0,12}(?:办理|完成|配合|按)[^。；\n]{0,6}(?:交接|离职手续)|(?:交接|离职手续)[^。；\n]{0,16}(?:未|不)[^。；\n]{0,8}(?:办理|完成|配合)/;
+  let withholdC = find(withholdRe);
+  if(withholdC && handoverRe.test(clauseFull(withholdC))){
+    withholdC = ctx.clauses.find(cl => !r4Clauses.has(cl.index) && !r13Clauses.has(cl.index) && !handoverRe.test(clauseFull(cl)) && withholdRe.test(clauseFull(cl)));
+  }
+  if(withholdC){
+    addPatternItem(ctx,withholdC,{
+      base:'R14',ruleId:'R14',verdict:'red',ruleName:'押工资或离职不结算',
+      short:'工资被押后或离职不结算',consequence:'工资应按月足额支付；押一个月、离职不结算或把工资拖到年底，都会让你在离职时先失去现金流，追讨还要另走投诉或仲裁。',
+      ask:'HR：工资每月几号发？离职当月工资什么时候结清？',counter:'按约定日期足额发放；离职时一次性结清，不附加审批或交接条件。',
+      basis:LAW.L30,confidence:'高',loss:0
+    },withholdRe);
+  }
+  const bonusRe = /(?:年终奖|年终奖金|十三薪|13薪|年度奖金|季度奖|绩效奖金)[^。；\n]{0,26}(?:离职|辞职|解除|不在职)[^。；\n]{0,16}(?:不(?:予|再)?(?:发放|支付|结算)|取消|扣除|清零)|(?:离职|辞职|解除)[^。；\n]{0,20}(?:年终奖|年终奖金|十三薪|13薪|年度奖金)[^。；\n]{0,16}(?:不(?:予|再)?(?:发放|支付|结算)|取消|扣除|清零)/;
+  const bonusC = find(bonusRe);
+  if(bonusC){
+    addPatternItem(ctx,bonusC,{
+      base:'R14',ruleId:'R14',verdict:'yellow',ruleName:'离职后年终奖被取消',
+      short:'离职不发年终奖',consequence:'合同写明离职后不发放年终奖或直接清零；年终奖是否属于劳动报酬要看约定和发放规则，已经确定或按比例应得的部分，仍可能主张。',
+      ask:'HR：年终奖的发放条件、计算周期和离职折算规则是什么？',counter:'写明发放条件与计算方式；离职时按已工作月份折算应得部分。',
+      basis:LAW.L30,confidence:'中',loss:0
+    },bonusRe);
+  }
+  const deductBaseRe = /(?:旷工[^。；\n]{0,14}(?:一天|1天)[^。；\n]{0,10}(?:扣|罚)[^。；\n]{0,10}(?:三天|3天|双倍|两倍))|(?:(?:未完成|未达到|未达|完不成)[^。；\n]{0,18}(?:业绩|任务|指标|考核|销售)[^。；\n]{0,18}(?:扣|减|降)[^。；\n]{0,12}(?:基本工资|底薪|工资|薪资))/;
+  const deductBaseC = find(deductBaseRe);
+  if(deductBaseC){
+    addPatternItem(ctx,deductBaseC,{
+      base:'R14',ruleId:'R14',verdict:'red',ruleName:'无依据扣减基本工资',
+      short:'旷工或业绩不达标扣基本工资',consequence:'旷工一天扣三天、业绩不达标直接扣基本工资，属于把经营风险转给你；可以扣的通常只是对应未出勤工资或依法约定的绩效，不能随意放大。',
+      ask:'HR：扣工资的计算依据和制度公示在哪里？',counter:'删除放大扣款；按实际缺勤扣减，绩效规则单独写清并公示。',
+      basis:LAW.L30,confidence:'中',loss:0
+    },deductBaseRe);
+  }
+  const fineRe = /(?:甲方|公司|用人单位|单位)[^。；\n]{0,18}(?:罚款|罚金)|(?:罚款|罚金)[^。；\n]{0,12}(?:乙方|员工|劳动者)|(?:迟到|早退|请假|旷工)[^。；\n]{0,12}(?:罚款|罚金|处以)[^。；\n]{0,10}(?:\d+\s*元|工资|薪资)/;
+  const fineC = find(fineRe);
+  if(fineC){
+    addPatternItem(ctx,fineC,{
+      base:'R14',ruleId:'R14',verdict:'yellow',ruleName:'用人单位罚款条款',
+      short:'公司可对员工罚款',consequence:'公司不是行政机关，通常没有对员工“罚款”的权力；迟到、早退等只能按实际缺勤扣工资或依合法公示的绩效制度处理，直接罚款可能被要求返还。',
+      ask:'HR：罚款依据哪份制度？制度有没有公示和签收？',counter:'删除罚款表述，改为按考勤扣减对应工资或明确的绩效规则。',
+      basis:LAW.L30,confidence:'中',loss:0
+    },fineRe);
+  }
+  const performanceRe = /(?:绩效|奖金|提成)[^。；\n]{0,20}(?:由|根据)[^。；\n]{0,12}(?:公司|甲方|领导|主管)[^。；\n]{0,10}(?:决定|确定|评定|调整)|(?:绩效|奖金|提成)[^。；\n]{0,16}(?:不固定|不保证|可扣|可减|视[^。；\n]{0,8}情况)/;
+  const performanceC = find(performanceRe);
+  if(performanceC){
+    addPatternItem(ctx,performanceC,{
+      base:'R14',ruleId:'R14',verdict:'gray',ruleName:'绩效工资规则不明',
+      short:'绩效由公司单方决定',consequence:'绩效、奖金或提成由公司单方决定，合同没有计算规则；实际发放可能远低于预期，离职时也容易就“应发多少”扯皮。',
+      ask:'HR：绩效基数、考核指标和发放条件是什么？',counter:'把绩效计算方式、考核周期和发放条件写进合同或附件。',
+      basis:LAW.L30,confidence:'中',loss:0
+    },performanceRe);
+  }
+  const wageStructureRe = /(?:工资|薪资|劳动报酬)[^。；\n]{0,24}(?:包含|包括|已含)[^。；\n]{0,22}(?:加班费|加班工资|社保补贴|社会保险补贴|全勤奖|餐补|交通补贴)/;
+  const wageStructureC = find(wageStructureRe);
+  if(wageStructureC){
+    addPatternItem(ctx,wageStructureC,{
+      base:'R14',ruleId:'R14',verdict:'yellow',ruleName:'工资结构打包',
+      short:'工资被写成包含多项费用',consequence:'把加班费、社保补贴或各类补助都算进一份工资，会让基本工资、加班费基数和社保基数被压低；实际到手不一定少，但维权时计算标准会变低。',
+      ask:'HR：基本工资、绩效、补贴和加班费分别是多少？',counter:'拆分工资构成，明确加班费与社保缴费基数。',
+      basis:LAW.L30,confidence:'中',loss:0
+    },wageStructureRe);
+  }
+  const lowBaseRe = /(?:基本工资|合同工资|底薪)[^。；\n]{0,18}(?:按|为|不低于)?[^。；\n]{0,10}(?:当地最低工资|最低工资标准)/;
+  const lowBaseC = find(lowBaseRe);
+  if(lowBaseC){
+    addPatternItem(ctx,lowBaseC,{
+      base:'R14',ruleId:'R14',verdict:'yellow',ruleName:'工资基数按最低工资写',
+      short:'合同工资按最低工资写',consequence:'合同把基本工资写成当地最低工资，其余靠绩效或现金发放；这会把加班费、社保和离职补偿的计算基数压低，实际收入还不稳定。',
+      ask:'HR：合同工资与实际工资为什么不一样？社保和加班费按哪个基数？',counter:'按真实工资约定合同工资和社保基数，避免“阴阳工资”。',
+      basis:LAW.L30,confidence:'中',loss:0
+    },lowBaseRe);
+  }
+  const unclearRe = /(?:工资|薪资|劳动报酬)[^。；\n]{0,18}(?:面议|另行商定|按公司规定|按公司薪酬制度|根据考核确定|不固定|以实际发放为准)/;
+  const unclearC = find(unclearRe);
+  if(unclearC){
+    addPatternItem(ctx,unclearC,{
+      base:'R14',ruleId:'R14',verdict:'gray',ruleName:'工资标准未写清',
+      short:'工资面议或按公司制度',consequence:'合同不写明确工资，只说面议、按公司制度或按考核确定；入职后实际发多少、怎么涨都缺少书面依据。',
+      ask:'HR：我的月工资具体是多少？由哪些部分组成？',counter:'把固定工资、绩效和发薪日写进劳动合同。',
+      basis:LAW.L17,confidence:'中',loss:0
+    },unclearRe);
+  }
+  if(ctx.items.some(it => it.ruleId === 'R14')){
+    addPending(ctx,['工资构成（基本工资/绩效/补贴）、发薪日与扣款制度的具体依据']);
+  }
+}
+
+/* R15 社保与公积金 */
+function runR15(ctx){
+  const r7Clauses = new Set(ctx.items.filter(it => it.ruleId === 'R7').map(it => it.clauseIndex));
+  const find = re => ctx.clauses.find(cl => !r7Clauses.has(cl.index) && re.test(clauseFull(cl)));
+  const delayRe = /(?:试用期(?:间|内)?|转正前|转正后|试用期满后|入职满(?:一年|1年)(?:后)?|工作满(?:一年|1年)(?:后)?)[^。；\n]{0,30}(?:不缴|不缴纳|不办理|不参保|无需缴纳|才(?:为|给)?[^。；\n]{0,8}(?:缴纳|办理|参保)|(?:后|再|开始)[^。；\n]{0,10}(?:为|给)?[^。；\n]{0,8}(?:缴纳|办理|参保))/;
+  const delayC = find(delayRe);
+  if(delayC){
+    addPatternItem(ctx,delayC,{
+      base:'R15',ruleId:'R15',verdict:'red',ruleName:'社保未从用工之日起缴纳',
+      short:'试用期或满一年后才缴社保',consequence:'社保应从用工之日起 30 日内办理；试用期不缴、转正后才缴或满一年才缴，都会造成医保、工伤和养老断档，补缴还要另走投诉。',
+      ask:'HR：社保从哪个月开始缴？按什么基数？',counter:'删除延迟参保条款，入职当月依法办理社保登记。',
+      basis:LAW.L58,confidence:'高',loss:0
+    },delayRe);
+  }
+  const subsidyRe = /(?:社保|社会保险|五险)[^。；\n]{0,26}(?:补贴|补助|折现|现金|以工资|随工资|自行缴纳|自己缴纳)|(?:不缴|不办理|不缴纳)[^。；\n]{0,18}(?:社保|社会保险)[^。；\n]{0,22}(?:补贴|补助|折现|补偿)/;
+  const subsidyC = find(subsidyRe);
+  if(subsidyC){
+    const selfPayOnly = !/(?:补贴|补助|折现|现金|以工资|随工资)/.test(clauseFull(subsidyC));
+    addPatternItem(ctx,subsidyC,{
+      base:'R15',ruleId:'R15',verdict:'red',
+      ruleName:selfPayOnly ? '社保由员工自行承担' : '以补贴代替社保',
+      short:selfPayOnly ? '社保全部自己交' : '社保折现或发补贴',
+      consequence:selfPayOnly
+        ? '合同把社保写成由你个人缴纳或自行承担；单位参保义务不因这种约定转移，但你会先失去医保、工伤和养老记录，补缴还要另走投诉。'
+        : '把社保折成现金补贴，表面多拿一点，实际没有医保、工伤和养老记录；这种约定不能免除单位参保义务，但补缴时你也要配合。',
+      ask:'HR：社保是否实际参保？补贴之外还会不会缴？',counter:'删除折现或自缴条款，依法参保并按实际工资申报基数。',
+      basis:LAW.L60,confidence:'高',loss:0
+    },subsidyRe);
+  }
+  const baseRe = /(?:按|以)[^。；\n]{0,18}(?:最低缴费基数|最低基数|最低标准|当地最低工资)[^。；\n]{0,18}(?:缴纳|申报|作为基数|为基数)|(?:未按|不按)[^。；\n]{0,18}(?:实际工资|工资总额|应发工资)[^。；\n]{0,18}(?:缴纳|申报)/;
+  const baseC = find(baseRe);
+  if(baseC){
+    addPatternItem(ctx,baseC,{
+      base:'R15',ruleId:'R15',verdict:'red',ruleName:'社保按最低基数缴纳',
+      short:'社保基数被压低',consequence:'社保不按实际工资申报，而统一按最低基数缴；每月看似少扣一点，医保个人账户、工伤待遇和养老金都会缩水。',
+      ask:'HR：社保缴费基数按多少申报？是否包含绩效和补贴？',counter:'按实际工资总额申报社保基数，并在工资条中列明。',
+      basis:LAW.L60,confidence:'高',loss:0
+    },baseRe);
+  }
+  const employeeAllRe = /(?:社保|社会保险|五险)[^。；\n]{0,26}(?:全部|全额)[^。；\n]{0,12}(?:由乙方|由员工|由个人)[^。；\n]{0,10}(?:承担|缴纳)|(?:乙方|员工|个人)[^。；\n]{0,18}(?:自行|全额|全部)[^。；\n]{0,10}(?:承担|缴纳)[^。；\n]{0,14}(?:社保|社会保险|五险)/;
+  const employeeAllC = find(employeeAllRe);
+  if(employeeAllC){
+    addPatternItem(ctx,employeeAllC,{
+      base:'R15',ruleId:'R15',verdict:'red',ruleName:'社保费用全部由员工承担',
+      short:'社保全部自己交',consequence:'单位应承担的部分也让你全额承担，实际工资会被多扣；这不因“双方同意”而合法，但每月扣款会先发生。',
+      ask:'HR：单位应缴部分为什么从我的工资里扣？',counter:'单位承担法定部分，个人部分依法代扣代缴。',
+      basis:LAW.L60,confidence:'高',loss:0
+    },employeeAllRe);
+  }
+  const housingRe = /(?:公积金|住房公积金)[^。；\n]{0,26}(?:不缴|不办理|不缴纳|个人(?:自行)?承担|由乙方承担|以补贴代替|包含在工资)/;
+  const housingC = find(housingRe);
+  if(housingC){
+    addPatternItem(ctx,housingC,{
+      base:'R15',ruleId:'R15',verdict:'yellow',ruleName:'公积金未缴或由个人承担',
+      short:'公积金不缴或自己承担',consequence:'公积金不缴、让个人全额承担或用补贴代替，会影响你后续租房、购房贷款额度；公积金属于另一套投诉渠道，处理周期可能较长。',
+      ask:'HR：公积金从什么时候开始缴？缴存比例是多少？',counter:'按工资基数和当地比例缴存，个人部分依法代扣。',
+      basis:LAW.HF20,confidence:'中',loss:0
+    },housingRe);
+  }
+  if(ctx.items.some(it => it.ruleId === 'R15')){
+    addPending(ctx,['社保参保地、缴费基数和公积金缴存比例（工资条与参保记录要能对上）']);
+  }
+}
+
+/* R16 休假与特殊保护 */
+function runR16(ctx){
+  const find = re => ctx.clauses.find(cl => re.test(clauseFull(cl)));
+  const annualRe = /(?:年休假|年假)[^。；\n]{0,32}(?:不享受|不再享受|自动放弃|放弃|不休|作废|清零|包含在(?:春节|法定节假日)|统一安排[^。；\n]{0,20}(?:不(?:再)?支付|无补偿|不补休))/;
+  const annualC = find(annualRe);
+  if(annualC){
+    addPatternItem(ctx,annualC,{
+      base:'R16',ruleId:'R16',verdict:'red',ruleName:'年休假被作废或排除',
+      short:'年假被作废',consequence:'年休假是法定权利，不能简单写成自动放弃、年底清零或包含在春节假期里；未休年假应依法安排补休或支付 300% 工资报酬。',
+      ask:'HR：年假几天？没休完怎么处理？',counter:'按累计工作年限写明年假天数；未休部分安排补休或依法支付。',
+      basis:LAW.ANNUAL5,confidence:'高',loss:0
+    },annualRe);
+  }
+  const sickRe = /病假[^。；\n]{0,26}(?:无工资|不支付|扣发(?:全部)?工资|按事假|不计薪|最低工资以下)/;
+  const sickC = find(sickRe);
+  if(sickC){
+    addPatternItem(ctx,sickC,{
+      base:'R16',ruleId:'R16',verdict:'yellow',ruleName:'病假工资被取消',
+      short:'病假不发工资',consequence:'病假期间完全不发工资或按最低工资以下处理，可能低于当地病假工资标准；具体比例看地方规定，但“病假无薪”通常站不住。',
+      ask:'HR：病假工资按什么标准发？需要哪些证明？',counter:'按当地病假工资规定执行，写明计算方式和所需材料。',
+      basis:LAW.L26,confidence:'中',loss:0
+    },sickRe);
+  }
+  const maternityRe = /(?:不得|禁止|不允许|不能|承诺|保证)[^。；\n]{0,10}(?:怀孕|生育|结婚)|(?:怀孕|生育|结婚)[^。；\n]{0,26}(?:即|就|视为|按)[^。；\n]{0,12}(?:自动离职|辞退|解除|不续签)|(?:怀孕|生育|结婚)[^。；\n]{0,26}(?:降薪|调岗|辞退|解除|不续签)/;
+  const protectiveRe = /(?:不得|禁止)[^。；\n]{0,8}(?:因|因为)[^。；\n]{0,6}(?:怀孕|生育|结婚)|(?:不得|禁止)[^。；\n]{0,14}(?:降低|辞退|解除|降薪|调岗|不续签)/;
+  let maternityC = null, maternityQ = null;
+  for(const cl of ctx.clauses){
+    if(!maternityRe.test(clauseFull(cl))) continue;
+    const q = qFilter(cl, maternityRe, protectiveRe);
+    if(q){ maternityC = cl; maternityQ = q; break; }
+  }
+  if(maternityC){
+    const q = maternityQ;
+    if(q){
+      addItem(ctx,{
+        base:'R16',ruleId:'R16',verdict:'red',ruleName:'限制婚育（无效）',
+        short:'限制怀孕/生育/结婚',clauseIndex:maternityC.index,location:clauseLabel(maternityC,maternityC.index),
+        quote:q.quote,range:q,consequence:'合同要求你在一定期限内不得怀孕、生育或结婚，或把怀孕视为离职、降薪、辞退的理由；这类条款违反女职工特殊保护规定，通常无效，但现实中会影响你的工作安排。',
+        ask:'HR：这条限制的依据是什么？怀孕后岗位和待遇怎么安排？',counter:'删除婚育限制；按女职工劳动保护规定安排产假、岗位和工资。',
+        basis:LAW.LADY5,confidence:'高',loss:0
+      });
+    }
+  }
+  const leavePayRe = /(?:婚假|丧假|产假|陪产假|护理假|育儿假)[^。；\n]{0,26}(?:无薪|不支付|不发工资|按事假|不计薪|不予批准)/;
+  const leavePayC = find(leavePayRe);
+  if(leavePayC){
+    addPatternItem(ctx,leavePayC,{
+      base:'R16',ruleId:'R16',verdict:'yellow',ruleName:'法定假期待遇被取消',
+      short:'婚丧产假不付工资',consequence:'婚假、丧假、产假、陪产假等法定假期的工资待遇被取消，可能违反当地规定；产假期间还可能涉及生育津贴。',
+      ask:'HR：这些假期按什么标准发工资？',counter:'按当地法定假期和生育保险规定执行，写明工资或津贴标准。',
+      basis:LAW.LADY5,confidence:'中',loss:0
+    },leavePayRe);
+  }
+  if(ctx.items.some(it => it.ruleId === 'R16')){
+    addPending(ctx,['年假天数、病假工资标准、婚育假期与当地规定的对应关系']);
+  }
+}
+
+/* R17 保密与成果归属 */
+function runR17(ctx){
+  const find = re => ctx.clauses.find(cl => re.test(clauseFull(cl)));
+  const allWorksRe = /(?:所有|一切|全部|无论何时|任何)[^。；\n]{0,20}(?:成果|作品|发明|创作|知识产权)[^。；\n]{0,24}(?:归|属于|归属)[^。；\n]{0,10}(?:甲方|公司)/;
+  const personalWorkRe = /(?:非工作时间|业余时间|个人时间|工作之外|与工作无关)[^。；\n]{0,30}(?:成果|作品|发明|创作|代码|设计)[^。；\n]{0,26}(?:归|属于)[^。；\n]{0,10}(?:甲方|公司)/;
+  const worksC = find(allWorksRe) || find(personalWorkRe);
+  if(worksC){
+    const q = qFilter(worksC, /(所有|一切|全部|成果|作品|发明|创作|知识产权|甲方|公司)/, null) || qAny(worksC, /(成果|作品|知识产权)/);
+    addItem(ctx,{
+      base:'R17',ruleId:'R17',verdict:'gray',ruleName:'成果归属范围过宽',
+      short:'个人成果也可能归公司',clauseIndex:worksC.index,location:clauseLabel(worksC,worksC.index),
+      quote:q ? q.quote : '',range:q||null,consequence:'合同把“所有成果”或业余时间创作也归公司；职务成果归单位通常合理，但你的课程作业、开源项目、个人作品如果没有排除，离职时可能被主张归属。',
+      ask:'HR：职务成果和个人作品的边界怎么划？',counter:'明确仅限本职工作、使用公司资源完成的成果归公司，列出个人作品和开源项目例外。',
+      basis:LAW.L23,confidence:'中',loss:0
+    });
+  }
+  const confidentialityRe = /(?:保密期限|保密义务)[^。；\n]{0,24}(?:永久|无限期|长期|离职后[^。；\n]{0,10}(?:仍然|继续))/;
+  const confidentialityC = find(confidentialityRe);
+  if(confidentialityC){
+    addPatternItem(ctx,confidentialityC,{
+      base:'R17',ruleId:'R17',verdict:'yellow',ruleName:'保密期限过长',
+      short:'保密义务永久或无限期',consequence:'保密义务写成永久、无限期或离职后继续；商业秘密在仍属秘密时可以持续保护，但范围过宽会限制你以后使用通用技能。',
+      ask:'HR：哪些信息属于商业秘密？保密期限具体多久？',counter:'列明保密信息范围；对已公开信息、通用技能和个人经验作例外。',
+      basis:LAW.L23,confidence:'中',loss:0
+    },confidentialityRe);
+  }
+  const penaltyRe = /(?:违反[^。；\n]{0,12}保密|泄露[^。；\n]{0,12}秘密|泄密)[^。；\n]{0,28}(?:赔偿|违约金|罚款)[^。；\n]{0,18}(?:全部|一切|无限|不低于|双倍|三倍)?/;
+  const penaltyC = find(penaltyRe);
+  if(penaltyC){
+    addPatternItem(ctx,penaltyC,{
+      base:'R17',ruleId:'R17',verdict:'yellow',ruleName:'保密违约赔偿无上限',
+      short:'泄密赔偿无上限',consequence:'保密违约写成赔偿全部损失、无上限或高倍罚款；真发生争议时，公司需要证明实际损失，但条款会先给你很大压力。',
+      ask:'HR：保密违约的赔偿上限和计算方式是什么？',counter:'把赔偿限定为可证明的实际损失，删除无上限和高倍惩罚。',
+      basis:LAW.C497,confidence:'中',loss:0
+    },penaltyRe);
+  }
+  const moonlightRe = /(?:不得|禁止|未经[^。；\n]{0,8}(?:同意|批准))[^。；\n]{0,14}(?:兼职|副业|对外投资|在其他单位任职|提供(?:服务|咨询))|(?:兼职|副业)[^。；\n]{0,18}(?:一经发现|视为严重违纪|解除|辞退)/;
+  const moonlightC = find(moonlightRe);
+  if(moonlightC){
+    addPatternItem(ctx,moonlightC,{
+      base:'R17',ruleId:'R17',verdict:'yellow',ruleName:'兼职或副业限制过宽',
+      short:'禁止一切兼职副业',consequence:'合同禁止一切兼职、副业或对外服务；如果范围过宽，可能影响你正常的课程项目、开源贡献和过渡收入，严重违纪还可能被解除。',
+      ask:'HR：兼职限制是否限于与公司有竞争关系的业务？',counter:'把限制限定为竞争性兼职和利益冲突，不影响个人学习和开源项目。',
+      basis:LAW.L26,confidence:'中',loss:0
+    },moonlightRe);
+  }
+  if(ctx.items.some(it => it.ruleId === 'R17')){
+    addPending(ctx,['保密信息范围、成果归属边界、个人作品/开源项目是否被排除']);
+  }
+}
+
+/* R18 离职手续与结算 */
+function runR18(ctx){
+  const r4Clauses = new Set(ctx.items.filter(it => it.ruleId === 'R4').map(it => it.clauseIndex));
+  const find = re => ctx.clauses.find(cl => re.test(clauseFull(cl)));
+  const approvalRe = /(?:辞职|离职|解除(?:劳动)?合同|解除劳动关系)[^。；\n]{0,20}(?:须|需|必须|应|应当)[^。；\n]{0,14}(?:经|由)[^。；\n]{0,14}(?:甲方|公司|领导|主管|人事)[^。；\n]{0,12}(?:批准|同意|审批)|(?:未经|未获)[^。；\n]{0,14}(?:批准|同意)[^。；\n]{0,14}(?:不得|不能|不予)[^。；\n]{0,10}(?:离职|辞职|解除)/;
+  const approvalC = find(approvalRe);
+  if(approvalC){
+    addPatternItem(ctx,approvalC,{
+      base:'R18',ruleId:'R18',verdict:'red',ruleName:'离职需要公司批准',
+      short:'辞职要公司批准',consequence:'劳动者提前 30 日书面通知即可解除，不需要公司批准；把批准作为离职前提，会把你困在“公司不同意就走不了”的状态。',
+      ask:'HR：我提交书面通知后，公司不批准怎么办？',counter:'删除审批前置；写明收到书面通知后按期办理交接和结算。',
+      basis:LAW.L37,confidence:'高',loss:0
+    },approvalRe);
+  }
+  const withholdRe = /(?:未(?:提前|办理|完成|按规定)[^。；\n]{0,22}(?:通知|交接|手续|离职)[^。；\n]{0,22}(?:工资|薪资|报酬)[^。；\n]{0,14}(?:不(?:予|再)?(?:发|结算|支付)|暂缓|延后|扣发|扣除)|(?:离职|辞职)[^。；\n]{0,18}(?:未[^。；\n]{0,12}(?:交接|手续))[^。；\n]{0,18}(?:不(?:予)?(?:发|结算|支付)|扣(?:发|除))|未(?:办理|完成|按规定)[^。；\n]{0,12}(?:交接|手续)[^。；\n]{0,26}(?:不(?:予|再)?(?:发|结算|支付)|扣(?:发|除))[^。；\n]{0,8}(?:工资|薪资|报酬))/;
+  const withholdC = ctx.clauses.find(cl => !r4Clauses.has(cl.index) && withholdRe.test(clauseFull(cl)));
+  if(withholdC){
+    addPatternItem(ctx,withholdC,{
+      base:'R18',ruleId:'R18',verdict:'red',ruleName:'未交接或未通知就扣工资',
+      short:'不交接就扣工资',consequence:'公司以未提前通知、未办交接为由扣工资或拒绝结算；工资和交接是两件事，交接争议可以另算，不能直接扣住已经产生的劳动报酬。',
+      ask:'HR：交接清单是什么？工资结算和交接能不能分开处理？',counter:'离职时先结算工资；交接按清单办理，损失赔偿另行举证。',
+      basis:LAW.L50,confidence:'高',loss:0
+    },withholdRe);
+  }
+  const certificateRe = /(?:离职证明|解除(?:劳动)?合同证明|终止(?:劳动)?合同证明|离职手续)[^。；\n]{0,26}(?:不(?:予|再)?(?:出具|办理|提供)|拒绝|扣押|与[^。；\n]{0,12}(?:工资|补偿|赔偿|交接)[^。；\n]{0,10}挂钩)|(?:档案|社会保险关系|社保关系)[^。；\n]{0,20}(?:扣押|不(?:予)?转出|不办理|拖延)/;
+  const certificateC = find(certificateRe);
+  if(certificateC){
+    addPatternItem(ctx,certificateC,{
+      base:'R18',ruleId:'R18',verdict:'red',ruleName:'离职证明或档案被扣押',
+      short:'离职证明/档案被卡',consequence:'公司拒开离职证明、扣押档案或社保关系，会影响下家入职、社保接续和考公政审；这些义务不能拿来和工资、赔偿或交接绑定。',
+      ask:'HR：离职证明什么时候开？档案和社保什么时候转？',counter:'解除时出具证明，15 日内办理档案和社保转移；交接争议另行处理。',
+      basis:LAW.L50,confidence:'高',loss:0
+    },certificateRe);
+  }
+  const autoExitRe = /(?:旷工|连续[^。；\n]{0,10}(?:日|天)|未(?:按时)?(?:到岗|上班))[^。；\n]{0,24}(?:视为|按|作)[^。；\n]{0,12}(?:自动离职|自动解除|放弃[^。；\n]{0,8}(?:工资|权利)|严重违纪)/;
+  const autoExitC = find(autoExitRe);
+  if(autoExitC){
+    addPatternItem(ctx,autoExitC,{
+      base:'R18',ruleId:'R18',verdict:'yellow',ruleName:'缺勤直接视为自动离职',
+      short:'旷工视为自动离职',consequence:'把缺勤直接写成“自动离职”，公司可能据此不办手续、不结算工资；是否构成严重违纪要看制度是否合法公示、缺勤原因和程序。',
+      ask:'HR：旷工多久算严重违纪？制度有没有公示？',counter:'改为按规章制度处理并书面通知；离职手续和工资照常结算。',
+      basis:LAW.L37,confidence:'中',loss:0
+    },autoExitRe);
+  }
+  if(ctx.items.some(it => it.ruleId === 'R18')){
+    addPending(ctx,['离职证明出具时间、工资结算日、档案和社保转移流程']);
+  }
+}
+
+/* R19 合同签订与文本 */
+function runR19(ctx){
+  const find = re => ctx.clauses.find(cl => re.test(clauseFull(cl)));
+  const laterContractRe = /(?:试用期(?:满|结束|后)|转正后|入职满[^。；\n]{0,12})[^。；\n]{0,18}(?:再|才|签订|订立)[^。；\n]{0,10}(?:劳动)?合同|(?:先|暂时)[^。；\n]{0,10}(?:不签|不签订)[^。；\n]{0,10}(?:劳动)?合同|(?:未|不)[^。；\n]{0,8}(?:签订|订立)[^。；\n]{0,10}书面[^。；\n]{0,8}(?:劳动)?合同|试用期[^。；\n]{0,10}(?:暂不|不|无需)[^。；\n]{0,10}(?:签|签订|订立)[^。；\n]{0,6}(?:劳动)?合同/;
+  const laterContractC = find(laterContractRe);
+  if(laterContractC){
+    addPatternItem(ctx,laterContractC,{
+      base:'R19',ruleId:'R19',verdict:'red',ruleName:'试用期后再签书面合同',
+      short:'先试用后签合同',consequence:'建立劳动关系就应在一个月内订立书面劳动合同；先试用、转正后再签，会让你在一段时间里没有合同，追二倍工资和证明劳动关系都更麻烦。',
+      ask:'HR：入职当天能不能签书面合同？合同期限从哪天算？',counter:'入职一个月内签订书面合同，试用期写进合同期限。',
+      basis:LAW.L10,confidence:'高',loss:0
+    },laterContractRe);
+  }
+  const probationOnlyRe = /(?:仅|只)[^。；\n]{0,10}(?:约定|签订)[^。；\n]{0,10}试用期|试用期[^。；\n]{0,18}(?:即|视为)[^。；\n]{0,10}(?:劳动)?合同|(?:劳动)?合同[^。；\n]{0,18}(?:仅|只)[^。；\n]{0,10}(?:约定|写)[^。；\n]{0,8}试用期/;
+  const probationOnlyC = find(probationOnlyRe);
+  if(probationOnlyC){
+    addPatternItem(ctx,probationOnlyC,{
+      base:'R19',ruleId:'R19',verdict:'red',ruleName:'只签试用期不签劳动合同',
+      short:'只约定试用期',consequence:'劳动合同仅约定试用期的，试用期不成立，该期限视为劳动合同期限；公司不能靠“只签试用期”随时让你走。',
+      ask:'HR：劳动合同期限和试用期分别怎么约定？',counter:'签订完整劳动合同，把试用期包含在合同期限内。',
+      basis:LAW.L19,confidence:'高',loss:0
+    },probationOnlyRe);
+  }
+  const copyRe = /(?:劳动合同|合同|协议)(?:文本|原件)?[^。；\n]{0,22}(?:由|交|留)[^。；\n]{0,12}(?:甲方|公司|单位)[^。；\n]{0,12}(?:保管|保存|留存)|(?:只|仅)[^。；\n]{0,10}(?:签|签署)[^。；\n]{0,10}(?:一份|1份)|(?:不(?:交|给|提供)|拒绝提供)[^。；\n]{0,14}(?:合同|协议)(?:文本|原件)/;
+  const copyC = find(copyRe);
+  if(copyC){
+    addPatternItem(ctx,copyC,{
+      base:'R19',ruleId:'R19',verdict:'yellow',ruleName:'合同文本不给劳动者',
+      short:'合同只由公司保管',consequence:'劳动合同文本应由双方各执一份；只签一份、公司保管或拒绝给你，之后修改条款、补填空白时你很难举证。',
+      ask:'HR：签完后能不能给我一份盖章原件？',counter:'双方各执一份，签字盖章后当场交付。',
+      basis:LAW.L16,confidence:'高',loss:0
+    },copyRe);
+  }
+  const blankRe = /(?:空白|留白)[^。；\n]{0,12}(?:合同|协议)|(?:先|先行)[^。；\n]{0,12}(?:签(?:字|署)|盖章)[^。；\n]{0,14}(?:后|再)[^。；\n]{0,10}(?:填写|补充|确定)/;
+  const blankC = find(blankRe);
+  if(blankC){
+    addPatternItem(ctx,blankC,{
+      base:'R19',ruleId:'R19',verdict:'yellow',ruleName:'空白合同或先签后填',
+      short:'空白合同/先签后填',consequence:'先签空白合同、后补内容，工资、岗位、期限都可能被改写；你签的字在形式上会对最终文本生效，举证非常被动。',
+      ask:'HR：合同内容能不能全部填写完再签字？',counter:'所有空白处填写或划掉后再签字，双方各留原件。',
+      basis:LAW.L16,confidence:'中',loss:0
+    },blankRe);
+  }
+  const disguisedRe = /(?:签订|签署|按)[^。；\n]{0,12}(?:劳务协议|合作协议|承揽协议|兼职协议|外包协议)[^。；\n]{0,24}(?:不(?:构成|属于)|代替|规避)[^。；\n]{0,10}(?:劳动关系|劳动合同)|(?:以|按)[^。；\n]{0,10}(?:劳务|合作|承揽)[^。；\n]{0,10}(?:名义|形式)[^。；\n]{0,10}(?:用工|管理)/;
+  const disguisedC = find(disguisedRe);
+  if(disguisedC){
+    addPatternItem(ctx,disguisedC,{
+      base:'R19',ruleId:'R19',verdict:'yellow',ruleName:'以劳务或合作名义用工',
+      short:'劳务/合作协议代替劳动合同',consequence:'用劳务、合作或承揽协议代替劳动合同，可能规避社保、加班费和解除保护；如果实际按员工管理，关系性质仍可能被重新认定。',
+      ask:'HR：为什么签劳务/合作协议而不是劳动合同？日常怎么管理？',counter:'按实际关系签劳动合同；如确属劳务，写清成果交付而非考勤管理。',
+      basis:LAW.L10,confidence:'中',loss:0
+    },disguisedRe);
+  }
+  const noLaborRe = /(?:不构成|不属于|并非)[^。；\n]{0,10}劳动关系/;
+  const noLaborC = find(noLaborRe);
+  if(noLaborC){
+    addPatternItem(ctx,noLaborC,{
+      base:'R19',ruleId:'R19',verdict:'gray',ruleName:'劳动关系被合同否认',
+      short:'合同声明不构成劳动关系',consequence:'合同声明不构成劳动关系，但关系性质按实际用工判断；固定岗位、考勤、绩效和持续工资都可能支持劳动关系认定。',
+      ask:'HR：日常是否按员工考勤、考核和发工资？',counter:'保留招聘、考勤、工资和管理记录，再判断是否需要主张劳动关系。',
+      basis:LAW.L10,confidence:'中',loss:0
+    },noLaborRe);
+  }
+  const cCopy = ctx.clauses.find(cl => /(一式两份|一式二份|各执一份|双方各执)/.test(clauseFull(cl)));
+  addGreen(ctx,cCopy,'合同文本',/(一式两份|一式二份|各执一份|双方各执)/,'合同一式两份、双方各执一份，属常规安排。');
+  if(ctx.items.some(it => it.ruleId === 'R19')){
+    addPending(ctx,['是否已拿到盖章的书面合同原件，空白处是否全部填写或划掉']);
+  }
+}
+
+/* R20 就业承诺与培训服务 */
+function runR20(ctx){
+  const find = re => ctx.clauses.find(cl => re.test(clauseFull(cl)));
+  const guaranteeRe = /(?:(?:保证|承诺|包|确保)[^。；\n]{0,18}(?:就业|入职|录用|转正|薪资|月薪|底薪|高薪))|(?:(?:推荐|安排|提供)[^。；\n]{0,12}就业[^。；\n]{0,32}(?:不保证|不承诺|不负责|不担保))/;
+  const guaranteeC = find(guaranteeRe);
+  if(guaranteeC){
+    addPatternItem(ctx,guaranteeC,{
+      base:'R20',ruleId:'R20',verdict:'yellow',ruleName:'就业或薪资承诺',
+      short:'包就业/保底薪资承诺',consequence:'“包就业”“保底薪资”如果只停留在口头或模糊宣传，很难变成可执行的合同义务；合同同时又写“不保证录用”，承诺基本落空。',
+      ask:'机构：推荐就业的次数、岗位范围和保底薪资条件写在哪一条？',counter:'把就业服务标准、推荐次数和未达成时的退费写进合同。',
+      basis:LAW.AD24,confidence:'中',loss:0
+    },guaranteeRe);
+  }
+  const noJobStillPayRe = /(?:无论|不管)[^。；\n]{0,14}(?:是否|有无)[^。；\n]{0,12}(?:就业|录用|入职)[^。；\n]{0,24}(?:均|仍|都)[^。；\n]{0,12}(?:还款|偿还|支付|履行)/;
+  const noJobStillPayC = find(noJobStillPayRe);
+  if(noJobStillPayC){
+    addPatternItem(ctx,noJobStillPayC,{
+      base:'R20',ruleId:'R20',verdict:'yellow',ruleName:'未就业仍需还款',
+      short:'没就业也要还贷款',consequence:'培训结束没找到工作，分期仍要照还；就业风险完全落在你身上，机构只要完成“推荐”就可能不再负责。',
+      ask:'机构：没就业时能否暂停还款、延长分期或退费？',counter:'把未就业、未推荐面试等情形下的停还款或退费安排写进合同。',
+      basis:LAW.C497,confidence:'高',loss:0
+    },noJobStillPayRe);
+  }
+  const refundPromiseRe = /(?:保过|包过|不过(?:全额)?退费|未就业(?:全额)?退费|就业不成功[^。；\n]{0,12}(?:退|返还))/;
+  const refundPromiseC = find(refundPromiseRe);
+  if(refundPromiseC){
+    addPatternItem(ctx,refundPromiseC,{
+      base:'R20',ruleId:'R20',verdict:'gray',ruleName:'保过或退费承诺',
+      short:'保过/未就业退费',consequence:'“保过”“不过退费”“未就业退费”听起来像保障，实际常附带出勤、考试、面试次数等条件；触发条件不写清，退费会很难。',
+      ask:'机构：退费触发条件、办理时限和扣除费用是什么？',counter:'把退费条件、比例、时限和流程写成可核对的条款。',
+      basis:LAW.C20,confidence:'中',loss:0
+    },refundPromiseRe);
+  }
+  if(ctx.items.some(it => it.ruleId === 'R20')){
+    addPending(ctx,['就业服务的岗位范围、推荐次数、未就业时的退费或停还款安排']);
+  }
 }
 
 /* greens（劳动合同） */
 function runLaborGreens(ctx){
   const cHours = ctx.clauses.find(cl => /(标准工时制|每日工作\s*8\s*小时|每周工作\s*40\s*小时)/.test(clauseFull(cl)));
   addGreen(ctx,cHours,'工作时间',/(标准工时制|每日工作|每周工作)/,'标准工时、每日 8 小时与每周 40 小时已写明。');
-  const socialRed = ctx.items.some(it => it.ruleName === '放弃社保（无效）');
-  if(!socialRed){
+  const socialIssue = ctx.items.some(it => /社保|社会保险|公积金/.test(it.ruleName || ''));
+  if(!socialIssue){
     const cSocial = ctx.clauses.find(cl => /(缴纳(社会保险|社保)|社会保险)/.test(clauseFull(cl)) && !/(放弃|不缴|自理|自行承担)/.test(clauseFull(cl)));
     addGreen(ctx,cSocial,'社会保险',/(社会保险|社保)/,'约定依法缴纳社会保险，属常规条款。');
   }
@@ -1245,6 +2087,13 @@ function buildPending(ctx){
       if(has(/试用期/)) push(['用人单位所在地的最低工资标准（核对试用期工资是否另触最低线）']);
       if(has(/竞业/)) push(['你的岗位是否属于竞业限制适用人员，补偿标准怎么定']);
       if(has(/押金|保证金/)) push(['保证金是否已经实际交纳、有没有收据']);
+      if(has(/加班|工时|调休/)) push(['公司实行标准工时、综合工时还是不定时工时？是否经过审批？']);
+      if(has(/工资|绩效|扣款/)) push(['工资构成、绩效规则、发薪日与实际扣款记录']);
+      if(has(/社保|公积金/)) push(['社保参保地、缴费基数和公积金缴存比例']);
+      if(has(/年假|休假|病假|产假|婚育/)) push(['年假天数、病假工资和婚育假期与当地规定的对应关系']);
+      if(has(/保密|成果归属|兼职/)) push(['保密信息范围、成果归属边界与个人作品例外']);
+      if(has(/离职|交接|证明/)) push(['离职证明出具时间、工资结算日、档案和社保转移流程']);
+      if(has(/合同文本|先签|空白|试用期后/)) push(['是否已拿到盖章的书面合同原件，空白处是否填写完整']);
       push(['公司是否另有培训协议、保密协议或补充协议（当前文本里没有）','合同主体名称是否与营业执照、录取通知一致']);
     }else if(pack === 'intern'){
       push(['学校是否统一购买实习责任保险或意外伤害保险','这是学校组织的顶岗实习，还是你自行联系的实习','实习补贴是否达到学校实习备案或协议模板的要求','这份实习是否实际按员工管理（考勤、绩效、固定工资）——可能被认定为劳动关系']);
@@ -1270,7 +2119,7 @@ function makeOneLiner(items,counts){
   }else if(counts.gray){
     s = `没有明显红线；${counts.gray} 件事要确认，先看「${top.short}」。`;
   }else{
-    s = '这 12 类规则没有扫到明显风险；金额、合同主体和附件仍要人工核对。';
+    s = `这 ${RULE_LIBRARY.length} 类规则没有扫到明显风险；金额、合同主体和附件仍要人工核对。`;
   }
   return s.length > 60 ? s.slice(0,58) + '…' : s;
 }
@@ -1343,9 +2192,9 @@ function analyzeContract(text, options){
     items:[],pending:[],seq:{},step:0
   };
   if(packs.includes('probation')){ runR1(ctx);runR2(ctx);runR3(ctx); }
-  if(packs.includes('labor')){ runR4(ctx);runR5(ctx);runR6(ctx);runR7(ctx);runR11(ctx);runR12(ctx);runLaborGreens(ctx); }
+  if(packs.includes('labor')){ runR4(ctx);runR5(ctx);runR6(ctx);runR7(ctx);runR11(ctx);runR12(ctx);runR13(ctx);runR14(ctx);runR15(ctx);runR16(ctx);runR17(ctx);runR18(ctx);runR19(ctx);runLaborGreens(ctx); }
   if(packs.includes('intern')) runR10(ctx);
-  if(packs.includes('loan')) runR9(ctx);
+  if(packs.includes('loan')){ runR9(ctx);runR20(ctx); }
   if(packs.includes('three-party')) runR8(ctx);
   ctx.items.sort((a,b) => (VERDICT_ORDER[a.verdict] - VERDICT_ORDER[b.verdict]) || ((b.loss || 0) - (a.loss || 0)) || (a.seq - b.seq));
   const counts = {red:0,yellow:0,gray:0,green:0};

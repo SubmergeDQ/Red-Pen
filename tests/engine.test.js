@@ -92,9 +92,9 @@ test('三方协议样本运行三方规则，并追加文本中出现的试用�
   assert.ok(analysis.packs.includes('probation'));
   assert.ok(!analysis.packs.includes('labor'));
   const r8 = byRule(analysis, 'R8');
-  assert.equal(r8.length, 1);
-  assert.equal(r8[0].verdict, 'yellow');
-  assert.ok(r8[0].loss >= 8000);
+  assert.equal(r8.length, 2);
+  assert.ok(r8.every(item => item.verdict === 'yellow'));
+  assert.deepEqual(r8.map(item => item.loss).sort((a, b) => a - b), [5000, 8000]);
   assert.equal(byRule(analysis, 'R4').length, 0);
 });
 
@@ -163,4 +163,217 @@ test('实习协议同时出现劳动者与用人单位时，追加劳动与试�
   assert.ok(analysis.packs.includes('probation'));
   assert.ok(byRule(analysis, 'R1').some(item => item.verdict === 'red'));
   assert.ok(byRule(analysis, 'R2').some(item => item.verdict === 'red'));
+});
+
+test('R1 识别续签再次约定试用期', () => {
+  const text = baseContract.replace(
+    '第一条 合同期限\n本合同期限自 2026 年 1 月 1 日起至 2028 年 12 月 31 日止。',
+    '第一条 试用期\n试用期 3 个月。劳动合同续签时再次约定试用期 2 个月。'
+  );
+  const r1 = byRule(analyzeContract(text), 'R1');
+  assert.ok(r1.some(item => item.verdict === 'red' && item.ruleName.includes('重复约定试用期')));
+});
+
+test('R2 识别试用期完全不发工资', () => {
+  const text = baseContract.replace(
+    '第二条 劳动报酬\n乙方转正后工资为每月 8000 元。',
+    '第二条 试用期工资\n试用期 3 个月，试用期不发工资，转正后工资为每月 8000 元。'
+  );
+  const r2 = byRule(analyzeContract(text), 'R2');
+  assert.ok(r2.some(item => item.verdict === 'red' && item.ruleName.includes('不支付工资')));
+});
+
+test('R3 识别考核不通过可随时辞退且无需说明理由', () => {
+  const text = baseContract.replace(
+    '第三条 社会保险\n甲方依法为乙方缴纳社会保险。',
+    '第三条 试用期解除\n试用期考核不通过或末位淘汰的，公司可随时辞退，无需说明理由。'
+  );
+  const r3 = byRule(analyzeContract(text), 'R3');
+  assert.ok(r3.some(item => item.verdict === 'red' && item.ruleName.includes('不说明理由')));
+});
+
+test('R6 同时提示竞业补偿打包与范围过宽', () => {
+  const text = baseContract.replace(
+    '第三条 社会保险\n甲方依法为乙方缴纳社会保险。',
+    '第三条 竞业限制\n乙方离职后 2 年内不得在全国范围内从事同行业任何工作，竞业补偿已包含在工资中。'
+  );
+  const r6 = byRule(analyzeContract(text), 'R6');
+  assert.ok(r6.some(item => item.verdict === 'gray' && item.ruleName.includes('补偿')));
+  assert.ok(r6.some(item => item.verdict === 'yellow' && item.ruleName.includes('范围过宽')));
+});
+
+test('R7 识别提前放弃经济补偿或工伤待遇', () => {
+  const text = baseContract.replace(
+    '第三条 社会保险\n甲方依法为乙方缴纳社会保险。',
+    '第三条 补偿\n乙方自愿放弃经济补偿金和工伤保险待遇。'
+  );
+  const r7 = byRule(analyzeContract(text), 'R7');
+  assert.ok(r7.some(item => item.verdict === 'red' && item.ruleName.includes('放弃法定补偿')));
+});
+
+test('R7 识别随时解除且不补偿，法定解除情形不误报', () => {
+  const text = baseContract.replace(
+    '第三条 社会保险\n甲方依法为乙方缴纳社会保险。',
+    '第三条 解除\n甲方可随时解除劳动合同，无需支付经济补偿。'
+  );
+  const r7 = byRule(analyzeContract(text), 'R7');
+  assert.ok(r7.some(item => item.verdict === 'red' && item.ruleName.includes('随时解除')));
+  assert.ok(r7.some(item => item.verdict === 'red' && item.ruleName.includes('经济补偿')));
+  const fault = analyzeContract(baseContract.replace(
+    '第三条 社会保险\n甲方依法为乙方缴纳社会保险。',
+    '第三条 解除\n乙方严重违纪的，甲方可随时解除劳动合同，无需支付经济补偿。'
+  ));
+  assert.equal(byRule(fault, 'R7').length, 0);
+});
+
+test('R11 识别要求提供担保人', () => {
+  const text = baseContract.replace(
+    '第三条 社会保险\n甲方依法为乙方缴纳社会保险。',
+    '第三条 担保\n乙方入职时须提供一名本地担保人承担连带保证责任。'
+  );
+  const r11 = byRule(analyzeContract(text), 'R11');
+  assert.ok(r11.some(item => item.verdict === 'red' && item.ruleName.includes('担保')));
+});
+
+test('R13 识别加班费打包、低基数与单休，并与 R14 去重', () => {
+  const text = baseContract.replace(
+    '第三条 社会保险\n甲方依法为乙方缴纳社会保险。',
+    '第三条 工时与加班\n公司实行单休，乙方加班费按基本工资计算，工资中已包含加班费。'
+  );
+  const analysis = analyzeContract(text);
+  const r13 = byRule(analysis, 'R13');
+  assert.ok(r13.some(item => item.verdict === 'red' && item.ruleName.includes('加班费被排除')));
+  assert.ok(r13.some(item => item.verdict === 'yellow' && item.ruleName.includes('计算基数偏低')));
+  assert.ok(r13.some(item => item.verdict === 'yellow' && item.ruleName.includes('工时安排')));
+  assert.ok(!byRule(analysis, 'R14').some(item => item.quote.includes('加班费')));
+});
+
+test('R14 识别押工资与无依据扣基本工资', () => {
+  const text = baseContract.replace(
+    '第二条 劳动报酬\n乙方转正后工资为每月 8000 元。',
+    '第二条 工资支付\n甲方每月押一个月工资，次次月发放；未完成业绩的，扣发当月基本工资。'
+  );
+  const r14 = byRule(analyzeContract(text), 'R14');
+  assert.ok(r14.some(item => item.verdict === 'red' && item.ruleName.includes('押工资')));
+  assert.ok(r14.some(item => item.verdict === 'red' && item.ruleName.includes('扣减基本工资')));
+});
+
+test('R14 识别押半个月工资与迟到罚款', () => {
+  const text = baseContract.replace(
+    '第二条 劳动报酬\n乙方转正后工资为每月 8000 元。',
+    '第二条 工资\n甲方每月押半个月工资；迟到一次罚款 50 元。'
+  );
+  const r14 = byRule(analyzeContract(text), 'R14');
+  assert.ok(r14.some(item => item.verdict === 'red' && item.ruleName.includes('押工资')));
+  assert.ok(r14.some(item => item.verdict === 'yellow' && item.ruleName.includes('罚款')));
+});
+
+test('R14 识别离职后取消年终奖', () => {
+  const text = baseContract.replace(
+    '第二条 劳动报酬\n乙方转正后工资为每月 8000 元。',
+    '第二条 奖金\n乙方离职的，当年度年终奖不予发放。'
+  );
+  const r14 = byRule(analyzeContract(text), 'R14');
+  assert.ok(r14.some(item => item.verdict === 'yellow' && item.ruleName.includes('年终奖')));
+});
+
+test('R15 识别试用期满后才缴社保，合法社保条款不误报', () => {
+  const bad = analyzeContract(baseContract.replace(
+    '第三条 社会保险\n甲方依法为乙方缴纳社会保险。',
+    '第三条 社会保险\n试用期满后甲方为乙方缴纳社会保险。'
+  ));
+  assert.ok(byRule(bad, 'R15').some(item => item.verdict === 'red' && item.ruleName.includes('用工之日起')));
+  const good = analyzeContract(baseContract);
+  assert.equal(byRule(good, 'R15').length, 0);
+});
+
+test('R16 识别年假作废，且不把女职工保护条款误报为限制婚育', () => {
+  const bad = analyzeContract(baseContract.replace(
+    '第三条 社会保险\n甲方依法为乙方缴纳社会保险。',
+    '第三条 休假\n乙方年休假自动作废，未休完不支付补偿。'
+  ));
+  assert.ok(byRule(bad, 'R16').some(item => item.verdict === 'red' && item.ruleName.includes('年休假')));
+  const good = analyzeContract(baseContract.replace(
+    '第三条 社会保险\n甲方依法为乙方缴纳社会保险。',
+    '第三条 女职工保护\n甲方不得因乙方怀孕、生育降低工资或辞退乙方。'
+  ));
+  assert.equal(byRule(good, 'R16').length, 0);
+});
+
+test('R17 识别过宽成果归属与永久保密', () => {
+  const text = baseContract.replace(
+    '第三条 社会保险\n甲方依法为乙方缴纳社会保险。',
+    '第三条 保密\n乙方在职期间及离职后所有成果归甲方所有，保密义务永久有效。'
+  );
+  const r17 = byRule(analyzeContract(text), 'R17');
+  assert.ok(r17.some(item => item.verdict === 'gray' && item.ruleName.includes('成果归属')));
+  assert.ok(r17.some(item => item.verdict === 'yellow' && item.ruleName.includes('保密期限')));
+});
+
+test('R18 识别离职审批与未交接扣工资，并避免与 R14 重复', () => {
+  const text = baseContract.replace(
+    '第三条 社会保险\n甲方依法为乙方缴纳社会保险。',
+    '第三条 离职\n乙方辞职须经甲方批准；未办理交接的，甲方不予结算工资。'
+  );
+  const analysis = analyzeContract(text);
+  const r18 = byRule(analysis, 'R18');
+  assert.ok(r18.some(item => item.verdict === 'red' && item.ruleName.includes('公司批准')));
+  assert.ok(r18.some(item => item.verdict === 'red' && item.ruleName.includes('扣工资')));
+  assert.ok(!byRule(analysis, 'R14').some(item => item.quote.includes('不予结算')));
+});
+
+test('R19 识别试用期后签合同与只由公司保管，常规各执一份不误报', () => {
+  const bad = analyzeContract(baseContract.replace(
+    '第三条 社会保险\n甲方依法为乙方缴纳社会保险。',
+    '第三条 合同签订\n试用期满后双方再签订劳动合同，合同由甲方保管。'
+  ));
+  assert.ok(byRule(bad, 'R19').some(item => item.verdict === 'red' && item.ruleName.includes('试用期后')));
+  assert.ok(byRule(bad, 'R19').some(item => item.verdict === 'yellow' && item.ruleName.includes('合同文本')));
+  const good = analyzeContract(baseContract.replace(
+    '第三条 社会保险\n甲方依法为乙方缴纳社会保险。',
+    '第三条 合同文本\n本合同一式两份，甲乙双方各执一份。'
+  ));
+  assert.equal(byRule(good, 'R19').length, 0);
+  assert.ok(good.items.some(item => item.verdict === 'green' && item.ruleName === '合同文本'));
+  const noContract = analyzeContract(baseContract.replace(
+    '第三条 社会保险\n甲方依法为乙方缴纳社会保险。',
+    '第三条 合同签订\n试用期暂不签订劳动合同，转正后再签。'
+  ));
+  const r19 = byRule(noContract, 'R19');
+  assert.equal(r19.length, 1);
+  assert.equal(r19[0].verdict, 'red');
+});
+
+test('R20 识别就业承诺、未就业仍还款与退费承诺', () => {
+  const text = `培训服务协议
+甲方（培训机构）：测试公司
+乙方（学员）：测试学生
+
+第一条 就业服务
+甲方承诺包就业，保底月薪 6000 元。
+第二条 付款
+培训费 19800 元，乙方通过教育分期分 12 期还款，无论是否就业均须按月还款。
+第三条 退费
+未就业全额退费。`;
+  const analysis = analyzeContract(text);
+  assert.ok(analysis.packs.includes('loan'));
+  const r20 = byRule(analysis, 'R20');
+  assert.ok(r20.some(item => item.verdict === 'yellow' && item.ruleName.includes('就业')));
+  assert.ok(r20.some(item => item.verdict === 'yellow' && item.ruleName.includes('未就业仍需还款')));
+  assert.ok(r20.some(item => item.verdict === 'gray' && item.ruleName.includes('退费')));
+});
+
+test('R8 识别单位单方解约不承担违约责任', () => {
+  const text = `三方协议
+甲方（用人单位）：测试公司
+乙方（毕业生）：测试学生
+
+第一条 违约责任
+乙方未按期报到的，应赔偿甲方 5000 元。
+第二条 解约
+甲方有权随时解除本协议，且不承担任何违约责任。`;
+  const analysis = analyzeContract(text);
+  assert.equal(analysis.docKey, 'three-party');
+  const r8 = byRule(analysis, 'R8');
+  assert.ok(r8.some(item => item.verdict === 'yellow' && item.ruleName.includes('单位单方解约')));
 });

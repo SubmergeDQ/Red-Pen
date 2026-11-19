@@ -118,11 +118,11 @@ npm test
 
 | 规则包 | 覆盖规则 | 触发方式 |
 |---|---|---|
-| 劳动合同 | R4–R7、R11–R12 + 常规绿线 | 标题/正文出现劳动合同、劳动者、用人单位等信号 |
+| 劳动合同 | R4–R7、R11–R19 + 常规绿线 | 标题/正文出现劳动合同、劳动者、用人单位等信号 |
 | 试用期 | R1–R3 | 正文出现"试用期" |
 | 实习协议 | R10 | 实习协议、实习单位、实习学生等信号 |
 | 三方协议 | R8 | 三方协议、毕业生就业协议等信号 |
-| 培训贷 | R9 | 培训分期、教育分期、还款、服务费等信号 |
+| 培训贷 | R9、R20 | 培训分期、教育分期、还款、服务费等信号 |
 
 因此，一份劳动合同里如果夹着"培训费分 12 期"，会同时跑劳动合同规则和培训贷规则；报告顶部会写明实际应用的规则包。
 
@@ -148,7 +148,7 @@ npm test
 
 实际实现里，排除判断下沉到了句子级：同一条里出现"服务期"不会让另一句违法的"提前离职赔 2 万"被漏掉。
 
-### 已实现的规则（部分）
+### 已实现的规则（20 条）
 
 | 编号 | 规则 | 依据 |
 |---|---|---|
@@ -164,8 +164,16 @@ npm test
 | R10 | 实习协议保障（含意外险） | 《职业学校学生实习管理规定》（条文序号需核对） |
 | R11 | 不得扣押证件、收取财物 | 《劳动合同法》第九条 |
 | R12 | 劳动者解除的通知期 | 第三十七条 |
+| R13 | 工时与加班费 | 第三十一条；《劳动法》第四十四条 |
+| R14 | 工资支付与扣款 | 第三十条、第五十条、第八十五条 |
+| R15 | 社保与公积金 | 《社会保险法》第五十八条、第六十条、第八十六条；《住房公积金管理条例》第二十条 |
+| R16 | 休假与特殊保护 | 《职工带薪年休假条例》第五条；《女职工劳动保护特别规定》第五条 |
+| R17 | 保密与成果归属 | 《劳动合同法》第二十三条、第二十六条 |
+| R18 | 离职手续与结算 | 第三十七条、第五十条、第八十九条 |
+| R19 | 合同签订与文本 | 第十条、第十六条、第八十二条 |
+| R20 | 就业承诺与培训服务 | 《广告法》第二十四条；《消费者权益保护法》第二十条 |
 
-> R1–R8、R11、R12 的条文序号已核对。R10 引用的《职业学校学生实习管理规定》存在版本修订，具体条文序号仍以最新有效版本为准，界面中会标注"需核对"而不是猜测。
+> R1–R9、R11–R20 的条文序号已核对。R10 引用的《职业学校学生实习管理规定》存在版本修订，具体条文序号仍以最新有效版本为准，界面中会标注"需核对"而不是猜测。
 
 ## 技术架构
 
@@ -176,7 +184,7 @@ npm test
 | 层 | 文件 | 说明 |
 |---|---|---|
 | 界面 | `index.html` | 单页 Web App，移动端优先，字体 ≥15px，适合截图传播 |
-| 判定 | `engine.js` | UMD 模块，浏览器和 Node 共用；12 条规则 + 多规则包调度 |
+| 判定 | `engine.js` | UMD 模块，浏览器和 Node 共用；20 条规则 + 多规则包调度 |
 | 解释 | 规则模板 | 由结构化结果直接生成，不调用模型 |
 | 测试 | `tests/engine.test.js` | `node --test`，覆盖误判修复与多规则包 |
 | 存储 | 无 | 刷新即清空，不写 localStorage |
@@ -196,13 +204,13 @@ npm test
 - **判定引擎**：`match` + `exclude` 的双阶段匹配，以及"先看句子、再看条款"的排除逻辑，由 Qoder 生成初版，人工调整优先级和排除规则。
 - **多规则包**：从"一个文件只跑一种规则"改成"主类型 + 内容信号追加规则包"，并补了手动类型覆盖。Qoder 生成调度骨架，人工处理三方协议与劳动合同的判定冲突。
 - **界面**：判定卡片的四段式布局（原文 / 依据 / 后果 / 动作），反复调了三轮才把"体检报告感"做出来。
-- **测试**：把规则引擎从单文件 HTML 中拆出，补了 11 个回归用例，专门盯住"百分比掩盖具体金额""同一条出现服务期导致漏判""甲方通知期误报"这类容易复发的问题。
+- **测试**：把规则引擎从单文件 HTML 中拆出，补了 29 个回归用例，专门盯住"百分比掩盖具体金额""同一条出现服务期导致漏判""甲方通知期误报""保护性条款被误判"这类容易复发的问题。
 
 ## 不足与反思
 
 写在这里是因为我觉得它比成果本身更值得说。
 
-**1. 规则库覆盖不完整。** 目前 12 条规则覆盖的是最高频的坑，但劳动合同里的坑远不止这些——比如工时制度、加班费计算基数、调岗调薪条款、保密协议范围，都还没做。一个只覆盖 12 条规则的工具，会有明显的"漏检"感。
+**1. 规则库覆盖仍不完整。** 目前 20 条规则覆盖了试用期、违约金、工时加班、工资社保、休假、保密、离职和合同签订等高频风险，但劳动合同里的坑远不止这些——工伤认定与待遇、经济补偿计算、调岗调薪的合理性边界、竞业补偿的地方标准，目前仍只能提示"去确认"。规则抓的是文本信号，抓不到"公司实际怎么做"；用户仍会有漏检感。
 
 **2. 条款定位不精确。** 用户粘贴一段文本，我能判断内容，但很难准确定位到"第几条第几款"。目前只能依赖用户文本里的编号；没有编号时，只能输出段落位置。这对正式使用是个硬伤。
 
@@ -232,7 +240,7 @@ npm test
 
 Students in China face three documents at graduation: the tripartite employment agreement, internship agreements, and employment contracts with probation clauses. These are signed without explanation, are hard to reverse, and problems surface only after it's too late.
 
-Red Pen takes pasted contract text, runs it through a local rule engine (12 rules mapped to specific articles of the Labor Contract Law and Civil Code), and returns a clause-by-clause verdict: **what happens if you sign this**, **which article it violates (with the original text)**, and **what to ask and how to negotiate**.
+Red Pen takes pasted contract text, runs it through a local rule engine (20 rules mapped to specific articles across the Labor Contract Law, Labor Law, Social Insurance Law, Civil Code and related regulations), and returns a clause-by-clause verdict: **what happens if you sign this**, **which article it violates (with the original text)**, and **what to ask and how to negotiate**.
 
 Verdicts are graded 🔴 red (legally void or conflicting), 🟡 yellow (legal but unfavorable), ⚪ gray (depends on your situation), 🟢 green (standard).
 
