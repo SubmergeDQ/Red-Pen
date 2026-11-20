@@ -5,15 +5,16 @@ import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
+import 'design/design.dart';
 import 'pages/about_page.dart';
 import 'pages/analyzing_page.dart';
 import 'pages/intake_page.dart';
 import 'pages/review_page.dart';
 import 'state/review_controller.dart';
 import 'state/update_controller.dart';
-import 'theme.dart';
-import 'ui/common.dart';
-import 'ui/desktop_shell.dart';
+import 'ui/app_shell.dart';
+import 'ui/rules_panel.dart';
+import 'ui/update_prompt.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -58,7 +59,7 @@ class _RedPenAppState extends State<RedPenApp> {
     return MaterialApp(
       title: '红笔 · 签约前 5 分钟',
       debugShowCheckedModeBanner: false,
-      theme: R.theme(),
+      theme: buildAppTheme(),
       home: HomeShell(controller: _controller, update: widget.update),
     );
   }
@@ -87,8 +88,7 @@ class _HomeShellState extends State<HomeShell> {
     WidgetsBinding.instance.addPostFrameCallback((_) => _checkForUpdates());
   }
 
-  /// Runs once per launch. A skipped version or a second check stays silent,
-  /// so the prompt can never repeat within the same session.
+  /// 每次启动检查一次；跳过的版本或同一会话内不会再次提示。
   Future<void> _checkForUpdates() async {
     final update = widget.update;
     if (update.loading || update.releases.isNotEmpty) return;
@@ -130,9 +130,9 @@ class _HomeShellState extends State<HomeShell> {
       controller.resetAll();
       return;
     }
-    final replace = await showDialog<bool>(
+    final replace = await showAppDialog<bool>(
       context: context,
-      barrierColor: R.barrier,
+      maxWidth: 420,
       builder: (context) => const _NewDocumentDialog(),
     );
     if (replace == true) controller.resetAll();
@@ -167,8 +167,8 @@ class _HomeShellState extends State<HomeShell> {
       listenable: controller,
       builder: (context, _) {
         final page = AnimatedSwitcher(
-          duration: const Duration(milliseconds: 300),
-          switchInCurve: Curves.easeOutCubic,
+          duration: AppDuration.page,
+          switchInCurve: AppDuration.curve,
           switchOutCurve: Curves.easeInCubic,
           layoutBuilder: (current, previous) => Stack(
             alignment: Alignment.topCenter,
@@ -201,31 +201,18 @@ class _HomeShellState extends State<HomeShell> {
         );
 
         final desktop = MediaQuery.sizeOf(context).width >= 900 &&
-            DesktopShell.supports(defaultTargetPlatform);
+            (defaultTargetPlatform == TargetPlatform.windows ||
+                defaultTargetPlatform == TargetPlatform.macOS ||
+                defaultTargetPlatform == TargetPlatform.linux);
 
-        Widget shell = desktop
-            ? _withShortcuts(
-                DesktopShell(
-                  controller: controller,
-                  onRules: () => showRulesPanel(context),
-                  onNewDocument: () => _requestNewDocument(context),
-                  onAbout: _showAbout,
-                  child: page,
-                ),
-              )
-            : Column(
-                children: [
-                  DeskTopBar(
-                    controller: controller,
-                    onHome: () => _requestNewDocument(context),
-                    onRules: () => showRulesPanel(context),
-                    onCopyReport: controller.copyReport,
-                    onNewDocument: () => _requestNewDocument(context),
-                    onAbout: _showAbout,
-                  ),
-                  Expanded(child: page),
-                ],
-              );
+        final shell = AppShell(
+          controller: controller,
+          update: widget.update,
+          onRules: () => showRulesPanel(context),
+          onAbout: _showAbout,
+          onNewDocument: () => _requestNewDocument(context),
+          child: page,
+        );
 
         return PopScope(
           canPop: controller.phase == Phase.intake,
@@ -233,19 +220,19 @@ class _HomeShellState extends State<HomeShell> {
             if (!didPop) controller.editText();
           },
           child: Scaffold(
-            backgroundColor: R.desk,
+            backgroundColor: AppColors.canvas,
             body: Stack(
               children: [
-                shell,
+                desktop ? _withShortcuts(shell) : shell,
                 Positioned(
-                  left: 20,
-                  right: 20,
-                  bottom: 20,
+                  left: AppSpace.x5,
+                  right: AppSpace.x5,
+                  bottom: AppSpace.x20,
                   child: IgnorePointer(
                     child: Align(
                       alignment: Alignment.bottomLeft,
                       child: AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 180),
+                        duration: AppDuration.base,
                         switchInCurve: Curves.easeOut,
                         switchOutCurve: Curves.easeIn,
                         transitionBuilder: (child, animation) => FadeTransition(
@@ -260,7 +247,7 @@ class _HomeShellState extends State<HomeShell> {
                         ),
                         child: _notice == null
                             ? const SizedBox.shrink()
-                            : _NoticeToast(key: ValueKey(_notice), message: _notice!),
+                            : AppToast(key: ValueKey(_notice), message: _notice!),
                       ),
                     ),
                   ),
@@ -274,82 +261,51 @@ class _HomeShellState extends State<HomeShell> {
   }
 }
 
-class _NoticeToast extends StatelessWidget {
-  const _NoticeToast({super.key, required this.message});
-
-  final String message;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      constraints: const BoxConstraints(maxWidth: 380),
-      padding: const EdgeInsets.fromLTRB(14, 10, 14, 11),
-      decoration: BoxDecoration(
-        color: R.brand,
-        borderRadius: BorderRadius.circular(6),
-        boxShadow: R.shadowSheet,
-      ),
-      child: Text(
-        message,
-        style: R.sans(size: 12.5, color: R.cream, height: 1.55),
-      ),
-    );
-  }
-}
-
 class _NewDocumentDialog extends StatelessWidget {
   const _NewDocumentDialog();
 
   @override
   Widget build(BuildContext context) {
-    return Dialog(
-      backgroundColor: Colors.transparent,
-      insetPadding: const EdgeInsets.all(24),
-      child: ConstrainedBox(
-        constraints: const BoxConstraints(maxWidth: 400),
-        child: Container(
-          padding: const EdgeInsets.fromLTRB(22, 22, 22, 18),
-          decoration: BoxDecoration(
-            color: R.sheet,
-            border: Border.all(color: R.rule),
-            borderRadius: BorderRadius.circular(8),
-            boxShadow: R.shadowFloat,
+    return AppDialogSurface(
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          AppDialogHeader(
+            title: '换一份合同？',
+            subtitle: '当前正文和核对结果会从内存里清掉。',
+            onClose: () => Navigator.of(context).pop(false),
           ),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                '换一份合同？',
-                style: R.serif(size: 20, weight: FontWeight.w600, height: 1.5),
-              ),
-              const SizedBox(height: 8),
-              Text(
-                '当前正文和核对结果会从内存里清掉。红笔不保存合同，清掉之后无法找回。',
-                style: R.sans(size: 13, color: R.muted, height: 1.75),
-              ),
-              const SizedBox(height: 20),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  DeskButton(
+          Padding(
+            padding: const EdgeInsets.fromLTRB(AppSpace.x5, 0, AppSpace.x5, 0),
+            child: Text(
+              '红笔不保存合同，清掉之后无法找回。',
+              style: AppType.bodySm(color: AppColors.inkSecondary),
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(AppSpace.x5, AppSpace.x5, AppSpace.x5, AppSpace.x5),
+            child: Row(
+              children: [
+                Expanded(
+                  child: AppButton(
                     label: '继续看',
-                    kind: DeskButtonKind.quiet,
-                    height: 42,
+                    tone: AppButtonTone.secondary,
                     onPressed: () => Navigator.of(context).pop(false),
                   ),
-                  const SizedBox(width: 8),
-                  DeskButton(
+                ),
+                const SizedBox(width: AppSpace.x2),
+                Expanded(
+                  child: AppButton(
                     label: '换一份',
-                    kind: DeskButtonKind.primary,
-                    height: 42,
+                    tone: AppButtonTone.danger,
                     onPressed: () => Navigator.of(context).pop(true),
                   ),
-                ],
-              ),
-            ],
+                ),
+              ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

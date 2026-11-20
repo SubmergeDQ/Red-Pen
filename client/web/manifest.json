@@ -1,11 +1,11 @@
 {
-    "name": "red_pen",
-    "short_name": "red_pen",
+    "name": "红笔 · 签约前 5 分钟",
+    "short_name": "红笔",
     "start_url": ".",
     "display": "standalone",
-    "background_color": "#0175C2",
-    "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "background_color": "#F2F4F7",
+    "theme_color": "#1F3243",
+    "description": "学生与应届生的合同自查工具：逐条标出风险、法律依据与谈判说法。",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [

@@ -16,7 +16,10 @@ const double ocrTileAspect = 2.0;
 const double ocrTileOverlap = 0.08;
 
 /// Prepares 1..n JPEG tiles, top to bottom, in reading order.
-List<Uint8List> prepareOcrTiles(Uint8List bytes) {
+///
+/// [tileAspect] is height / width. Android's ML Kit rejects very tall images,
+/// so the Android service asks for a squarer tile than the Windows engine.
+List<Uint8List> prepareOcrTiles(Uint8List bytes, {double tileAspect = ocrTileAspect}) {
   final decoded = img.decodeImage(bytes);
   if (decoded == null) {
     throw const FormatException('无法读取这张图片');
@@ -26,7 +29,7 @@ List<Uint8List> prepareOcrTiles(Uint8List bytes) {
   image = _resizeToWidth(image);
   image = _flattenOnWhite(image);
 
-  final tileHeight = math.max(200, (image.width * ocrTileAspect).round());
+  final tileHeight = math.max(200, (image.width * tileAspect).round());
   final overlap = (tileHeight * ocrTileOverlap).round();
 
   if (image.height <= (tileHeight * 1.15).round()) {

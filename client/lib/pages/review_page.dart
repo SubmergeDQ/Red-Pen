@@ -1,9 +1,30 @@
 import 'package:material_ui/material_ui.dart';
 
+import '../design/design.dart';
 import '../engine/engine.dart';
 import '../state/review_controller.dart';
-import '../theme.dart';
-import '../ui/common.dart';
+import '../ui/rules_panel.dart';
+
+Color verdictColor(Verdict v) => switch (v) {
+      Verdict.red => AppColors.red,
+      Verdict.yellow => AppColors.amber,
+      Verdict.gray => AppColors.slate,
+      Verdict.green => AppColors.green,
+    };
+
+Color verdictSoft(Verdict v) => switch (v) {
+      Verdict.red => AppColors.redSoft,
+      Verdict.yellow => AppColors.amberSoft,
+      Verdict.gray => AppColors.slateSoft,
+      Verdict.green => AppColors.greenSoft,
+    };
+
+AppTone verdictTone(Verdict v) => switch (v) {
+      Verdict.red => AppTone.red,
+      Verdict.yellow => AppTone.amber,
+      Verdict.gray => AppTone.slate,
+      Verdict.green => AppTone.green,
+    };
 
 class ReviewPage extends StatefulWidget {
   const ReviewPage({super.key, required this.controller});
@@ -48,12 +69,12 @@ class _ReviewPageState extends State<ReviewPage> {
     if (index == null) return;
     setState(() {});
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final context = _clauseKeys[index]?.currentContext;
-      if (context == null) return;
+      final target = _clauseKeys[index]?.currentContext;
+      if (target == null) return;
       Scrollable.ensureVisible(
-        context,
+        target,
         duration: const Duration(milliseconds: 420),
-        curve: Curves.easeOutCubic,
+        curve: AppDuration.curve,
         alignment: 0.06,
       );
     });
@@ -61,13 +82,13 @@ class _ReviewPageState extends State<ReviewPage> {
 
   void _revealFinding(String id) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      final context = _findingKeys[id]?.currentContext;
-      if (context == null) return;
+      final target = _findingKeys[id]?.currentContext;
+      if (target == null) return;
       Scrollable.ensureVisible(
-        context,
+        target,
         duration: const Duration(milliseconds: 360),
-        curve: Curves.easeOutCubic,
-        alignment: 0.28,
+        curve: AppDuration.curve,
+        alignment: 0.2,
       );
     });
   }
@@ -84,23 +105,20 @@ class _ReviewPageState extends State<ReviewPage> {
     c.selectFinding(first.id);
     if (!wide) {
       c.setMobileTab(0);
-      _revealFinding(first.id);
-    } else {
-      _revealFinding(first.id);
     }
+    _revealFinding(first.id);
   }
 
   @override
   Widget build(BuildContext context) {
     final analysis = a;
     if (analysis == null) {
-      return const Center(child: Text('还没有核对结果。'));
+      return const Center(child: EmptyState(title: '还没有核对结果。', message: '回到交稿台粘贴合同，开始核对。'));
     }
     final size = MediaQuery.sizeOf(context);
-    final wide = size.width >= 960;
-    final reportWidth = (size.width * 0.43).clamp(420.0, 640.0);
+    final wide = size.width >= 1000;
 
-    final reportPane = _ReportPane(
+    final report = _ReportPane(
       controller: c,
       scroll: _reportScroll,
       findingKeys: _findingKeys,
@@ -108,123 +126,61 @@ class _ReviewPageState extends State<ReviewPage> {
       onCopy: (text, label) => c.copy(text, label),
       onRules: () => showRulesPanel(context),
     );
-
-    final contractPane = _ContractPane(
+    final source = _SourcePane(
       controller: c,
       scroll: _contractScroll,
       clauseKeys: _clauseKeys,
       onClauseTap: (findings) => _tapClause(findings, wide: wide),
-      showHint: wide,
+      wide: wide,
     );
 
     if (!wide) {
       return Column(
         children: [
-          _MobileTabs(controller: c),
+          Container(
+            padding: const EdgeInsets.fromLTRB(AppSpace.x4, AppSpace.x3, AppSpace.x4, AppSpace.x3),
+            color: AppColors.canvas,
+            child: AppSegmented<int>(
+              value: c.mobileTab,
+              options: [
+                AppSelectOption(value: 0, label: '核对报告 · ${c.riskCount}', icon: AppIcons.report),
+                const AppSelectOption(value: 1, label: '合同原文', icon: AppIcons.article),
+              ],
+              onChanged: c.setMobileTab,
+            ),
+          ),
           Expanded(
             child: IndexedStack(
               index: c.mobileTab,
-              children: [reportPane, contractPane],
+              children: [report, source],
             ),
           ),
+          if (c.mobileTab == 0)
+            _MobileReportBar(controller: c),
         ],
       );
     }
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      children: [
-        Expanded(child: contractPane),
-        Container(width: 1, color: R.rule),
-        SizedBox(width: reportWidth, child: reportPane),
-      ],
-    );
-  }
-}
 
-class _MobileTabs extends StatelessWidget {
-  const _MobileTabs({required this.controller});
-
-  final ReviewController controller;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      height: 47,
-      decoration: const BoxDecoration(
-        color: R.desk,
-        border: Border(bottom: BorderSide(color: R.rule)),
-      ),
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Row(
-        children: [
-          _Tab(
-            label: '合同原文',
-            selected: controller.mobileTab == 1,
-            onTap: () => controller.setMobileTab(1),
-          ),
-          _Tab(
-            label: '核对报告',
-            count: controller.riskCount,
-            selected: controller.mobileTab == 0,
-            onTap: () => controller.setMobileTab(0),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Tab extends StatelessWidget {
-  const _Tab({
-    required this.label,
-    required this.selected,
-    required this.onTap,
-    this.count,
-  });
-
-  final String label;
-  final bool selected;
-  final VoidCallback onTap;
-  final int? count;
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: InkWell(
-        onTap: onTap,
-        child: AnimatedContainer(
-          duration: const Duration(milliseconds: 160),
-          height: 47,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            border: Border(
-              bottom: BorderSide(color: selected ? R.vermilion : Colors.transparent, width: 2),
-            ),
-          ),
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(AppSpace.x8, AppSpace.x6, AppSpace.x8, 0),
+      child: Center(
+        child: ConstrainedBox(
+          constraints: const BoxConstraints(maxWidth: 1440),
+          child: Column(
             children: [
-              Text(
-                label,
-                style: R.serif(
-                  size: 13.5,
-                  weight: selected ? FontWeight.w600 : FontWeight.w500,
-                  color: selected ? R.ink : R.muted,
-                  height: 1.3,
-                  letterSpacing: 0.2,
+              _ReviewHeader(controller: c, onRules: () => showRulesPanel(context)),
+              const SizedBox(height: AppSpace.x5),
+              Expanded(
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  children: [
+                    Expanded(flex: 6, child: report),
+                    const SizedBox(width: AppSpace.x4),
+                    Expanded(flex: 5, child: source),
+                    const SizedBox(width: AppSpace.x2),
+                  ],
                 ),
               ),
-              if (count != null) ...[
-                const SizedBox(width: 6),
-                Text(
-                  '($count)',
-                  style: R.num(
-                    size: 11,
-                    weight: FontWeight.w600,
-                    color: selected ? R.vermilion : R.faint,
-                  ),
-                ),
-              ],
             ],
           ),
         ),
@@ -233,106 +189,474 @@ class _Tab extends StatelessWidget {
   }
 }
 
-class _ContractPane extends StatelessWidget {
-  const _ContractPane({
-    required this.controller,
-    required this.scroll,
-    required this.clauseKeys,
-    required this.onClauseTap,
-    required this.showHint,
-  });
+class _ReviewHeader extends StatelessWidget {
+  const _ReviewHeader({required this.controller, required this.onRules});
 
   final ReviewController controller;
-  final ScrollController scroll;
-  final Map<int, GlobalKey> clauseKeys;
-  final void Function(List<Finding> findings) onClauseTap;
-  final bool showHint;
+  final VoidCallback onRules;
 
   @override
   Widget build(BuildContext context) {
     final analysis = controller.analysis!;
-    final width = MediaQuery.sizeOf(context).width;
-    final narrow = width < 600;
-    final findingsByClause = <int, List<Finding>>{};
-    for (final finding in analysis.items) {
-      final index = finding.clauseIndex;
-      if (index != null) (findingsByClause[index] ??= []).add(finding);
-    }
-    final activeClause = controller.activeFinding?.clauseIndex;
-
-    return Container(
-      color: R.desk,
-      child: Column(
-        children: [
-          Container(
-            height: narrow ? 48 : 54,
-            padding: EdgeInsets.symmetric(horizontal: narrow ? 14 : 26),
-            decoration: const BoxDecoration(
-              color: R.desk,
-              border: Border(bottom: BorderSide(color: R.rule)),
-            ),
-            child: Row(
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8),
-                  height: 24,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: R.sheet,
-                    border: Border.all(color: R.ruleStrong),
-                    borderRadius: BorderRadius.circular(3),
+    final narrow = MediaQuery.sizeOf(context).width < 1180;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      AppTag(label: verdictLabel[analysis.topVerdict]!, tone: verdictTone(analysis.topVerdict), dot: true),
+                      const SizedBox(width: AppSpace.x2),
+                      Text(analysis.docType, style: AppType.caption()),
+                      if (analysis.packLabels.isNotEmpty) ...[
+                        const SizedBox(width: AppSpace.x2),
+                        Flexible(
+                          child: Text(
+                            analysis.packLabels.join(' / '),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: AppType.caption(color: AppColors.inkDisabled),
+                          ),
+                        ),
+                      ],
+                    ],
                   ),
-                  child: Text(
-                    analysis.docType,
-                    style: R.serif(
-                      size: 11.5,
-                      weight: FontWeight.w600,
-                      color: R.ink2,
-                      letterSpacing: 0.5,
-                      height: 1.2,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 10),
-                Expanded(
-                  child: Text(
-                    '${analysis.numberedCount > 0 ? analysis.numberedCount : analysis.clauseCount} 条 · 约 ${controller.charCount} 字'
-                    '${analysis.pending.isNotEmpty ? ' · 另 ${analysis.pending.length} 条待确认' : ''}',
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                    style: R.sans(size: 11.5, color: R.muted, height: 1.4),
-                  ),
-                ),
-                if (showHint)
-                  Text(
-                    '点击标红条款查看批注',
-                    style: R.sans(size: 11.5, color: R.faint, height: 1.4),
-                  ),
-              ],
-            ),
-          ),
-          Expanded(
-            child: ScrollConfiguration(
-              behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-              child: Scrollbar(
-                controller: scroll,
-                child: SingleChildScrollView(
-                  controller: scroll,
-                  physics: const ClampingScrollPhysics(),
-                  child: Center(
-                    child: SelectionArea(
-                      child: _Paper(
-                        analysis: analysis,
-                        findingsByClause: findingsByClause,
-                        activeClause: activeClause,
-                        clauseKeys: clauseKeys,
-                        onClauseTap: onClauseTap,
-                      ),
-                    ),
-                  ),
-                ),
+                  const SizedBox(height: AppSpace.x2 + 2),
+                  Text(analysis.oneLiner, style: AppType.h2()),
+                ],
               ),
             ),
+            if (!narrow) ...[
+              const SizedBox(width: AppSpace.x5),
+              AppButton(
+                label: '导出 PDF',
+                icon: AppIcons.pdf,
+                tone: AppButtonTone.secondary,
+                onPressed: controller.exporting ? null : controller.exportPdf,
+                loading: controller.exporting,
+              ),
+              const SizedBox(width: AppSpace.x2),
+              AppButton(
+                label: '复制报告',
+                icon: AppIcons.copy,
+                onPressed: controller.copyReport,
+              ),
+            ],
+          ],
+        ),
+        const SizedBox(height: AppSpace.x4),
+        _CountStrip(controller: controller),
+      ],
+    );
+  }
+}
+
+class _CountStrip extends StatelessWidget {
+  const _CountStrip({required this.controller});
+
+  final ReviewController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    final analysis = controller.analysis!;
+    final entries = <(Verdict?, String, Color)>[
+      (null, '全部', AppColors.ink),
+      (Verdict.red, verdictLabel[Verdict.red]!, AppColors.red),
+      (Verdict.yellow, verdictLabel[Verdict.yellow]!, AppColors.amber),
+      (Verdict.gray, verdictLabel[Verdict.gray]!, AppColors.slate),
+      (Verdict.green, verdictLabel[Verdict.green]!, AppColors.green),
+    ];
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final children = [
+          for (final entry in entries)
+            StatTile(
+              label: entry.$2,
+              value: '${entry.$1 == null ? analysis.items.length : analysis.countOf(entry.$1!)}',
+              tone: entry.$3,
+              active: controller.filter == entry.$1,
+              onTap: () => controller.setFilter(entry.$1),
+            ),
+        ];
+        if (constraints.maxWidth < 520) {
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: [
+                for (var i = 0; i < children.length; i++) ...[
+                  if (i > 0) const SizedBox(width: AppSpace.x2),
+                  SizedBox(width: 96, child: children[i]),
+                ],
+              ],
+            ),
+          );
+        }
+        return Row(
+          children: [
+            for (var i = 0; i < children.length; i++) ...[
+              if (i > 0) const SizedBox(width: AppSpace.x2),
+              Expanded(child: children[i]),
+            ],
+          ],
+        );
+      },
+    );
+  }
+}
+
+class _ReportPane extends StatelessWidget {
+  const _ReportPane({
+    required this.controller,
+    required this.scroll,
+    required this.findingKeys,
+    required this.onLocate,
+    required this.onCopy,
+    required this.onRules,
+  });
+
+  final ReviewController controller;
+  final ScrollController scroll;
+  final Map<String, GlobalKey> findingKeys;
+  final void Function(Finding finding) onLocate;
+  final void Function(String text, String label) onCopy;
+  final VoidCallback onRules;
+
+  @override
+  Widget build(BuildContext context) {
+    final analysis = controller.analysis!;
+    final items = controller.visibleFindings;
+    final nonGreen = analysis.items.where((f) => f.verdict != Verdict.green).length;
+
+    final compact = MediaQuery.sizeOf(context).width < 1000;
+    return Scrollbar(
+      controller: scroll,
+      child: SingleChildScrollView(
+        controller: scroll,
+        physics: const ClampingScrollPhysics(),
+        padding: EdgeInsets.fromLTRB(
+          compact ? AppSpace.x4 : 0,
+          0,
+          compact ? AppSpace.x4 : 0,
+          compact ? AppSpace.x14 : AppSpace.x8,
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            if (compact) ...[
+              _MobileSummary(controller: controller),
+              const SizedBox(height: AppSpace.x3),
+            ],
+            if (controller.ocrUsed) ...[
+              const AppBanner(
+                tone: AppTone.amber,
+                message: '正文来自本机 OCR。请对照原件核对金额、日期和条款编号，再依据这份结果去谈。',
+              ),
+              const SizedBox(height: AppSpace.x3),
+            ],
+            if (analysis.insufficient) ...[
+              AppBanner(
+                tone: AppTone.amber,
+                message: '这份文本只拆出 ${analysis.clauseCount} 条实质条款，可能不是完整合同。请确认粘贴了全文，下面的结果仅供参考。',
+              ),
+              const SizedBox(height: AppSpace.x3),
+            ],
+            if (!analysis.insufficient && nonGreen == 0) ...[
+              AppBanner(
+                tone: AppTone.green,
+                icon: AppIcons.checkCircle,
+                message: '这 ${ruleLibrary.length} 类规则没有扫到明显风险。金额、合同主体和附件仍要人工核对。',
+              ),
+              const SizedBox(height: AppSpace.x3),
+            ],
+            if (items.isEmpty)
+              AppCard(
+                child: EmptyState(
+                  compact: true,
+                  title: controller.filter == null ? '没有可展开的条目。' : '这个等级没有发现问题。',
+                  message: controller.filter == null ? null : '切换到「全部」查看其他等级。',
+                ),
+              )
+            else
+              for (final finding in items)
+                Padding(
+                  key: findingKeys[finding.id],
+                  padding: const EdgeInsets.only(bottom: AppSpace.x2),
+                  child: _FindingCard(
+                    finding: finding,
+                    expanded: controller.expandedId == finding.id,
+                    active: controller.activeFindingId == finding.id,
+                    onToggle: () => controller.toggleExpanded(finding.id),
+                    onLocate: () => onLocate(finding),
+                    onCopy: onCopy,
+                  ),
+                ),
+            if (analysis.pending.isNotEmpty) ...[
+              const SizedBox(height: AppSpace.x3),
+              _PendingCard(items: analysis.pending),
+            ],
+            const SizedBox(height: AppSpace.x5),
+            Text(
+              '以上为签约前风险提示，基于你提供的文本和通用规定，不构成法律意见。涉及金额较大或已产生争议，请拨打 12348 公共法律服务热线，或联系学校法律援助中心。',
+              style: AppType.caption(),
+            ),
+            const SizedBox(height: AppSpace.x2),
+            AppLink(
+              label: '查看 ${ruleLibrary.length} 类核对依据与法律出处',
+              icon: AppIcons.arrowOut,
+              onPressed: onRules,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _MobileSummary extends StatelessWidget {
+  const _MobileSummary({required this.controller});
+
+  final ReviewController controller;
+
+  @override
+  Widget build(BuildContext context) {
+    final analysis = controller.analysis!;
+    final entries = <(Verdict?, String, Color)>[
+      (null, '全部', AppColors.ink),
+      (Verdict.red, verdictLabel[Verdict.red]!, AppColors.red),
+      (Verdict.yellow, verdictLabel[Verdict.yellow]!, AppColors.amber),
+      (Verdict.gray, verdictLabel[Verdict.gray]!, AppColors.slate),
+      (Verdict.green, verdictLabel[Verdict.green]!, AppColors.green),
+    ];
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            AppTag(
+              label: verdictLabel[analysis.topVerdict]!,
+              tone: verdictTone(analysis.topVerdict),
+              dot: true,
+              compact: true,
+            ),
+            const SizedBox(width: AppSpace.x2),
+            Text(analysis.docType, style: AppType.caption()),
+          ],
+        ),
+        const SizedBox(height: AppSpace.x2),
+        Text(analysis.oneLiner, style: AppType.h3().copyWith(height: 1.5)),
+        const SizedBox(height: AppSpace.x3),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Row(
+            children: [
+              for (var i = 0; i < entries.length; i++) ...[
+                if (i > 0) const SizedBox(width: AppSpace.x2),
+                SizedBox(
+                  width: 88,
+                  child: StatTile(
+                    label: entries[i].$2,
+                    value: '${entries[i].$1 == null ? analysis.items.length : analysis.countOf(entries[i].$1!)}',
+                    tone: entries[i].$3,
+                    active: controller.filter == entries[i].$1,
+                    onTap: () => controller.setFilter(entries[i].$1),
+                  ),
+                ),
+              ],
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+class _FindingCard extends StatefulWidget {
+  const _FindingCard({
+    required this.finding,
+    required this.expanded,
+    required this.active,
+    required this.onToggle,
+    required this.onLocate,
+    required this.onCopy,
+  });
+
+  final Finding finding;
+  final bool expanded;
+  final bool active;
+  final VoidCallback onToggle;
+  final VoidCallback onLocate;
+  final void Function(String text, String label) onCopy;
+
+  @override
+  State<_FindingCard> createState() => _FindingCardState();
+}
+
+class _FindingCardState extends State<_FindingCard> {
+  bool _hover = false;
+
+  Finding get f => widget.finding;
+
+  @override
+  Widget build(BuildContext context) {
+    final label = switch (f.verdict) {
+      Verdict.red => '最坏会发生',
+      Verdict.yellow => '可能吃亏',
+      Verdict.gray => '需要确认',
+      Verdict.green => '规则核对',
+    };
+    return MouseRegion(
+      cursor: SystemMouseCursors.click,
+      onEnter: (_) => setState(() => _hover = true),
+      onExit: (_) => setState(() => _hover = false),
+      child: AppCard(
+        padding: EdgeInsets.zero,
+        selected: widget.active,
+        onTap: widget.onToggle,
+        child: AnimatedContainer(
+          duration: AppDuration.fast,
+          decoration: BoxDecoration(
+            color: _hover && !widget.active ? AppColors.surfaceMuted.withValues(alpha: 0.55) : null,
+            borderRadius: BorderRadius.circular(AppRadius.lg),
+          ),
+          padding: const EdgeInsets.fromLTRB(AppSpace.x4, AppSpace.x3 + 2, AppSpace.x3, AppSpace.x3 + 2),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(top: 1),
+                    child: AppTag(label: verdictLabel[f.verdict]!, tone: verdictTone(f.verdict), compact: true),
+                  ),
+                  const SizedBox(width: AppSpace.x2),
+                  Expanded(
+                    child: Text(
+                      f.ruleName,
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      style: AppType.strong(size: 14.5),
+                    ),
+                  ),
+                  const SizedBox(width: AppSpace.x2),
+                  Text(f.location, style: AppType.caption(color: AppColors.inkDisabled)),
+                  const SizedBox(width: AppSpace.x1),
+                  AnimatedRotation(
+                    turns: widget.expanded ? 0.5 : 0,
+                    duration: AppDuration.fast,
+                    child: Icon(
+                      AppIcons.expandMore,
+                      size: 20,
+                      color: _hover ? AppColors.inkSecondary : AppColors.inkDisabled,
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: AppSpace.x2),
+              Text(
+                label,
+                style: AppType.label(color: AppColors.inkTertiary),
+              ),
+              const SizedBox(height: 1),
+              Text(
+                f.consequence,
+                style: AppType.bodySm(color: AppColors.inkSecondary),
+              ),
+              AnimatedSize(
+                duration: AppDuration.base,
+                alignment: Alignment.topCenter,
+                child: widget.expanded
+                    ? _FindingDetail(finding: f, onLocate: widget.onLocate, onCopy: widget.onCopy)
+                    : const SizedBox(width: double.infinity),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _FindingDetail extends StatelessWidget {
+  const _FindingDetail({
+    required this.finding,
+    required this.onLocate,
+    required this.onCopy,
+  });
+
+  final Finding finding;
+  final VoidCallback onLocate;
+  final void Function(String text, String label) onCopy;
+
+  @override
+  Widget build(BuildContext context) {
+    final f = finding;
+    final color = verdictColor(f.verdict);
+    return Container(
+      margin: const EdgeInsets.only(top: AppSpace.x3),
+      padding: const EdgeInsets.all(AppSpace.x3),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceMuted,
+        borderRadius: BorderRadius.circular(AppRadius.md),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          if (f.quote.isNotEmpty) ...[
+            Text('原文', style: AppType.label()),
+            const SizedBox(height: AppSpace.x1 + 2),
+            Text(
+              f.quote,
+              style: AppType.bodySm(color: AppColors.inkSecondary).copyWith(height: 1.8),
+            ),
+            const SizedBox(height: AppSpace.x3),
+          ],
+          if (f.basis != null) ...[
+            Text('法律依据', style: AppType.label()),
+            const SizedBox(height: AppSpace.x1 + 2),
+            Text(
+              '${f.basis!.law} ${f.basis!.article == '需核对' ? '（条文序号需核对）' : f.basis!.article}',
+              style: AppType.strong(size: 13),
+            ),
+            const SizedBox(height: 2),
+            Text(
+              f.basis!.text,
+              style: AppType.caption(color: AppColors.inkSecondary).copyWith(height: 1.75),
+            ),
+            const SizedBox(height: AppSpace.x3),
+          ],
+          if (f.ask.isNotEmpty)
+            _AdviceRow(
+              label: '问谁 · 问什么',
+              text: f.ask,
+              onCopy: () => onCopy(f.ask, '这句话'),
+            ),
+          if (f.ask.isNotEmpty && f.counter.isNotEmpty) const SizedBox(height: AppSpace.x3),
+          if (f.counter.isNotEmpty)
+            _AdviceRow(
+              label: '可以怎么改',
+              text: f.counter,
+              emphasis: true,
+              onCopy: () => onCopy(f.counter, '这句话'),
+            ),
+          const SizedBox(height: AppSpace.x3),
+          Row(
+            children: [
+              AppLink(
+                label: '在原文中定位',
+                icon: AppIcons.location,
+                onPressed: onLocate,
+                color: color,
+              ),
+              const Spacer(),
+              Text('把握：${f.confidence}', style: AppType.caption(color: AppColors.inkDisabled)),
+            ],
           ),
         ],
       ),
@@ -340,8 +664,188 @@ class _ContractPane extends StatelessWidget {
   }
 }
 
-class _Paper extends StatelessWidget {
-  const _Paper({
+class _AdviceRow extends StatelessWidget {
+  const _AdviceRow({
+    required this.label,
+    required this.text,
+    required this.onCopy,
+    this.emphasis = false,
+  });
+
+  final String label;
+  final String text;
+  final VoidCallback onCopy;
+  final bool emphasis;
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Expanded(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(label, style: AppType.label()),
+              const SizedBox(height: AppSpace.x1 + 2),
+              Text(
+                text,
+                style: emphasis
+                    ? AppType.strong(size: 13).copyWith(height: 1.7)
+                    : AppType.bodySm(color: AppColors.inkSecondary).copyWith(height: 1.7),
+              ),
+            ],
+          ),
+        ),
+        const SizedBox(width: AppSpace.x2),
+        AppIconButton(
+          icon: AppIcons.copy,
+          tooltip: '复制这句话',
+          onPressed: onCopy,
+        ),
+      ],
+    );
+  }
+}
+
+class _PendingCard extends StatelessWidget {
+  const _PendingCard({required this.items});
+
+  final List<String> items;
+
+  @override
+  Widget build(BuildContext context) {
+    return AppCard(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              const Icon(AppIcons.flag, size: 18, color: AppColors.amber),
+              const SizedBox(width: AppSpace.x2),
+              Text('还要确认 ${items.length} 件事', style: AppType.h3()),
+            ],
+          ),
+          const SizedBox(height: 2),
+          Text('这些信息没有出现在你提供的文本里，不能替你判断。', style: AppType.caption()),
+          const SizedBox(height: AppSpace.x3),
+          for (var i = 0; i < items.length; i++)
+            Padding(
+              padding: EdgeInsets.only(bottom: i == items.length - 1 ? 0 : AppSpace.x2),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SizedBox(
+                    width: 24,
+                    child: Text(
+                      '${i + 1}'.padLeft(2, '0'),
+                      style: AppType.num(color: AppColors.inkDisabled, size: 12)
+                          .copyWith(fontWeight: FontWeight.w600),
+                    ),
+                  ),
+                  const SizedBox(width: AppSpace.x2),
+                  Expanded(
+                    child: Text(items[i], style: AppType.bodySm(color: AppColors.inkSecondary)),
+                  ),
+                ],
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _SourcePane extends StatelessWidget {
+  const _SourcePane({
+    required this.controller,
+    required this.scroll,
+    required this.clauseKeys,
+    required this.onClauseTap,
+    required this.wide,
+  });
+
+  final ReviewController controller;
+  final ScrollController scroll;
+  final Map<int, GlobalKey> clauseKeys;
+  final void Function(List<Finding> findings) onClauseTap;
+  final bool wide;
+
+  @override
+  Widget build(BuildContext context) {
+    final analysis = controller.analysis!;
+    final findingsByClause = <int, List<Finding>>{};
+    for (final finding in analysis.items) {
+      final index = finding.clauseIndex;
+      if (index != null) (findingsByClause[index] ??= []).add(finding);
+    }
+    final activeClause = controller.activeFinding?.clauseIndex;
+
+    return AppCard(
+      padding: EdgeInsets.zero,
+      child: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.fromLTRB(AppSpace.x4, AppSpace.x3, AppSpace.x4, AppSpace.x3),
+            child: Row(
+              children: [
+                const Icon(AppIcons.article, size: 18, color: AppColors.inkTertiary),
+                const SizedBox(width: AppSpace.x2),
+                Text('合同原文', style: AppType.strong(size: 14)),
+                const SizedBox(width: AppSpace.x2),
+                AppTag(label: analysis.docType, compact: true),
+                const Spacer(),
+                Text(
+                  '${analysis.numberedCount > 0 ? analysis.numberedCount : analysis.clauseCount} 条 · ${controller.charCount} 字',
+                  style: AppType.caption(),
+                ),
+              ],
+            ),
+          ),
+          const Divider(),
+          Expanded(
+            child: Scrollbar(
+              controller: scroll,
+              child: SingleChildScrollView(
+                controller: scroll,
+                physics: const ClampingScrollPhysics(),
+                padding: const EdgeInsets.fromLTRB(AppSpace.x4, AppSpace.x4, AppSpace.x4, AppSpace.x8),
+                child: SelectionArea(
+                  child: _ClauseList(
+                    analysis: analysis,
+                    findingsByClause: findingsByClause,
+                    activeClause: activeClause,
+                    clauseKeys: clauseKeys,
+                    onClauseTap: onClauseTap,
+                  ),
+                ),
+              ),
+            ),
+          ),
+          if (wide)
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.symmetric(horizontal: AppSpace.x4, vertical: AppSpace.x2 + 2),
+              decoration: const BoxDecoration(
+                color: AppColors.surfaceMuted,
+                border: Border(top: BorderSide(color: AppColors.border)),
+                borderRadius: BorderRadius.vertical(bottom: Radius.circular(AppRadius.lg)),
+              ),
+              child: Text(
+                analysis.pending.isNotEmpty
+                    ? '点击标红条款查看批注 · 另 ${analysis.pending.length} 条待确认'
+                    : '点击标红条款查看批注',
+                style: AppType.caption().copyWith(fontSize: 11.5),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
+
+class _ClauseList extends StatelessWidget {
+  const _ClauseList({
     required this.analysis,
     required this.findingsByClause,
     required this.activeClause,
@@ -357,90 +861,41 @@ class _Paper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final width = MediaQuery.sizeOf(context).width;
-    final narrow = width < 600;
     final titleKey = analysis.title.replaceAll(RegExp(r'\s+'), '');
     final clauses = [
       if (analysis.clauses.isNotEmpty) _stripTitleLine(analysis.clauses.first, titleKey),
       ...analysis.clauses.skip(analysis.clauses.isEmpty ? 0 : 1),
     ];
-    return Container(
-      constraints: const BoxConstraints(maxWidth: 780),
-      margin: EdgeInsets.fromLTRB(narrow ? 12 : 18, 18, narrow ? 12 : 18, 40),
-      decoration: BoxDecoration(
-        color: R.sheet,
-        border: Border.all(color: R.rule),
-        boxShadow: R.shadowSheet,
-      ),
-      child: Stack(
-        children: [
-          Positioned(
-            left: narrow ? 10 : 44,
-            top: 0,
-            bottom: 0,
-            child: Container(width: 1, color: R.ruleStrong),
-          ),
-          Padding(
-            padding: EdgeInsets.fromLTRB(
-              narrow ? 18 : 66,
-              narrow ? 30 : 46,
-              narrow ? 16 : 52,
-              narrow ? 52 : 80,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.stretch,
+      children: [
+        Text(
+          analysis.title,
+          style: AppType.h3().copyWith(height: 1.5),
+        ),
+        const SizedBox(height: 2),
+        Text('共 ${analysis.clauseCount} 条 · 规则在本机逐条核对', style: AppType.caption()),
+        const SizedBox(height: AppSpace.x4),
+        for (final clause in clauses)
+          if (!(clause.kind == 'preamble' && clause.body.trim().isEmpty))
+            Container(
+              key: clauseKeys[clause.index],
+              child: _ClauseBlock(
+                clause: clause,
+                findings: findingsByClause[clause.index] ?? const [],
+                active: activeClause == clause.index,
+                onTap: () => onClauseTap(findingsByClause[clause.index] ?? const []),
+              ),
             ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.stretch,
-              children: [
-                Text(
-                  analysis.title,
-                  textAlign: TextAlign.center,
-                  style: R.serif(
-                    size: narrow ? 21 : 26,
-                    weight: FontWeight.w700,
-                    letterSpacing: narrow ? 3 : 6,
-                    height: 1.5,
-                  ),
-                ),
-                const SizedBox(height: 6),
-                Text(
-                  '共 ${analysis.clauseCount} 条 · 规则在本机逐条核对',
-                  textAlign: TextAlign.center,
-                  style: R.sans(size: 11, color: R.muted, letterSpacing: 0.6, height: 1.5),
-                ),
-                const SizedBox(height: 22),
-                for (final clause in clauses)
-                  if (!(clause.kind == 'preamble' && clause.body.trim().isEmpty))
-                    Container(
-                      key: clauseKeys[clause.index],
-                      child: _ClauseBlock(
-                        clause: clause,
-                        findings: findingsByClause[clause.index] ?? const [],
-                        active: activeClause == clause.index,
-                        onTap: () => onClauseTap(findingsByClause[clause.index] ?? const []),
-                      ),
-                    ),
-                if (clauses.isEmpty)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(vertical: 40),
-                    child: Text(
-                      '没有可显示的原文。',
-                      textAlign: TextAlign.center,
-                      style: R.sans(size: 13, color: R.muted),
-                    ),
-                  ),
-                if (clauses.isNotEmpty) ...[
-                  const SizedBox(height: 26),
-                  Center(
-                    child: Text(
-                      '— 正文完 —',
-                      style: R.sans(size: 10.5, color: R.faint, letterSpacing: 2, height: 1.4),
-                    ),
-                  ),
-                ],
-              ],
-            ),
+        if (clauses.isEmpty)
+          const EmptyState(compact: true, title: '没有可显示的原文。'),
+        if (clauses.isNotEmpty) ...[
+          const SizedBox(height: AppSpace.x4),
+          Center(
+            child: Text('正文完', style: AppType.caption(color: AppColors.inkDisabled)),
           ),
         ],
-      ),
+      ],
     );
   }
 
@@ -490,125 +945,92 @@ class _ClauseBlock extends StatelessWidget {
     final top = worst;
     if (clause.kind == 'preamble') {
       return Container(
-        margin: const EdgeInsets.only(bottom: 10),
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 2),
-        decoration: const BoxDecoration(
-          border: Border(
-            top: BorderSide(color: R.rule),
-            bottom: BorderSide(color: R.rule),
-          ),
+        margin: const EdgeInsets.only(bottom: AppSpace.x3),
+        padding: const EdgeInsets.all(AppSpace.x3),
+        decoration: BoxDecoration(
+          color: AppColors.surfaceMuted,
+          borderRadius: BorderRadius.circular(AppRadius.sm),
         ),
         child: Text(
           clause.body,
-          style: R.serif(size: 14.5, weight: FontWeight.w400, color: R.ink2, height: 1.95),
+          style: AppType.bodySm(color: AppColors.inkSecondary).copyWith(height: 1.85),
         ),
       );
     }
 
     final flagged = top != null;
-    final color = flagged ? verdictColor(top.verdict) : R.rule;
-    final content = Stack(
-      children: [
-        Padding(
-          padding: EdgeInsets.only(right: flagged ? 2 : 0),
-          child: Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              if (clause.numbered)
-                SizedBox(
-                  width: 38,
-                  child: Padding(
-                    padding: const EdgeInsets.only(top: 4, right: 12),
-                    child: Text(
-                      clause.index.toString().padLeft(2, '0'),
-                      textAlign: TextAlign.right,
-                      style: R.num(
-                        size: 11,
-                        weight: FontWeight.w600,
-                        color: flagged ? color : R.faint,
-                      ),
-                    ),
-                  ),
-                )
-              else
-                const SizedBox(width: 2),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (clause.heading.isNotEmpty)
-                      Padding(
-                        padding: EdgeInsets.only(right: flagged ? 64 : 0),
-                        child: Text(
-                          clause.heading,
-                          style: R.serif(
-                            size: 16,
-                            weight: FontWeight.w700,
-                            height: 1.6,
-                            letterSpacing: 0.2,
-                          ),
-                        ),
-                      ),
-                    if (clause.body.isNotEmpty) ...[
-                      if (clause.heading.isNotEmpty) const SizedBox(height: 6),
-                      _HighlightedText(
-                        text: clause.body,
-                        findings: findings,
-                      ),
-                    ],
-                    if (clause.body.isEmpty && clause.heading.isEmpty)
-                      Text(
-                        clause.text,
-                        style: R.serif(size: 15, weight: FontWeight.w400, color: R.ink2, height: 2),
-                      ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
-        if (flagged)
-          Positioned(
-            right: 0,
-            top: 0,
-            child: TagPill(
-              label: '批注 ${findings.length}',
-              color: color,
-              background: color.withValues(alpha: 0.09).blend(R.sheet),
-              border: color.withValues(alpha: 0.26),
-            ),
-          ),
-      ],
-    );
-
+    final color = flagged ? verdictColor(top.verdict) : AppColors.border;
     final block = AnimatedContainer(
-      duration: const Duration(milliseconds: 220),
-      margin: const EdgeInsets.only(bottom: 2),
-      padding: flagged
-          ? const EdgeInsets.fromLTRB(12, 14, 14, 14)
-          : const EdgeInsets.symmetric(vertical: 18),
+      duration: AppDuration.base,
+      margin: const EdgeInsets.only(bottom: AppSpace.x1 + 2),
+      padding: const EdgeInsets.fromLTRB(AppSpace.x3, AppSpace.x3, AppSpace.x3, AppSpace.x3),
       decoration: BoxDecoration(
         color: active
-            ? color.withValues(alpha: 0.09)
+            ? color.withValues(alpha: 0.08)
             : flagged
-                ? color.withValues(alpha: 0.055)
+                ? color.withValues(alpha: 0.04)
                 : Colors.transparent,
-        border: flagged
-            ? Border(
-                left: BorderSide(color: color, width: active ? 3 : 2),
-              )
-            : null,
-        boxShadow: active
-            ? [
-                BoxShadow(
-                  color: color.withValues(alpha: 0.16),
-                  blurRadius: 0,
-                  spreadRadius: 2,
-                ),
-              ]
-            : null,
+        borderRadius: BorderRadius.circular(AppRadius.sm),
+        border: Border.all(
+          color: active ? color.withValues(alpha: 0.5) : Colors.transparent,
+        ),
       ),
-      child: content,
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          SizedBox(
+            width: 26,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 3),
+              child: clause.numbered
+                  ? Text(
+                      clause.index.toString().padLeft(2, '0'),
+                      textAlign: TextAlign.right,
+                      style: AppType.num(
+                        color: flagged ? color : AppColors.inkDisabled,
+                        size: 11,
+                      ).copyWith(fontWeight: FontWeight.w600),
+                    )
+                  : null,
+            ),
+          ),
+          const SizedBox(width: AppSpace.x2),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (clause.heading.isNotEmpty)
+                  Text(
+                    clause.heading,
+                    style: AppType.strong(size: 14.5).copyWith(height: 1.6),
+                  ),
+                if (clause.body.isNotEmpty) ...[
+                  if (clause.heading.isNotEmpty) const SizedBox(height: 4),
+                  _HighlightedText(text: clause.body, findings: findings),
+                ],
+                if (clause.body.isEmpty && clause.heading.isEmpty)
+                  Text(
+                    clause.text,
+                    style: AppType.bodySm(color: AppColors.inkSecondary).copyWith(height: 1.9),
+                  ),
+                if (flagged) ...[
+                  const SizedBox(height: AppSpace.x1 + 2),
+                  Row(
+                    children: [
+                      Icon(AppIcons.location, size: 12, color: color),
+                      const SizedBox(width: 4),
+                      Text(
+                        '批注 ${findings.length}',
+                        style: AppType.caption(color: color).copyWith(fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
+                ],
+              ],
+            ),
+          ),
+        ],
+      ),
     );
 
     if (!flagged) return block;
@@ -618,7 +1040,7 @@ class _ClauseBlock extends StatelessWidget {
         color: Colors.transparent,
         child: InkWell(
           onTap: onTap,
-          borderRadius: BorderRadius.circular(2),
+          borderRadius: BorderRadius.circular(AppRadius.sm),
           child: block,
         ),
       ),
@@ -634,7 +1056,7 @@ class _HighlightedText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final base = R.serif(size: 15, weight: FontWeight.w400, color: R.prose, height: 2);
+    final base = AppType.bodySm(color: AppColors.inkSecondary).copyWith(height: 1.9);
     final ranges = <(int, int, Color)>[];
     for (final finding in findings) {
       final quote = finding.quote.trim();
@@ -656,8 +1078,8 @@ class _HighlightedText extends StatelessWidget {
         TextSpan(
           text: text.substring(range.$1, range.$2),
           style: base.copyWith(
-            color: R.ink,
-            backgroundColor: range.$3.withValues(alpha: 0.13),
+            color: AppColors.ink,
+            backgroundColor: range.$3.withValues(alpha: 0.14),
           ),
         ),
       );
@@ -674,750 +1096,41 @@ class _HighlightedText extends StatelessWidget {
   }
 }
 
-class _ReportPane extends StatelessWidget {
-  const _ReportPane({
-    required this.controller,
-    required this.scroll,
-    required this.findingKeys,
-    required this.onLocate,
-    required this.onCopy,
-    required this.onRules,
-  });
-
-  final ReviewController controller;
-  final ScrollController scroll;
-  final Map<String, GlobalKey> findingKeys;
-  final void Function(Finding finding) onLocate;
-  final void Function(String text, String label) onCopy;
-  final VoidCallback onRules;
-
-  @override
-  Widget build(BuildContext context) {
-    final analysis = controller.analysis!;
-    final width = MediaQuery.sizeOf(context).width;
-    final narrow = width < 600;
-    final items = controller.visibleFindings;
-    final nonGreen = analysis.items.where((f) => f.verdict != Verdict.green).length;
-    final anyActionable = nonGreen > 0;
-
-    return Container(
-      color: R.desk2,
-      child: ScrollConfiguration(
-        behavior: ScrollConfiguration.of(context).copyWith(scrollbars: false),
-        child: Scrollbar(
-          controller: scroll,
-          child: SingleChildScrollView(
-            controller: scroll,
-            physics: const ClampingScrollPhysics(),
-            padding: EdgeInsets.fromLTRB(narrow ? 16 : 30, narrow ? 22 : 28, narrow ? 16 : 30, 44),
-            child: Center(
-              child: ConstrainedBox(
-                constraints: const BoxConstraints(maxWidth: 640),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Eyebrow('核对结果'),
-                    const SizedBox(height: 13),
-                    Container(
-                      padding: const EdgeInsets.only(left: 16),
-                      decoration: BoxDecoration(
-                        border: Border(
-                          left: BorderSide(color: verdictColor(analysis.topVerdict), width: 3),
-                        ),
-                      ),
-                      child: Text(
-                        analysis.oneLiner,
-                        style: R.serif(
-                          size: narrow ? 19 : 20,
-                          weight: FontWeight.w600,
-                          color: R.ink,
-                          height: 1.55,
-                          letterSpacing: 0.2,
-                        ),
-                      ),
-                    ),
-                    if (analysis.packLabels.isNotEmpty) ...[
-                      const SizedBox(height: 12),
-                      Container(
-                        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                        decoration: BoxDecoration(
-                          color: R.sheet,
-                          border: Border.all(color: R.rule),
-                          borderRadius: BorderRadius.circular(3),
-                        ),
-                        child: Text(
-                          '应用规则：${analysis.packLabels.join(' / ')}',
-                          style: R.sans(size: 11, color: R.muted, height: 1.5),
-                        ),
-                      ),
-                    ],
-                    if (controller.ocrUsed) ...[
-                      const SizedBox(height: 14),
-                      const InfoNote(
-                        tone: NoteTone.warning,
-                        icon: Icons.image_outlined,
-                        message: '正文来自本机 OCR。请对照原件核对金额、日期和条款编号，再依据这份结果去谈。',
-                      ),
-                    ],
-                    const SizedBox(height: 18),
-                    _FilterChips(controller: controller),
-                    if (analysis.insufficient) ...[
-                      const SizedBox(height: 14),
-                      InfoNote(
-                        tone: NoteTone.warning,
-                        message: '这份文本只拆出 ${analysis.clauseCount} 条实质条款，可能不是完整合同。请确认粘贴了全文，下面的结果仅供参考。',
-                      ),
-                    ],
-                    if (!analysis.insufficient && !anyActionable) ...[
-                      const SizedBox(height: 14),
-                      InfoNote(
-                        tone: NoteTone.success,
-                        icon: Icons.check_circle_outline,
-                        message: '这 ${ruleLibrary.length} 类规则没有扫到明显风险。金额、合同主体和附件仍要人工核对。',
-                      ),
-                    ],
-                    const SizedBox(height: 6),
-                    if (items.isEmpty)
-                      Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 22),
-                        child: Text(
-                          controller.filter == null ? '没有可展开的条目。' : '这个等级没有发现问题。',
-                          style: R.sans(size: 12.5, color: R.muted, height: 1.7),
-                        ),
-                      )
-                    else
-                      Container(
-                        decoration: const BoxDecoration(
-                          border: Border(top: BorderSide(color: R.rule)),
-                        ),
-                        child: Column(
-                          children: [
-                            for (final finding in items)
-                              KeyedSubtree(
-                                key: findingKeys[finding.id],
-                                child: _FindingCard(
-                                  finding: finding,
-                                  expanded: controller.expandedId == finding.id,
-                                  active: controller.activeFindingId == finding.id,
-                                  onToggle: () => controller.toggleExpanded(finding.id),
-                                  onLocate: () => onLocate(finding),
-                                  onCopy: onCopy,
-                                ),
-                              ),
-                          ],
-                        ),
-                      ),
-                    if (analysis.pending.isNotEmpty)
-                      _PendingBlock(items: analysis.pending),
-                    const SizedBox(height: 26),
-                    const Divider(height: 1, color: R.rule),
-                    const SizedBox(height: 13),
-                    Text(
-                      '以上为签约前风险提示，基于你提供的文本和通用规定，不构成法律意见。涉及金额较大或已产生争议，请拨打 12348 公共法律服务热线，或联系学校法律援助中心。',
-                      style: R.sans(size: 11, color: R.muted, height: 1.75),
-                    ),
-                    const SizedBox(height: 8),
-                    InkWell(
-                      onTap: onRules,
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(vertical: 3),
-                        child: Text(
-                          '查看 ${ruleLibrary.length} 类核对依据与法律出处',
-                          style: R.sans(
-                            size: 12,
-                            color: R.brand,
-                            height: 1.5,
-                          ).copyWith(decoration: TextDecoration.underline, decorationColor: R.linkUnderline),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 16),
-                    Wrap(
-                      spacing: 8,
-                      runSpacing: 8,
-                      children: [
-                        DeskButton(
-                          label: '回到交稿台',
-                          icon: Icons.arrow_back,
-                          kind: DeskButtonKind.quiet,
-                          height: 40,
-                          compact: true,
-                          onPressed: controller.editText,
-                        ),
-                        DeskButton(
-                          label: '导出 PDF',
-                          icon: Icons.picture_as_pdf_outlined,
-                          kind: DeskButtonKind.outline,
-                          height: 40,
-                          compact: true,
-                          onPressed: controller.exporting ? null : controller.exportPdf,
-                        ),
-                        DeskButton(
-                          label: '复制核对报告',
-                          icon: Icons.copy,
-                          kind: DeskButtonKind.primary,
-                          height: 40,
-                          compact: true,
-                          onPressed: controller.copyReport,
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
-
-class _FilterChips extends StatelessWidget {
-  const _FilterChips({required this.controller});
+class _MobileReportBar extends StatelessWidget {
+  const _MobileReportBar({required this.controller});
 
   final ReviewController controller;
 
   @override
   Widget build(BuildContext context) {
-    final analysis = controller.analysis!;
-    final entries = <(Verdict?, String, int)>[
-      (null, '全部', analysis.items.length),
-      (Verdict.red, verdictLabel[Verdict.red]!, analysis.countOf(Verdict.red)),
-      (Verdict.yellow, verdictLabel[Verdict.yellow]!, analysis.countOf(Verdict.yellow)),
-      (Verdict.gray, verdictLabel[Verdict.gray]!, analysis.countOf(Verdict.gray)),
-      (Verdict.green, verdictLabel[Verdict.green]!, analysis.countOf(Verdict.green)),
-    ];
+    final bottom = MediaQuery.paddingOf(context).bottom;
     return Container(
+      padding: EdgeInsets.fromLTRB(AppSpace.x4, AppSpace.x2 + 2, AppSpace.x4, AppSpace.x2 + 2 + bottom),
       decoration: const BoxDecoration(
-        border: Border(
-          top: BorderSide(color: R.ruleStrong),
-          bottom: BorderSide(color: R.ruleStrong),
-        ),
+        color: AppColors.surface,
+        border: Border(top: BorderSide(color: AppColors.border)),
       ),
       child: Row(
         children: [
-          for (var i = 0; i < entries.length; i++)
-            Expanded(
-              child: _FilterChip(
-                value: entries[i].$1,
-                label: entries[i].$2,
-                count: entries[i].$3,
-                selected: controller.filter == entries[i].$1,
-                last: i == entries.length - 1,
-                onTap: entries[i].$1 != null && entries[i].$3 == 0
-                    ? null
-                    : () => controller.setFilter(entries[i].$1),
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-}
-
-class _FilterChip extends StatefulWidget {
-  const _FilterChip({
-    required this.value,
-    required this.label,
-    required this.count,
-    required this.selected,
-    required this.last,
-    required this.onTap,
-  });
-
-  final Verdict? value;
-  final String label;
-  final int count;
-  final bool selected;
-  final bool last;
-  final VoidCallback? onTap;
-
-  @override
-  State<_FilterChip> createState() => _FilterChipState();
-}
-
-class _FilterChipState extends State<_FilterChip> {
-  bool _hover = false;
-
-  @override
-  Widget build(BuildContext context) {
-    final enabled = widget.onTap != null;
-    final color = widget.value == null ? R.ink : verdictColor(widget.value!);
-    return MouseRegion(
-      cursor: enabled ? SystemMouseCursors.click : SystemMouseCursors.basic,
-      onEnter: (_) => setState(() => _hover = true),
-      onExit: (_) => setState(() => _hover = false),
-      child: GestureDetector(
-        onTap: enabled ? widget.onTap : null,
-        behavior: HitTestBehavior.opaque,
-        child: AnimatedOpacity(
-          duration: const Duration(milliseconds: 150),
-          opacity: enabled ? 1 : 0.38,
-          child: AnimatedContainer(
-            duration: const Duration(milliseconds: 150),
-            height: 60,
-            padding: const EdgeInsets.fromLTRB(8, 8, 8, 7),
-            decoration: BoxDecoration(
-              color: widget.selected
-                  ? R.sheet
-                  : _hover && enabled
-                      ? R.sheet.withValues(alpha: 0.6)
-                      : Colors.transparent,
-              border: Border(
-                right: widget.last ? BorderSide.none : const BorderSide(color: R.rule),
-                bottom: BorderSide(
-                  color: widget.selected ? color : Colors.transparent,
-                  width: 2,
-                ),
-              ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                Text(
-                  '${widget.count}',
-                  style: R.num(
-                    size: 22,
-                    weight: FontWeight.w600,
-                    color: widget.selected ? color : R.ink,
-                  ),
-                ),
-                const SizedBox(height: 1),
-                Row(
-                  children: [
-                    Container(
-                      width: 12,
-                      height: 2,
-                      margin: const EdgeInsets.only(right: 4, bottom: 1),
-                      color: color.withValues(alpha: 0.6),
-                    ),
-                    Flexible(
-                      child: Text(
-                        widget.label,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: R.sans(
-                          size: 10.5,
-                          weight: FontWeight.w500,
-                          color: widget.selected ? R.ink : R.muted,
-                          letterSpacing: 0.7,
-                          height: 1.3,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ],
+          Expanded(
+            child: AppButton(
+              label: '导出 PDF',
+              icon: AppIcons.pdf,
+              tone: AppButtonTone.secondary,
+              onPressed: controller.exporting ? null : controller.exportPdf,
+              loading: controller.exporting,
             ),
           ),
-        ),
-      ),
-    );
-  }
-}
-
-class _FindingCard extends StatefulWidget {
-  const _FindingCard({
-    required this.finding,
-    required this.expanded,
-    required this.active,
-    required this.onToggle,
-    required this.onLocate,
-    required this.onCopy,
-  });
-
-  final Finding finding;
-  final bool expanded;
-  final bool active;
-  final VoidCallback onToggle;
-  final VoidCallback onLocate;
-  final void Function(String text, String label) onCopy;
-
-  @override
-  State<_FindingCard> createState() => _FindingCardState();
-}
-
-class _FindingCardState extends State<_FindingCard> {
-  bool _hover = false;
-
-  Finding get f => widget.finding;
-
-  @override
-  Widget build(BuildContext context) {
-    final color = verdictColor(f.verdict);
-    final soft = verdictSoft(f.verdict);
-    final label = switch (f.verdict) {
-      Verdict.red => '最坏会发生',
-      Verdict.yellow => '可能吃亏',
-      Verdict.gray => '需要确认',
-      Verdict.green => '规则核对',
-    };
-
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final narrow = constraints.maxWidth < 430;
-        final header = Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 1),
-              child: TagPill(label: verdictLabel[f.verdict]!, color: color, background: soft),
+          const SizedBox(width: AppSpace.x2),
+          Expanded(
+            child: AppButton(
+              label: '复制报告',
+              icon: AppIcons.copy,
+              onPressed: controller.copyReport,
             ),
-            const SizedBox(width: 9),
-            Expanded(
-              child: Text(
-                f.ruleName,
-                maxLines: narrow ? 2 : 1,
-                overflow: TextOverflow.ellipsis,
-                style: R.serif(size: 15.5, weight: FontWeight.w600, color: R.ink, height: 1.5),
-              ),
-            ),
-            if (!narrow) ...[
-              const SizedBox(width: 8),
-              Padding(
-                padding: const EdgeInsets.only(top: 2),
-                child: Text(
-                  f.location,
-                  style: R.sans(size: 11, color: R.faint, height: 1.4),
-                ),
-              ),
-            ],
-            const SizedBox(width: 6),
-            AnimatedRotation(
-              turns: widget.expanded ? 0.5 : 0,
-              duration: const Duration(milliseconds: 180),
-              child: Icon(Icons.expand_more, size: RI.control, color: _hover ? R.ink2 : R.faint),
-            ),
-          ],
-        );
-
-        return MouseRegion(
-          cursor: SystemMouseCursors.click,
-          onEnter: (_) => setState(() => _hover = true),
-          onExit: (_) => setState(() => _hover = false),
-          child: Material(
-            color: Colors.transparent,
-            child: InkWell(
-              onTap: widget.onToggle,
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 160),
-                padding: const EdgeInsets.fromLTRB(15, 16, 12, 14),
-                decoration: BoxDecoration(
-                  color: widget.active
-                      ? R.sheet
-                      : _hover
-                          ? R.sheet.withValues(alpha: 0.55)
-                          : Colors.transparent,
-                  border: Border(
-                    left: BorderSide(color: color, width: 2),
-                    bottom: const BorderSide(color: R.rule),
-                  ),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    header,
-                    if (narrow) ...[
-                      const SizedBox(height: 4),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 1),
-                        child: Text(
-                          f.location,
-                          style: R.sans(size: 11, color: R.faint, height: 1.4),
-                        ),
-                      ),
-                    ],
-                    const SizedBox(height: 8),
-                    Text(
-                      label,
-                      style: R.sans(
-                        size: 10.5,
-                        weight: FontWeight.w500,
-                        color: R.faint,
-                        letterSpacing: 1.4,
-                        height: 1.4,
-                      ),
-                    ),
-                    const SizedBox(height: 3),
-                    Text(
-                      f.consequence,
-                      style: R.sans(size: 13.5, color: R.ink2, height: 1.75),
-                    ),
-                    AnimatedSize(
-                      duration: const Duration(milliseconds: 180),
-                      alignment: Alignment.topCenter,
-                      child: widget.expanded
-                          ? _FindingDetail(finding: f, onLocate: widget.onLocate, onCopy: widget.onCopy)
-                          : const SizedBox(width: double.infinity),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ),
-        );
-      },
-    );
-  }
-}
-
-class _FindingDetail extends StatelessWidget {
-  const _FindingDetail({
-    required this.finding,
-    required this.onLocate,
-    required this.onCopy,
-  });
-
-  final Finding finding;
-  final VoidCallback onLocate;
-  final void Function(String text, String label) onCopy;
-
-  @override
-  Widget build(BuildContext context) {
-    final f = finding;
-    final color = verdictColor(f.verdict);
-    return Container(
-      margin: const EdgeInsets.only(top: 12),
-      padding: const EdgeInsets.only(top: 12),
-      decoration: BoxDecoration(
-        border: Border(
-          top: BorderSide(color: color.withValues(alpha: 0.28)),
-        ),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          if (f.quote.isNotEmpty) ...[
-            Container(
-              padding: const EdgeInsets.only(left: 11),
-              margin: const EdgeInsets.only(bottom: 13),
-              decoration: BoxDecoration(
-                border: Border(left: BorderSide(color: color.withValues(alpha: 0.45), width: 2)),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    '原文',
-                    style: R.sans(
-                      size: 10.5,
-                      weight: FontWeight.w600,
-                      color: R.muted,
-                      letterSpacing: 1.2,
-                      height: 1.4,
-                    ),
-                  ),
-                  const SizedBox(height: 3),
-                  Text(
-                    f.quote,
-                    style: R.serif(size: 13, weight: FontWeight.w400, color: R.ink2, height: 1.85),
-                  ),
-                ],
-              ),
-            ),
-          ],
-          if (f.basis != null) ...[
-            Text(
-              '法律依据',
-              style: R.sans(
-                size: 10.5,
-                weight: FontWeight.w600,
-                color: R.muted,
-                letterSpacing: 1.2,
-                height: 1.4,
-              ),
-            ),
-            const SizedBox(height: 3),
-            Text(
-              '${f.basis!.law} ${f.basis!.article == '需核对' ? '（条文序号需核对）' : f.basis!.article}',
-              style: R.sans(size: 12.5, weight: FontWeight.w600, color: R.ink, height: 1.55),
-            ),
-            const SizedBox(height: 3),
-            Text(
-              f.basis!.text,
-              style: R.sans(size: 11.5, color: R.muted, height: 1.75),
-            ),
-            const SizedBox(height: 12),
-          ],
-          if (f.ask.isNotEmpty)
-            _AdviceRow(
-              label: '问谁 · 问什么',
-              text: f.ask,
-              onCopy: () => onCopy(f.ask, '这句话'),
-            ),
-          if (f.counter.isNotEmpty) ...[
-            const SizedBox(height: 14),
-            _AdviceRow(
-              label: '可以怎么改',
-              text: f.counter,
-              emphasis: true,
-              onCopy: () => onCopy(f.counter, '这句话'),
-            ),
-          ],
-          const SizedBox(height: 16),
-          Row(
-            children: [
-              InkWell(
-                onTap: onLocate,
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 3),
-                  child: IconLabel(
-                    icon: Icons.location_on_outlined,
-                    label: '在原文中定位',
-                    iconSize: RI.dense,
-                    gap: RI.gapDense,
-                    color: R.brand,
-                    style: R.sans(size: 11.5, weight: FontWeight.w500, color: R.brand, height: 1.4),
-                  ),
-                ),
-              ),
-              const Spacer(),
-              Text(
-                '把握：${f.confidence}',
-                style: R.sans(size: 11, color: R.faint, height: 1.4),
-              ),
-            ],
           ),
         ],
       ),
     );
   }
-}
-
-class _AdviceRow extends StatelessWidget {
-  const _AdviceRow({
-    required this.label,
-    required this.text,
-    required this.onCopy,
-    this.emphasis = false,
-  });
-
-  final String label;
-  final String text;
-  final VoidCallback onCopy;
-  final bool emphasis;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Expanded(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                label,
-                style: R.sans(
-                  size: 10.5,
-                  weight: FontWeight.w600,
-                  color: R.muted,
-                  letterSpacing: 1.2,
-                  height: 1.4,
-                ),
-              ),
-              const SizedBox(height: 3),
-              Text(
-                text,
-                style: emphasis
-                    ? R.sans(size: 13, weight: FontWeight.w600, color: R.ink, height: 1.65)
-                    : R.sans(size: 12.5, color: R.ink2, height: 1.7),
-              ),
-            ],
-          ),
-        ),
-        const SizedBox(width: 8),
-        Tooltip(
-          message: '复制这句话',
-          child: InkWell(
-            onTap: onCopy,
-            borderRadius: BorderRadius.circular(3),
-            child: Container(
-              margin: const EdgeInsets.only(top: 12),
-              width: 26,
-              height: 26,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: R.sheet2,
-                border: Border.all(color: R.rule),
-                borderRadius: BorderRadius.circular(3),
-              ),
-              child: const Icon(Icons.copy_outlined, size: RI.dense, color: R.muted),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _PendingBlock extends StatelessWidget {
-  const _PendingBlock({required this.items});
-
-  final List<String> items;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      margin: const EdgeInsets.only(top: 24),
-      padding: const EdgeInsets.fromLTRB(16, 16, 18, 16),
-      decoration: BoxDecoration(
-        color: R.sheet,
-        border: Border(
-          top: const BorderSide(color: R.rule),
-          right: const BorderSide(color: R.rule),
-          bottom: const BorderSide(color: R.rule),
-          left: BorderSide(color: R.gold, width: 3),
-        ),
-        boxShadow: R.shadowSheet,
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              Text(
-                '还要确认 ${items.length} 件事',
-                style: R.serif(size: 15.5, weight: FontWeight.w600, letterSpacing: 0.2, height: 1.5),
-              ),
-            ],
-          ),
-          const SizedBox(height: 4),
-          Text(
-            '这些信息没有出现在你提供的文本里，不能替你判断。',
-            style: R.sans(size: 11.5, color: R.muted, height: 1.7),
-          ),
-          const SizedBox(height: 12),
-          for (var i = 0; i < items.length; i++)
-            Padding(
-              padding: EdgeInsets.only(bottom: i == items.length - 1 ? 0 : 9),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 22,
-                    child: Text(
-                      '${i + 1}'.padLeft(2, '0'),
-                      style: R.num(size: 11, weight: FontWeight.w500, color: R.faint, height: 1.5),
-                    ),
-                  ),
-                  Expanded(
-                    child: Text(
-                      items[i],
-                      style: R.sans(size: 12.5, color: R.ink2, height: 1.65),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-        ],
-      ),
-    );
-  }
-}
-
-extension on Color {
-  Color blend(Color background) => Color.alphaBlend(this, background);
 }

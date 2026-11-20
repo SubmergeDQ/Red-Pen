@@ -52,6 +52,7 @@ class MlKitOcrService implements OcrService {
 
     RecognizedText? recognized;
     PlatformException? failure;
+    Object? thrown;
 
     for (var attempt = 0; attempt < 2 && recognized == null; attempt++) {
       final recognizer = TextRecognizer(script: TextRecognitionScript.chinese);
@@ -66,6 +67,7 @@ class MlKitOcrService implements OcrService {
         debugPrint('[ocr] ml kit attempt ${attempt + 1} failed: '
             '${error.code} ${error.message}');
       } on Object catch (error) {
+        thrown = error;
         debugPrint('[ocr] ml kit attempt ${attempt + 1} threw: $error');
       } finally {
         try {
@@ -78,9 +80,9 @@ class MlKitOcrService implements OcrService {
     }
 
     if (recognized == null) {
-      final detail = failure?.code == 'TextRecognizerError'
-          ? '本机识别模型没有准备好'
-          : '本机识别没有完成';
+      final detail = failure == null && thrown == null
+          ? '本机识别没有完成'
+          : '本机识别失败（${failure?.code ?? 'dart'} ${failure?.message ?? thrown}）';
       throw OcrException('$detail。请重试一次；如果仍然失败，改用「导入文件」。');
     }
 
@@ -137,12 +139,22 @@ Map<String, Object>? _decodeForMlKit(Uint8List bytes) {
   var image = img.bakeOrientation(decoded);
   const maxWidth = 1800;
   const maxPixels = 6000000;
+  const maxDimension = 1920;
   if (image.width > maxWidth) {
     final height = (image.height * maxWidth / image.width).round();
     image = img.copyResize(
       image,
       width: maxWidth,
       height: height,
+      interpolation: img.Interpolation.average,
+    );
+  }
+  if (image.width > maxDimension || image.height > maxDimension) {
+    final scale = maxDimension / math.max(image.width, image.height);
+    image = img.copyResize(
+      image,
+      width: (image.width * scale).round(),
+      height: (image.height * scale).round(),
       interpolation: img.Interpolation.average,
     );
   }

@@ -16,7 +16,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 # https://developer.apple.com/library/archive/documentation/General/Reference/InfoPlistKeyReference/Articles/CoreFoundationKeys.html
 # In Windows, build-name is used as the major, minor, and patch parts
 # of the product and file versions while build-number is used as the build suffix.
-version: 1.0.0+1
+version: 1.1.0+4
 
 environment:
   sdk: ^3.14.0
@@ -76,20 +76,9 @@ flutter:
   assets:
     - assets/ocr/win_ocr.ps1
     - assets/fonts/NotoSansSC-Regular.ttf
+    - assets/brand/
 
-  fonts:
-    - family: RedPenSerifA
-      fonts:
-        - asset: assets/fonts/RedPenSerifA-400.ttf
-          weight: 400
-        - asset: assets/fonts/RedPenSerifA-600.ttf
-          weight: 600
-    - family: RedPenSerifB
-      fonts:
-        - asset: assets/fonts/RedPenSerifB-400.ttf
-          weight: 400
-        - asset: assets/fonts/RedPenSerifB-600.ttf
-          weight: 600
+  # 1.1 起界面只使用 Noto Sans SC，旧版衬线字体不再随包分发。
 
   # To add assets to your application, add an assets section, like this:
   # assets:

@@ -100,6 +100,26 @@ class UpdateException implements Exception {
   String toString() => message;
 }
 
+/// Turns GitHub's Markdown release body into plain text for the in-app list.
+String plainReleaseNotes(String raw) {
+  final lines = raw
+      .replaceAll('\r\n', '\n')
+      .split('\n')
+      .map((line) => line
+          .replaceAll(RegExp(r'^#{1,6}\s*'), '')
+          .replaceAll('**', '')
+          .replaceAll('`', '')
+          .trimRight())
+      .toList();
+  while (lines.isNotEmpty && lines.first.trim().isEmpty) {
+    lines.removeAt(0);
+  }
+  while (lines.isNotEmpty && lines.last.trim().isEmpty) {
+    lines.removeLast();
+  }
+  return lines.join('\n');
+}
+
 /// Reads public release metadata from GitHub. It never uploads anything: the
 /// only traffic is a GET of the repository's release list.
 class UpdateService {

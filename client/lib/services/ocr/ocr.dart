@@ -33,7 +33,11 @@ class PreprocessedOcrService implements OcrService {
   }) async {
     final List<Uint8List> tiles;
     try {
-      tiles = await compute(prepareOcrTiles, imageBytes);
+      tiles = await compute(_prepareTiles, {
+        'bytes': imageBytes,
+        // ML Kit rejects very tall images; keep Android tiles under 1920px.
+        'aspect': defaultTargetPlatform == TargetPlatform.android ? 1.15 : ocrTileAspect,
+      });
     } on FormatException {
       throw const OcrException('无法读取这张图片，请换一张更清晰的截图或照片。');
     }
@@ -105,3 +109,10 @@ String mergeOcrTiles(List<String> parts) {
 }
 
 String _lineKey(String line) => line.replaceAll(RegExp(r'\s'), '');
+
+List<Uint8List> _prepareTiles(Map<String, Object> data) {
+  return prepareOcrTiles(
+    data['bytes'] as Uint8List,
+    tileAspect: data['aspect'] as double,
+  );
+}

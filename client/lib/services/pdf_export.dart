@@ -16,27 +16,27 @@ import '../engine/engine.dart';
 class PdfExporter {
   PdfExporter._();
 
-  static const _ink = PdfColor.fromInt(0xFF1D201A);
-  static const _ink2 = PdfColor.fromInt(0xFF3B4137);
-  static const _muted = PdfColor.fromInt(0xFF63635A);
-  static const _faint = PdfColor.fromInt(0xFF85836F);
-  static const _rule = PdfColor.fromInt(0xFFDED6C1);
-  static const _rule2 = PdfColor.fromInt(0xFFEDE7D8);
-  static const _sheet = PdfColor.fromInt(0xFFFEFCF5);
-  static const _sheet2 = PdfColor.fromInt(0xFFF9F5EA);
+  static const _ink = PdfColor.fromInt(0xFF101820);
+  static const _ink2 = PdfColor.fromInt(0xFF475666);
+  static const _muted = PdfColor.fromInt(0xFF6B7A88);
+  static const _faint = PdfColor.fromInt(0xFF9AA7B4);
+  static const _rule = PdfColor.fromInt(0xFFE3E8EE);
+  static const _rule2 = PdfColor.fromInt(0xFFEDF1F5);
+  static const _sheet = PdfColor.fromInt(0xFFFFFFFF);
+  static const _sheet2 = PdfColor.fromInt(0xFFF7F9FB);
 
   static const _verdictColors = {
-    Verdict.red: PdfColor.fromInt(0xFFAE3A2B),
-    Verdict.yellow: PdfColor.fromInt(0xFF87600F),
-    Verdict.gray: PdfColor.fromInt(0xFF4E5A61),
-    Verdict.green: PdfColor.fromInt(0xFF3C6348),
+    Verdict.red: PdfColor.fromInt(0xFFB23A2F),
+    Verdict.yellow: PdfColor.fromInt(0xFF946200),
+    Verdict.gray: PdfColor.fromInt(0xFF51616F),
+    Verdict.green: PdfColor.fromInt(0xFF2F6B4F),
   };
 
   static const _verdictSoft = {
-    Verdict.red: PdfColor.fromInt(0xFFF3E0D8),
-    Verdict.yellow: PdfColor.fromInt(0xFFF2E6CC),
-    Verdict.gray: PdfColor.fromInt(0xFFE8EAE3),
-    Verdict.green: PdfColor.fromInt(0xFFE6EDE0),
+    Verdict.red: PdfColor.fromInt(0xFFFBEBE8),
+    Verdict.yellow: PdfColor.fromInt(0xFFFFF5DC),
+    Verdict.gray: PdfColor.fromInt(0xFFEFF3F6),
+    Verdict.green: PdfColor.fromInt(0xFFE9F3ED),
   };
 
   static PdfColor _color(Verdict v) => _verdictColors[v] ?? _ink;

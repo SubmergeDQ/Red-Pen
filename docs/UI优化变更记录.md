@@ -389,5 +389,289 @@ client/android/app/src/main/AndroidManifest.xml  恢复 INTERNET、补充 https 
 docs/版本更新说明-1.0.0.md                     发行版更新说明（新增）
 ```
 
+---
+
+# 第五轮：1.1.0 全量 UI 重构与新图标（2026-11-20）
+
+本轮不是在前一版上改样式，而是换掉整套视觉语言：纸面、衬线、侧栏、上下文栏、状态栏与琥珀装饰线全部退役，新的「墨线」设计系统覆盖桌面与移动端。判定引擎、规则库和业务流程未改动。
+
+## 二十二、设计方向与范围
+
+| 范围 | 决定 |
+|---|---|
+| 品牌 | 采用用户提供的新应用图标；品牌色取自图标的墨蓝与朱红 |
+| 视觉语言 | 冷白画布、纯白表面、单一无衬线字族、一个强调色、8pt 间距体系 |
+| 页面结构 | 授权重排：桌面顶部导航 + 固定底栏；移动顶栏 + 分段切换 + 底部操作栏 |
+| 业务流程 | 锁定：交稿台 → 核对中 → 核对报告；导入、OCR、导出、复制、更新检查不变 |
+| 旧资产 | 删除 `theme.dart`、`ui/common.dart`、`ui/desktop_shell.dart` 与衬线字体，不保留双套实现 |
+
+## 二十三、设计系统
+
+新增 `client/lib/design/`：
+
+- `tokens.dart`：表面/文字/边界/品牌/强调/四级判定色、4 倍数间距、圆角档位、阴影、时长与字体角色。
+- `app_theme.dart`：Material 3 主题，统一 Tooltip、SnackBar、弹窗、底部面板、菜单、滚动条、进度条。
+- `theme_config.dart`：`AppThemeConfig` 与 `AppThemeTokens`，全局主题配置与运行时扩展位。
+- `adaptive.dart`：`AppLayout` compact / medium / expanded 与统一断点、页边距。
+- `commands.dart`：`AppCommand`，桌面顶栏与移动更多菜单共用的命令插槽。
+- `icons.dart`：统一 Material Rounded 图标表与 16/18/22/28 尺寸档位。
+- `components/`：按钮、图标按钮、链接、标签、计数徽标、卡片、区块标题、指标块、键值行、空状态、提示条、下拉、输入外壳、分段控件、弹窗/底部面板、Toast、进度条、呼吸点。
+
+关键取值：画布 `#F2F4F7`、表面白、墨 `#101820`、品牌 `#1F3243`、强调 `#C04434`；间距 4–80；圆角 6/8/10/14/20；动效 120/180/280/320ms。完整规范见 `docs/DESIGN.md`。
+
+## 二十四、布局与页面
+
+### 1. 外壳
+
+- 桌面：64px 顶栏（品牌、当前文档、交稿台/核对结果/核对依据、本机状态、扩展命令、换一份、关于），页面底部固定操作栏。
+- 移动：56px 顶栏（品牌、风险徽标、关于、更多），不放大标题、不再用深色通栏。
+- 旧侧栏、上下文栏、26px 状态栏全部删除。
+
+### 2. 交稿台
+
+- 大标题改为两行无衬线排印，强调词用朱红；标签改为胶囊。
+- 桌面两栏：左编辑器卡片、右试用文本卡片；编辑器工具条、字数、清空与隐私提示重排。
+- 手机单列，底部固定「开始核对」栏；试用文本改为卡片列表，不再使用带圆圈箭头的长列表。
+
+### 3. 核对中
+
+- 单卡片居中：84px 进度环、百分比、四阶段列表、隐私提示；阶段完成用勾选圆点。
+
+### 4. 核对报告
+
+- 桌面：顶部一句结论 + 5 个可点统计块 + 操作按钮；下方报告（6）与原文（5）双栏。
+- 移动：分段切换「核对报告 / 合同原文」，摘要与统计条进入报告滚动区，底部固定导出/复制。
+- 卡片：白底 14 圆角，等级标签 + 标题 + 位置 + 结论；展开后在浅灰内嵌块里展示原文、法律依据、问法、改法与定位。原文面板按条款着色，批注数与定位保留。
+
+### 5. 关于与弹层
+
+- 关于页重写为品牌区、更新、历史版本、运行环境、代码仓库、隐私六段；版本徽标、检查更新、下载/跳过、发行版展开都使用新组件。
+- 核对依据、换一份、图片源、更新提示全部改为统一弹窗/底部面板。
+
+## 二十五、全平台图标
+
+- 从 `red-pen-app-icon.zip` 的 SVG 生成全部位图：Android legacy 48–192、adaptive 108–432（foreground/background/monochrome）、Windows 16–256 `.ico`、Web 64 favicon 与 192/512 常规/可遮罩、应用内 128/512 品牌图。
+- Android 新增 `mipmap-anydpi-v26/ic_launcher(_round).xml` 与清单 `roundIcon`；启动背景改为品牌墨蓝 + 居中图标。
+- Web manifest 改为中文名称、品牌色与真实描述。
+- 应用内 `SealMark` 删除，统一使用 `BrandMark` 读取同一图标。
+
+## 二十六、架构扩展
+
+- 组件按 foundation / components / ui / pages / state / services 分层，页面不再自建按钮和卡片样式。
+- 全局主题：`buildAppTheme(config)`；`AppThemeTokens` 挂在 `ThemeExtension` 上，为深色与换色预留。
+- 插件命令：`AppCommand` + `AppShell.extraCommands`，桌面顶栏与移动更多菜单自动分发。
+- 多场景：`AppLayout` 三档与统一断点，为平板、折叠屏、超宽屏预留。
+
+## 二十七、验证
+
+- `flutter analyze`：0 问题；`flutter test`：92 项全部通过（新增更新提示交互 2 项、桌面外壳 1 项）。
+- Windows Release 构建、安装、启动、卸载全部通过；安装 29 个文件，版本 `1.1.0+2`（第六轮升到 `+3`）。
+- Android 三 ABI 构建通过，签名仍为 `CN=SWFU Hub`；清单含 `INTERNET`；adaptive icon 含 monochrome。
+- 启动性能（Profile）：首帧 84.95 ms，光栅化 559.51 ms；报告页内存约 133 MB Working Set。
+- 截图覆盖 1440×800、1266×682、706×762、480×720 逻辑视口，无溢出、截断或孤字。
+- 未覆盖：Android 真机、连续帧率、Web 应用构建、macOS。
+
+## 二十八、第五轮改动文件
+
+```
+client/lib/design/                     设计令牌、主题、扩展位、图标表与原子组件（新增）
+client/lib/ui/app_shell.dart           响应式外壳（新增，替代 desktop_shell）
+client/lib/ui/rules_panel.dart         核对依据面板（新增）
+client/lib/ui/update_prompt.dart       更新提示（新增）
+client/lib/ui/release_notes.dart       更新说明与外部链接（新增）
+client/lib/pages/intake_page.dart      交稿台重写
+client/lib/pages/analyzing_page.dart   核对中重写
+client/lib/pages/review_page.dart      报告页重写
+client/lib/pages/about_page.dart       关于页重写
+client/lib/main.dart                   新主题、外壳、提示与弹窗
+client/lib/theme.dart                  删除
+client/lib/ui/common.dart              删除
+client/lib/ui/desktop_shell.dart       删除
+client/assets/brand/                   新应用图标（新增）
+client/assets/fonts/                   移除四个衬线字体
+client/android/app/src/main/res/       legacy/adaptive/monochrome 图标、启动背景、颜色
+client/web/                            favicon、图标、manifest 与页面元信息
+client/windows/runner/resources/app_icon.ico  多尺寸新图标
+client/test/update_prompt_test.dart    更新提示测试（新增）
+docs/DESIGN.md                         设计规范（新增）
+docs/1.1.0-测试报告.md                 测试报告（新增）
+docs/1.1.0-发布验收.md                 发布验收（新增）
+docs/版本更新说明-1.1.0.md             发行版说明（新增）
+docs/assets/1.1.0/                     UI 截图证据（新增）
+```
+
+---
+
+# 第六轮：1.1.0 桌面窗口、图标与窄屏排版的修正（2026-11-20）
+
+本轮针对实测反馈做四组修正，版本构建号升到 `1.1.0+3`，设计语言与业务流程不变。
+
+## 二十九、Windows 窗口位置记忆
+
+- 新增 `windows/runner/window_state.h/.cpp`：用 `GetWindowPlacement` 取还原后的矩形，写入 `HKCU\Software\RedPen\Window`（X / Y / Width / Height / Maximized）；关闭、系统会话结束时保存。
+- 启动顺序：`Create` 后先恢复上次矩形；若不存在或已不在任何显示器工作区，则按默认 `1280×840` 逻辑像素创建，居中并夹到当前工作区。
+- `Win32Window` 增加初始显示命令，保存时若为最大化，启动仍以最大化显示，不会被首帧的 `SW_SHOWNORMAL` 覆盖。
+- 实测：默认窗口 1600×1050 物理（125%），移到 `220,80 / 1400×930` 关闭后重启，坐标与尺寸完全一致；删除注册表键后回到居中默认。
+
+## 三十、默认展示完整交稿台
+
+- 默认窗口从 1280×720 提高到 1280×840 逻辑像素。
+- 交稿台按可用高度进入紧凑排版（`< 780`）：标题切到 H1、间距与卡片内边距收紧、编辑器 7 行、双栏阈值从 1040 降到 1000。
+- 首次进入用 `jumpTo(0)` 固定滚动位置，避免窗口 DPI/尺寸变化后继承偏移、把「签约前 5 分钟」徽标裁掉。
+- 实测：默认窗口下标题、编辑器、试用文本、免责声明与底部操作栏全部可见，无需滚动。
+
+## 三十一、Windows 图标链路
+
+- exe 与窗口类图标继续使用 `windows/runner/resources/app_icon.ico`（16–256 多尺寸）。
+- 安装程序新增 `SetupIconFile`，安装包本身显示新图标；开始菜单、桌面快捷方式显式 `IconFilename` 指向 exe。
+- 抽取 exe 与安装程序图标核对，均为纸面 + 红圈的新图标。
+
+## 三十二、Android 启动图标留白
+
+- 以 1024 画布重新合成：主体缩至 76%，居中添加透明留白；adaptive foreground / monochrome 同步缩放。
+- legacy 图标用背景 + 缩小后的前景重新合成，圆角与圆形版本分别应用遮罩，不再直接复用整块 SVG。
+- 从最终 APK 抽出 192px legacy 与圆形图标核对，留白与主体比例一致。
+
+## 三十三、窄屏编辑器头部
+
+- `_EditorHeader` 按宽度切换：`< 520` 时拆成两行。
+  - 第一行：图标 + 「合同正文」/副标题（单行省略）+ 清空按钮。
+  - 第二行：合同类型下拉 + 字数。
+- 标题与副标题加 `maxLines: 1`，彻底避免「合同正文」折成「合同正 / 文」、类型与字数互相挤压。
+- 实测 480 逻辑宽度载入 447 字合同：标题单行、`自动识别类型` 与 `447 字` 分列第二行两端，无重叠。
+
+## 三十四、「签约前 5 分钟」横向双段
+
+- 新增 `SignBadge`：胶囊内「签约前」在左、「5 分钟」以强调色紧随其右，两段各自 `softWrap: false`，任何宽度都不换行。
+- 交稿台桌面/移动共用同一组件；关于页、窗口标题保持原有横向文案。
+
+## 三十五、第六轮验证
+
+- `flutter analyze`：0 问题；`flutter test`：92 项全部通过。
+- Windows：默认窗口完整可见；位置记忆保存/恢复通过；安装、启动、卸载通过（29 文件、`1.1.0+3`）；exe 与安装程序图标核对一致。
+- Android：三 ABI 构建通过，versionCode 2003 / 1003 / 4003，签名不变；APK 内图标为缩小留白版本。
+- 未覆盖：Android 真机、连续帧率、Web 应用构建、macOS。
+
+## 三十六、第六轮改动文件
+
+```
+client/windows/runner/main.cpp            默认窗口、居中夹取、恢复上次位置
+client/windows/runner/window_state.h/.cpp 窗口位置读写与可见性校验（新增）
+client/windows/runner/win32_window.*      初始显示命令（最大化）
+client/windows/runner/flutter_window.cpp  WM_CLOSE / WM_ENDSESSION 保存位置
+client/windows/runner/CMakeLists.txt      加入 window_state.cpp
+client/lib/pages/intake_page.dart         紧凑排版、顶部滚动归零、两行编辑器头部
+client/lib/design/components/tag.dart     SignBadge 横向双段徽标
+client/android/app/src/main/res/          Android 图标缩小留白（各密度与 adaptive）
+installer/redpen.iss                      安装程序图标与快捷方式图标
+docs/版本更新说明-1.1.0.md                 补充 +3 修订与校验和
+docs/1.1.0-测试报告.md                     补充窗口记忆、窄屏头部与图标验证
+docs/1.1.0-发布验收.md                     补充修订项验收
+docs/assets/1.1.0/                        更新默认窗口、关于页与窄屏头部截图
+```
+
+---
+
+# 第七轮：1.1.0 的 OCR、排版与 Windows 窗口修正（2026-11-20）
+
+本轮修四组问题，版本构建号升到 `1.1.0+4`；设计语言、业务流程和 1.1.0 发布范围不变。
+
+## 三十七、Android ML Kit OCR 在 release 包中的初始化失败
+
+### 1. 现象
+
+- Debug 包一切正常；Release 包中「图片识别」与扫描版 PDF 导入都在识别器初始化阶段失败。
+- 屏幕文案为「本机识别没有完成」，异常原文：
+
+```
+Attempt to read from field 'xn1.a' on a null object reference
+in method 'cw com.google.mlkit.vision.text.TextRecognition.getClient(
+com.google.mlkit.vision.text.TextRecognizerOptionsInterface)'
+```
+
+### 2. 定位
+
+- 用临时入口 `lib/ocr_smoke.dart` 打包 release，把异常栈直接渲染到屏幕上，确认失败点在 `TextRecognition.getClient`，与图片预处理、切块、文件读取无关。
+- 说明问题来自 R8：`proguard-android-optimize.txt` 裁剪/优化了 ML Kit 通过反射建立的识别器注册表，`getClient` 读到的注册项为 null。
+- 原先的 keep 规则只保留了中文识别器与少量接口，不足以覆盖内部实现包。
+
+### 3. 修复
+
+`client/android/app/proguard-rules.pro` 改为整体保留：
+
+```
+-keep class com.google.mlkit.** { *; }
+-keep class com.google.android.gms.internal.mlkit_** { *; }
+```
+
+- 第一条覆盖 `TextRecognition`、`TextRecognizer`、中文选项类与 `common` / `vision-common` 注册器。
+- 第二条覆盖 `com.google.android.gms.internal.mlkit_vision_text_chinese`、`mlkit_vision_text_common`、`mlkit_common` 等内部实现。
+- 仍保留其它 ML Kit 文字的 `-dontwarn`，应用只打包中文模型。
+
+### 4. 真机验证
+
+| 场景 | 结果 |
+|---|---|
+| 独立图片 | release 包，相册选择 `test.png` → 1584 字，正文自动填入，提示「识别文字已填入正文」 |
+| PDF 内嵌图片 | release 包，导入无文本层扫描 PDF（1057×4803 单页）→ 页面渲染后走同一 OCR 服务，1584 字，提示「扫描页已在本机用 ML Kit 中文离线模型识别」 |
+
+验证用的临时入口、测试图片与 integration_test 文件在验证后删除，`pubspec.yaml` 同步移除 `assets/test/` 与 `integration_test`。
+
+## 三十八、首页「签约前 5 分钟」右移与右栏自适应
+
+- `_Hero` 改为标题行内布局：左 `Expanded` 标题，右 `SignBadge`（`crossAxisAlignment.start` + 顶部 2px 微调），原独立一行删除，纵向省出一行。
+- 移动端 480 逻辑宽度下标题两行不被压缩，徽标与首行顶对齐；桌面端徽标位于内容区右上，与标题首行同高。截图 `android-intake.png`、`desktop-intake-1320x900.png`。
+- 实测桌面「试用文本」卡片在 900 高度下底部被裁掉一行：`_SamplePanel` 改为 `LayoutBuilder` 自适应，可用高度 `< 520` 时切换紧凑模式——行内边距 12→8、图标 34→30、卡片内边距 20→12，并收起「覆盖范围」说明。
+- 紧凑模式在默认 `1320×900` 与最小 `1080×700` 下均能完整显示四份试用文本，无截断。
+
+## 三十九、Windows 图标链路（任务栏）
+
+- `FlutterWindow::OnCreate` 用 `LoadImage(IDI_APP_ICON, SM_CXICON/SM_CXSMICON, LR_SHARED)` 取大小两档，再 `WM_SETICON` 显式设置 `ICON_BIG` / `ICON_SMALL`，避免任务栏与 Alt+Tab 使用缓存或默认图标。
+- `main.cpp` 调用 `SetCurrentProcessExplicitAppUserModelID(L"RedPen.Desktop.1")`；安装程序的桌面与开始菜单快捷方式使用同一 `AppUserModelID`，保证任务栏按钮与快捷方式归为同一应用。
+- 快捷方式 `IconFilename` 继续指向 `{app}\red_pen.exe`，exe 内嵌 `app_icon.ico`（16/24/32/48/64/128/256 七档）。
+- 验证：`WM_GETICON` 读回大/小图标句柄非空，抽取图像为纸面 + 红圈新图标；安装后的 exe 图标与品牌源文件一致；快捷方式 `IconLocation = D:\红笔\red_pen.exe,0`。
+
+### 补充：覆盖安装后的图标缓存
+
+- 现象：exe、安装包图标都已正确，但桌面快捷方式与任务栏仍显示旧的 Flutter 默认图标。
+- 排查：`ExtractIconEx` 确认 exe 只有一个图标组且为新图标；`ico` 的 16–256 七档全部为新图；`SHGetFileInfo` 与 `SHGetImageList(SHIL_JUMBO)` 解析快捷方式均返回新图标——说明文件与系统解析都正确，是资源管理器内存/图标缓存未刷新。
+- 修复：安装程序增加 `ChangesAssociations=yes`，覆盖安装结束时广播 `SHCNE_ASSOCCHANGED`，强制资源管理器重建图标；本机再清理 `iconcache_*.db` 并重启资源管理器后，桌面与任务栏均显示新图标。
+- 任务栏复验：从安装目录启动并最小化，任务栏按钮图标为纸面 + 红圈（运行态下划线可见）。
+
+## 四十、Windows 首页不滚动与窗口尺寸
+
+- 桌面交稿台改为固定高度布局：`Column(_Hero, Expanded(双栏), 免责声明)` + 固定底栏；页面本身不再使用 `SingleChildScrollView`，长文本由编辑器内部滚动。
+- 最小窗口 `WM_GETMINMAXINFO` 由固定 `1200×800` 改为按 DPI 换算的 `1080×700`，兼容 1366×768 笔记本；更窄时页面自动退回可滚动的单栏布局。
+- 默认窗口从 `1280×840` 提高到 `1320×900` 逻辑像素，首次启动居中并夹到工作区。
+- 实测：
+  - 默认 `1320×900`：标题、编辑器、试用文本、免责声明、底栏全部可见，无滚动条。
+  - 最小 `1080×700`：无溢出、无截断、无重叠，试用文本完整。
+  - 位置记忆：移到 `300,120 / 1600×1000` 关闭后重启，`GetWindowRect` 与注册表保存值完全一致。
+
+## 四十一、第七轮验证
+
+- `flutter analyze`：0 问题；`flutter test`：92 项全部通过。
+- Windows：Release 构建、静默安装（33 文件、`1.1.0+4`）、覆盖安装图标刷新、启动、图标、窗口恢复全部通过。
+- Android：三 ABI 构建通过，versionCode `2004 / 1004 / 4004`，签名不变；真机 release 包完成首页、独立图片识别、扫描 PDF 识别。
+- 未覆盖：连续帧率采样、Web 应用构建、macOS。
+
+## 四十二、第七轮改动文件
+
+```
+client/android/app/proguard-rules.pro       ML Kit 全量 keep 规则
+client/lib/pages/intake_page.dart           徽标并入标题行、右栏自适应（紧凑模式）
+client/windows/runner/flutter_window.cpp    WM_SETICON 设置窗口大小图标
+client/windows/runner/main.cpp              AppUserModelID、默认窗口 1320×900
+client/windows/runner/win32_window.cpp      最小窗口按 DPI 换算为 1080×700
+client/pubspec.yaml                         版本 1.1.0+4，移除测试资源与 integration_test
+installer/redpen.iss                        VersionInfoVersion 1.1.0.4、ChangesAssociations 图标刷新
+docs/版本更新说明-1.1.0.md                   +4 修订、体积、versionCode 与校验和
+docs/1.1.0-测试报告.md                       第七轮补充验证（OCR、排版、图标、窗口）
+docs/1.1.0-发布验收.md                       修订项验收与发布条件闭环
+docs/assets/1.1.0/                          新增首页、最小窗口、真机 OCR 截图
+```
+
+
+
 
 

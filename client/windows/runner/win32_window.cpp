@@ -150,7 +150,11 @@ bool Win32Window::Create(const std::wstring& title,
 }
 
 bool Win32Window::Show() {
-  return ShowWindow(window_handle_, SW_SHOWNORMAL);
+  return ShowWindow(window_handle_, show_command_);
+}
+
+void Win32Window::SetInitialShowCommand(int command) {
+  show_command_ = command;
 }
 
 // static
@@ -186,6 +190,18 @@ Win32Window::MessageHandler(HWND hwnd,
         PostQuitMessage(0);
       }
       return 0;
+
+    case WM_GETMINMAXINFO: {
+      // 1080x700 logical：宽到能放下双栏交稿台，同时兼容 1366x768 笔记本的
+      // 工作区；更窄时页面自动退回可滚动的单栏布局。按当前 DPI 换算，避免
+      // 高分屏上窗口被撑到屏幕外。
+      auto info = reinterpret_cast<MINMAXINFO*>(lparam);
+      UINT dpi = hwnd == nullptr ? 96 : GetDpiForWindow(hwnd);
+      if (dpi == 0) dpi = 96;
+      info->ptMinTrackSize.x = MulDiv(1080, static_cast<int>(dpi), 96);
+      info->ptMinTrackSize.y = MulDiv(700, static_cast<int>(dpi), 96);
+      return 0;
+    }
 
     case WM_DPICHANGED: {
       auto newRectSize = reinterpret_cast<RECT*>(lparam);
