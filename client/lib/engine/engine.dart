@@ -81,6 +81,58 @@ const Map<String, LawRef> law = {
       '经营者向消费者提供有关商品或者服务的质量、性能、用途、有效期限等信息，应当真实、全面，不得作虚假或者引人误解的宣传。'),
   'R10': LawRef('《职业学校学生实习管理规定》', '需核对',
       '该规定要求实习单位为学生投保实习责任保险；具体条文序号需核对原文。'),
+  'L14': LawRef('《中华人民共和国劳动合同法》', '第十四条',
+      '有下列情形之一，劳动者提出或者同意续订、订立劳动合同的，除劳动者提出订立固定期限劳动合同外，应当订立无固定期限劳动合同：（一）劳动者在该用人单位连续工作满十年的；（二）用人单位初次实行劳动合同制度或者国有企业改制重新订立劳动合同时，劳动者在该用人单位连续工作满十年且距法定退休年龄不足十年的；（三）连续订立二次固定期限劳动合同，且劳动者没有本法第三十九条和第四十条第一项、第二项规定的情形，续订劳动合同的。用人单位自用工之日起满一年不与劳动者订立书面劳动合同的，视为用人单位与劳动者已订立无固定期限劳动合同。'),
+  'L39': LawRef('《中华人民共和国劳动法》', '第三十九条',
+      '企业因生产特点不能实行本法第三十六条、第三十八条规定的，经劳动行政部门批准，可以实行其他工作和休息办法。'),
+  'SPWORK': LawRef('《关于企业实行不定时工作制和综合计算工时工作制的审批办法》', '第四条、第五条、第七条',
+      '企业实行不定时工作制或综合计算工时工作制，应符合规定条件并经劳动行政部门审批。具体条文以最新有效文本为准。'),
+  'L46': LawRef('《中华人民共和国劳动合同法》', '第四十六条',
+      '有下列情形之一的，用人单位应当向劳动者支付经济补偿：（一）劳动者依照本法第三十八条规定解除劳动合同的；（二）用人单位依照本法第三十六条规定向劳动者提出解除劳动合同并与劳动者协商一致解除劳动合同的；（三）用人单位依照本法第四十条规定解除劳动合同的；（四）用人单位依照本法第四十一条第一款规定解除劳动合同的；（五）除用人单位维持或者提高劳动合同约定条件续订劳动合同，劳动者不同意续订的情形外，依照本法第四十四条第一项规定终止固定期限劳动合同的；（六）依照本法第四十四条第四项、第五项规定终止劳动合同的；（七）法律、行政法规规定的其他情形。'),
+  'L47': LawRef('《中华人民共和国劳动合同法》', '第四十七条',
+      '经济补偿按劳动者在本单位工作的年限，每满一年支付一个月工资的标准向劳动者支付。六个月以上不满一年的，按一年计算；不满六个月的，向劳动者支付半个月工资的经济补偿。劳动者月工资高于用人单位所在直辖市、设区的市级人民政府公布的本地区上年度职工月平均工资三倍的，向其支付经济补偿的标准按职工月平均工资三倍的数额支付，向其支付经济补偿的年限最高不超过十二年。本条所称月工资是指劳动者在劳动合同解除或者终止前十二个月的平均工资。'),
+  'L87': LawRef('《中华人民共和国劳动合同法》', '第八十七条',
+      '用人单位违反本法规定解除或者终止劳动合同的，应当依照本法第四十七条规定的经济补偿标准的二倍向劳动者支付赔偿金。'),
+  'L42': LawRef('《中华人民共和国劳动合同法》', '第四十二条',
+      '劳动者有下列情形之一的，用人单位不得依照本法第四十条、第四十一条的规定解除劳动合同：……（四）女职工在孕期、产期、哺乳期的；……'),
+  'L45': LawRef('《中华人民共和国劳动合同法》', '第四十五条',
+      '劳动合同期满，有本法第四十二条规定情形之一的，劳动合同应当续延至相应的情形消失时终止。但是，本法第四十二条第二项规定丧失或者部分丧失劳动能力劳动者的劳动合同的终止，按照国家有关工伤保险的规定执行。'),
+  'L66': LawRef('《中华人民共和国劳动合同法》', '第六十六条',
+      '劳动合同用工是我国的企业基本用工形式。劳务派遣用工是补充形式，只能在临时性、辅助性或者替代性的工作岗位上实施。前款规定的临时性工作岗位是指存续时间不超过六个月的岗位；辅助性工作岗位是指为主营业务岗位提供服务的非主营业务岗位；替代性工作岗位是指用工单位的劳动者因脱产学习、休假等原因无法工作的一定期间内，可以由其他劳动者替代工作的岗位。'),
+  'L68': LawRef('《中华人民共和国劳动合同法》', '第六十八条',
+      '非全日制用工，是指以小时计酬为主，劳动者在同一用人单位一般平均每日工作时间不超过四小时，每周工作时间累计不超过二十四小时的用工形式。'),
+  'L69': LawRef('《中华人民共和国劳动合同法》', '第六十九条',
+      '非全日制用工双方当事人可以订立口头协议。从事非全日制用工的劳动者可以与一个或者一个以上用人单位订立劳动合同；但是，后订立的劳动合同不得影响先订立的劳动合同的履行。'),
+  'L72': LawRef('《中华人民共和国劳动合同法》', '第七十二条',
+      '非全日制用工小时计酬标准不得低于用人单位所在地人民政府规定的最低小时工资标准。非全日制用工劳动报酬结算支付周期最长不得超过十五日。'),
+  'L92': LawRef('《中华人民共和国劳动合同法》', '第九十二条',
+      '用工单位给被派遣劳动者造成损害的，劳务派遣单位与用工单位承担连带赔偿责任。'),
+  'LADY7': LawRef('《女职工劳动保护特别规定》', '第七条',
+      '女职工生育享受98天产假，其中产前可以休假15天；难产的，增加产假15天；生育多胞胎的，每多生育1个婴儿，增加产假15天。女职工怀孕未满4个月流产的，享受15天产假；怀孕满4个月流产的，享受42天产假。'),
+  'LADY9': LawRef('《女职工劳动保护特别规定》', '第九条',
+      '对哺乳未满1周岁婴儿的女职工，用人单位不得延长劳动时间或者安排夜班劳动。用人单位应当在每天的劳动时间内为哺乳期女职工安排1小时哺乳时间；女职工生育多胞胎的，每多哺乳1个婴儿每天增加1小时哺乳时间。'),
+  'GSW17': LawRef('《工伤保险条例》', '第十七条',
+      '职工发生事故伤害或者按照职业病防治法规定被诊断、鉴定为职业病，所在单位应当自事故伤害发生之日或者被诊断、鉴定为职业病之日起30日内，向统筹地区社会保险行政部门提出工伤认定申请。遇有特殊情况，经报社会保险行政部门同意，申请时限可以适当延长。用人单位未按前款规定提出工伤认定申请的，工伤职工或者其近亲属、工会组织在事故伤害发生之日或者被诊断、鉴定为职业病之日起1年内，可以直接向用人单位所在地统筹地区社会保险行政部门提出工伤认定申请。'),
+  'GSW62': LawRef('《工伤保险条例》', '第六十二条',
+      '依照本条例规定应当参加工伤保险而未参加工伤保险的用人单位职工发生工伤的，由该用人单位按照本条例规定的工伤保险待遇项目和标准支付费用。'),
+  'SI41': LawRef('《中华人民共和国社会保险法》', '第四十一条',
+      '职工所在用人单位未依法缴纳工伤保险费，发生工伤事故的，由用人单位支付工伤保险待遇。用人单位不支付的，从工伤保险基金中先行支付。从工伤保险基金中先行支付的工伤保险待遇应当由用人单位偿还。用人单位不偿还的，社会保险经办机构可以依照本法第六十三条的规定追偿。'),
+  'PI6': LawRef('《中华人民共和国个人信息保护法》', '第六条',
+      '处理个人信息应当具有明确、合理的目的，并应当与处理目的直接相关，采取对个人权益影响最小的方式。收集个人信息，应当限于实现处理目的的最小范围，不得过度收集个人信息。'),
+  'PI17': LawRef('《中华人民共和国个人信息保护法》', '第十七条',
+      '个人信息处理者在处理个人信息前，应当以显著方式、清晰易懂的语言真实、准确、完整地向个人告知下列事项：（一）个人信息处理者的名称或者姓名和联系方式；（二）个人信息的处理目的、处理方式，处理的个人信息种类、保存期限；（三）个人行使本法规定权利的方式和程序；（四）法律、行政法规规定应当告知的其他事项。'),
+  'PI23': LawRef('《中华人民共和国个人信息保护法》', '第二十三条',
+      '个人信息处理者向其他个人信息处理者提供其处理的个人信息的，应当向个人告知接收方的名称或者姓名、联系方式、处理目的、处理方式和个人信息的种类，并取得个人的单独同意。接收方应当在上述处理目的、处理方式和个人信息的种类等范围内处理个人信息。'),
+  'PI29': LawRef('《中华人民共和国个人信息保护法》', '第二十九条',
+      '处理敏感个人信息应当取得个人的单独同意；法律、行政法规规定处理敏感个人信息应当取得书面同意的，从其规定。'),
+  'ESIGN13': LawRef('《中华人民共和国电子签名法》', '第十三条',
+      '电子签名同时符合下列条件的，视为可靠的电子签名：（一）电子签名制作数据用于电子签名时，属于电子签名人专有；（二）签署时电子签名制作数据仅由电子签名人控制；（三）签署后对电子签名的任何改动能够被发现；（四）签署后对数据电文内容和形式的任何改动能够被发现。当事人也可以选择使用符合其约定的可靠条件的电子签名。'),
+  'ESIGN14': LawRef('《中华人民共和国电子签名法》', '第十四条',
+      '可靠的电子签名与手写签名或者盖章具有同等的法律效力。'),
+  'ARB21': LawRef('《中华人民共和国劳动争议调解仲裁法》', '第二十一条',
+      '劳动争议仲裁委员会负责管辖本区域内发生的劳动争议。劳动争议由劳动合同履行地或者用人单位所在地的劳动争议仲裁委员会管辖。双方当事人分别向劳动合同履行地和用人单位所在地的劳动争议仲裁委员会申请仲裁的，由劳动合同履行地的劳动争议仲裁委员会管辖。'),
+  'CIVPRO90': LawRef('《中华人民共和国民事诉讼法》', '第九十条',
+      '经受送达人同意，人民法院可以采用能够确认其收悉的电子方式送达诉讼文书。通过电子方式送达的，以送达信息到达受送达人特定系统的日期为送达日期。判决书、裁定书、调解书，经受送达人同意，可以采用电子方式送达。'),
 };
 
 class RuleInfo {
@@ -133,6 +185,26 @@ const List<RuleInfo> ruleLibrary = [
       '建立劳动关系应签书面合同并各执一份；试用期后再签、只签试用期、空白合同都可能放大风险。'),
   RuleInfo('R20', '就业承诺与培训服务', '《广告法》第二十四条、《消费者权益保护法》第二十条',
       '“包就业”“保底薪资”“不过退费”要写清条件和退款路径，口头承诺不等于合同义务。'),
+  RuleInfo('R21', '必备条款缺失', '《劳动合同法》第十七条',
+      '劳动合同应具备单位信息、劳动者信息、期限、工作内容地点、工时休假、报酬、社保、劳动保护八项；缺核心条款会放大举证风险。'),
+  RuleInfo('R22', '经济补偿与违法解除', '《劳动合同法》第四十六条、第四十七条、第八十七条',
+      '法定情形解除应按工作年限支付经济补偿；违法解除按二倍赔偿；不得提前约定一律不补偿。'),
+  RuleInfo('R23', '无固定期限与连续签约', '《劳动合同法》第十四条',
+      '连续工作满十年或连续订立二次固定期限合同后，劳动者提出/同意续订的，应订立无固定期限合同；满一年未签书面合同视为无固定期限。'),
+  RuleInfo('R24', '特殊工时审批', '《劳动法》第三十九条、《不定时工作制和综合计算工时工作制审批办法》',
+      '综合工时、不定时工时需经劳动行政部门审批；未审批应按标准工时支付加班费。'),
+  RuleInfo('R25', '女职工三期保护', '《女职工劳动保护特别规定》第五条、第七条、第九条',
+      '不得因怀孕、生育、哺乳降薪或辞退；产假98天起，哺乳期每天1小时哺乳时间。'),
+  RuleInfo('R26', '工伤申报与待遇', '《工伤保险条例》第十七条、第六十二条',
+      '单位应在事故伤害发生之日起30日内申请工伤认定；未参保的由单位按工伤保险待遇项目和标准支付。'),
+  RuleInfo('R27', '个人信息与背景调查', '《个人信息保护法》第六条、第十七条、第二十三条、第二十九条',
+      '收集个人信息应最小必要并告知同意；敏感信息和向第三方提供需单独同意。'),
+  RuleInfo('R28', '非全日制与派遣外包', '《劳动合同法》第六十六条、第六十八条、第七十二条',
+      '非全日制每日不超过4小时、每周不超过24小时、15日内结算；派遣限于三性岗位；不得假外包真用工。'),
+  RuleInfo('R29', '电子签署与文本交付', '《电子签名法》第十三条、第十四条',
+      '电子劳动合同应使用可靠电子签名，可下载、打印，双方各执一份；不得只让签字不给文本。'),
+  RuleInfo('R30', '争议管辖与送达', '《劳动争议调解仲裁法》第二十一条',
+      '劳动争议由劳动合同履行地或用人单位所在地仲裁委管辖；不得约定排除法定管辖或放弃仲裁/诉讼权利。'),
 ];
 
 class SampleDoc {
@@ -3821,6 +3893,849 @@ void runR20(_Ctx ctx) {
   }
 }
 
+/* R21 必备条款缺失 */
+bool hasRuleItem(_Ctx ctx, int? clauseIndex, String ruleId) =>
+    clauseIndex != null && ctx.items.any((it) => it.clauseIndex == clauseIndex && it.ruleId == ruleId);
+
+void runR21(_Ctx ctx) {
+  final checks = <Map<String, Object>>[
+    {'label': '用人单位名称、住所和法定代表人', 're': RegExp(r'(甲方[（(]用人单位[）)]|用人单位[^。；\n]{0,10}(名称|住所|法定代表人)|甲方[^。；\n]{0,10}(名称|住所|法定代表人))')},
+    {'label': '劳动者姓名、住址和身份证件号码', 're': RegExp(r'(乙方[（(]劳动者[）)]|劳动者[^。；\n]{0,10}(姓名|身份证)|乙方[^。；\n]{0,10}(姓名|身份证))')},
+    {'label': '合同期限', 're': RegExp(r'(合同期限|劳动合同期限|期限自)')},
+    {'label': '工作内容与工作地点', 're': RegExp(r'(工作内容|工作岗位|工作地点|岗位为)')},
+    {'label': '工作时间与休息休假', 're': RegExp(r'(工作时间|休息休假|工时制度|每周工作)')},
+    {'label': '劳动报酬', 're': RegExp(r'(劳动报酬|工资|薪资|月薪)')},
+    {'label': '社会保险', 're': RegExp(r'(社会保险|社保|五险)')},
+    {'label': '劳动保护、劳动条件和职业危害防护', 're': RegExp(r'(劳动保护|劳动条件|职业危害|安全生产)')},
+  ];
+  final missing = checks
+      .where((x) => !(x['re'] as RegExp).hasMatch(ctx.text))
+      .map((x) => x['label'] as String)
+      .toList();
+  if (missing.isEmpty) {
+    _addItem(
+        ctx,
+        _ItemData(
+          base: 'R21',
+          ruleId: 'R21',
+          verdict: Verdict.green,
+          ruleName: '必备条款齐全',
+          short: '必备条款齐全',
+          consequence: '八项法定必备条款均有明确表述。',
+          basis: law['L17'],
+          confidence: '高',
+        ));
+    return;
+  }
+  const core = ['合同期限', '工作内容与工作地点', '劳动报酬', '社会保险'];
+  final missingCore = missing.where(core.contains).toList();
+  final verdict = missingCore.length >= 3 ? Verdict.red : Verdict.gray;
+  Clause? c;
+  for (final cl in ctx.clauses) {
+    if (RegExp(r'(其他按公司规定|按公司制度|另行约定|具体以公司)').hasMatch(cl.full)) {
+      c = cl;
+      break;
+    }
+  }
+  final q = c != null ? qAny(c, RegExp(r'(其他按公司规定|按公司制度|另行约定|具体以公司)')) : null;
+  _addItem(
+      ctx,
+      _ItemData(
+        base: 'R21',
+        ruleId: 'R21',
+        verdict: verdict,
+        ruleName: verdict == Verdict.red ? '核心必备条款缺失' : '部分必备条款缺失',
+        short: missingCore.isNotEmpty ? '缺 ${missingCore.length} 项核心条款' : '缺 ${missing.length} 项条款',
+        clauseIndex: c?.index,
+        location: c != null ? clauseLabel(c, c.index) : '全文',
+        quote: q?.quote ?? '',
+        range: q,
+        consequence: '合同缺少以下必备条款：${missing.join('、')}。其中核心条款缺失会让劳动关系基本要素无法确定，发生争议时举证和计算都会更困难。',
+        basis: law['L17'],
+        ask: 'HR：这些缺失条款能否补齐后再签？如果写在附件或员工手册里，能否一并交付？',
+        counter: '按《劳动合同法》第十七条补齐八项必备条款；附件须双方签字并交付。',
+        confidence: verdict == Verdict.red ? '高' : '中',
+      ));
+}
+
+/* R22 经济补偿与违法解除 */
+void runR22(_Ctx ctx) {
+  final noCompRe = RegExp(r'(解除|终止|辞退|裁员)[^。；\n]{0,24}(无需|无须|不支付|不予|不承担|不补偿)[^。；\n]{0,12}(经济补偿|补偿)');
+  final waiverRe = RegExp(r'(放弃|不主张|不要求)[^。；\n]{0,12}(经济补偿|补偿金)');
+  final lowBaseRe = RegExp(r'(经济补偿|补偿金)[^。；\n]{0,24}(按|以)[^。；\n]{0,12}(最低工资|基本工资|当地最低工资)');
+  final illegalLowRe = RegExp(r'(违法解除|违法辞退)[^。；\n]{0,20}(只|仅|按)[^。；\n]{0,10}(一个月|1个月|N|N\+1)[^。；\n]{0,10}(工资|补偿|赔偿)');
+  final greenRe = RegExp(r'(经济补偿)[^。；\n]{0,40}(每满一年|工作年限|十二个月平均工资)|(违法解除)[^。；\n]{0,20}(二倍|2N)');
+  Clause? c;
+  for (final cl in ctx.clauses) {
+    final t = cl.full;
+    if ((noCompRe.hasMatch(t) || waiverRe.hasMatch(t)) &&
+        !hasRuleItem(ctx, cl.index, 'R7') &&
+        !RegExp(r'(依法|应当|需要)[^。；\n]{0,12}(支付|补偿)').hasMatch(t)) {
+      c = cl;
+      break;
+    }
+  }
+  if (c != null) {
+    addPatternItem(
+        ctx,
+        c,
+        _ItemData(
+          base: 'R22',
+          ruleId: 'R22',
+          verdict: Verdict.red,
+          ruleName: '解除不支付经济补偿',
+          short: '辞退不给补偿',
+          consequence: '合同提前排除了解除或终止时的经济补偿；符合法定补偿情形时，这类约定不能免除支付义务，违法解除还应按二倍标准赔偿。',
+          ask: 'HR：解除时经济补偿按什么标准算？违法解除是否按2N赔偿？',
+          counter: '删除“无需补偿/放弃补偿”；按工作年限和法定标准写明经济补偿，违法解除按二倍赔偿。',
+          basis: law['L47'],
+          confidence: '高',
+        ),
+        noCompRe.hasMatch(c.body) ? noCompRe : waiverRe);
+    return;
+  }
+  Clause? low;
+  for (final cl in ctx.clauses) {
+    if (illegalLowRe.hasMatch(cl.full)) {
+      low = cl;
+      break;
+    }
+  }
+  if (low != null) {
+    addPatternItem(
+        ctx,
+        low,
+        _ItemData(
+          base: 'R22',
+          ruleId: 'R22',
+          verdict: Verdict.red,
+          ruleName: '违法解除赔偿不足',
+          short: '违法解除只给一个月',
+          consequence: '违法解除或辞退应按经济补偿标准的二倍支付赔偿金；只给一个月工资或只按N支付，低于法定标准。',
+          ask: 'HR：这次解除是合法解除还是违法解除？赔偿按N还是2N？',
+          counter: '违法解除按2N支付；合法解除按工作年限支付经济补偿。',
+          basis: law['L87'],
+          confidence: '高',
+        ),
+        illegalLowRe);
+    return;
+  }
+  Clause? lowBase;
+  for (final cl in ctx.clauses) {
+    if (lowBaseRe.hasMatch(cl.full)) {
+      lowBase = cl;
+      break;
+    }
+  }
+  if (lowBase != null) {
+    addPatternItem(
+        ctx,
+        lowBase,
+        _ItemData(
+          base: 'R22',
+          ruleId: 'R22',
+          verdict: Verdict.yellow,
+          ruleName: '经济补偿标准偏低',
+          short: '补偿基数被压低',
+          consequence: '把经济补偿基数写成最低工资或基本工资，会压低离职补偿；法定基数应是解除或终止前十二个月的平均工资。',
+          ask: 'HR：经济补偿的月工资基数按什么算？是否包含绩效和补贴？',
+          counter: '按解除前十二个月平均工资计算，不按最低工资或基本工资单方压低。',
+          basis: law['L47'],
+          confidence: '中',
+        ),
+        lowBaseRe);
+    return;
+  }
+  Clause? green;
+  for (final cl in ctx.clauses) {
+    if (greenRe.hasMatch(cl.full)) {
+      green = cl;
+      break;
+    }
+  }
+  if (green != null) addGreen(ctx, green, '经济补偿', greenRe, '经济补偿按工作年限和法定标准约定。');
+}
+
+/* R23 无固定期限与连续签约 */
+void runR23(_Ctx ctx) {
+  final tenRe = RegExp(r'(连续工作满十年|连续工作10年|工作满十年)');
+  final twiceRe = RegExp(r'(连续订立二次|连续订立两次|第三次签订|第三次续订)');
+  final fixRe = RegExp(r'(?:^|[^无])(固定期限|一年期|一年一签|不续签)');
+  final noWrittenRe = RegExp(r'(满一年|超过一年)[^。；\n]{0,12}(未|不)[^。；\n]{0,10}(签订|订立)[^。；\n]{0,8}书面');
+  final yearlyRe = RegExp(r'(一年一签|每年签订一次|一年一续)');
+  final greenRe = RegExp(r'(无固定期限)[^。；\n]{0,20}(应当|依法|订立)|(连续工作满十年)[^。；\n]{0,20}(无固定期限)');
+  final legalRecital = RegExp(r'(依法|应当|应)[^。；\n]{0,10}(订立|签订)[^。；\n]{0,10}无固定期限');
+  Clause? red;
+  for (final cl in ctx.clauses) {
+    final t = cl.full;
+    if (((tenRe.hasMatch(t) || twiceRe.hasMatch(t)) && fixRe.hasMatch(t) || noWrittenRe.hasMatch(t)) &&
+        !legalRecital.hasMatch(t)) {
+      red = cl;
+      break;
+    }
+  }
+  if (red != null) {
+    addPatternItem(
+        ctx,
+        red,
+        _ItemData(
+          base: 'R23',
+          ruleId: 'R23',
+          verdict: Verdict.red,
+          ruleName: '应订无固定期限仍签固定期限',
+          short: '规避无固定期限',
+          consequence: '已符合连续工作满十年或连续订立二次固定期限合同的情形，仍约定固定期限或不续签，可能违反第十四条；满一年未签书面合同还会被视为无固定期限。',
+          ask: 'HR：这次是第几次签订固定期限合同？我是否符合订立无固定期限合同的条件？',
+          counter: '符合条件时改为无固定期限合同；不续签请书面说明法定终止依据。',
+          basis: law['L14'],
+          confidence: '中',
+        ),
+        tenRe.hasMatch(red.body) ? tenRe : (twiceRe.hasMatch(red.body) ? twiceRe : noWrittenRe));
+    return;
+  }
+  Clause? yearly;
+  for (final cl in ctx.clauses) {
+    if (yearlyRe.hasMatch(cl.full)) {
+      yearly = cl;
+      break;
+    }
+  }
+  if (yearly != null) {
+    addPatternItem(
+        ctx,
+        yearly,
+        _ItemData(
+          base: 'R23',
+          ruleId: 'R23',
+          verdict: Verdict.yellow,
+          ruleName: '反复签订短期合同',
+          short: '一年一签',
+          consequence: '长期一年一签可能规避无固定期限合同；连续订立二次后，劳动者提出或同意续订的，单位应订立无固定期限合同。',
+          ask: 'HR：公司为什么一直一年一签？第三次续签是否按无固定期限处理？',
+          counter: '写明续订规则；符合第十四条情形时订立无固定期限合同。',
+          basis: law['L14'],
+          confidence: '中',
+        ),
+        yearlyRe);
+    return;
+  }
+  Clause? green;
+  for (final cl in ctx.clauses) {
+    if (greenRe.hasMatch(cl.full)) {
+      green = cl;
+      break;
+    }
+  }
+  if (green != null) addGreen(ctx, green, '无固定期限', greenRe, '符合条件时订立无固定期限合同，属常规安排。');
+}
+
+/* R24 特殊工时审批 */
+void runR24(_Ctx ctx) {
+  final specialRe = RegExp(r'(综合计算工时|综合工时|不定时工作制|不定时工时|轮班制|倒班制)');
+  final approvalRe = RegExp(r'(经|已获)[^。；\n]{0,12}(劳动行政部门|人社局|人力资源和社会保障局|审批)[^。；\n]{0,10}(批准|审批)');
+  final noPayRe = RegExp(r'(加班费|加班工资)[^。；\n]{0,20}(不支付|不再|不予|按季度|包干|包含)');
+  final greenRe = RegExp(r'(150%|200%|300%|百分之一百五十|百分之二百|百分之三百)');
+  Clause? c;
+  for (final cl in ctx.clauses) {
+    if (specialRe.hasMatch(cl.full)) {
+      c = cl;
+      break;
+    }
+  }
+  if (c == null) return;
+  final t = c.full;
+  if (!approvalRe.hasMatch(t)) {
+    final noPay = noPayRe.hasMatch(t);
+    addPatternItem(
+        ctx,
+        c,
+        _ItemData(
+          base: 'R24',
+          ruleId: 'R24',
+          verdict: noPay ? Verdict.red : Verdict.yellow,
+          ruleName: noPay ? '特殊工时未审批且不付加班费' : '特殊工时缺少审批信息',
+          short: noPay ? '综合工时没有加班费' : '特殊工时未写审批',
+          consequence: noPay
+              ? '合同实行综合工时或不定时工时，却没有劳动行政部门审批，还约定超时不付加班费；未经审批应按标准工时支付加班费。'
+              : '合同提到综合工时、不定时工时或轮班制，但没有审批文号、计算周期和超时加班费规则，实际执行时容易少算加班费。',
+          ask: 'HR：公司实行哪种工时制度？有没有劳动行政部门的审批文号？超时部分怎么算加班费？',
+          counter: '写明审批文号与计算周期；未审批的按标准工时支付150%/200%/300%加班费。',
+          basis: law['L39'],
+          confidence: noPay ? '高' : '中',
+        ),
+        specialRe);
+    return;
+  }
+  if (greenRe.hasMatch(t)) {
+    addGreen(ctx, c, '特殊工时', specialRe, '特殊工时已写审批与加班费标准，属常规安排。');
+  } else {
+    addPatternItem(
+        ctx,
+        c,
+        _ItemData(
+          base: 'R24',
+          ruleId: 'R24',
+          verdict: Verdict.yellow,
+          ruleName: '特殊工时加班费规则不明',
+          short: '特殊工时加班费未写明',
+          consequence: '写了特殊工时审批，但没有写清超出标准工时的加班费计算方式；实际结算时仍可能按低标准执行。',
+          ask: 'HR：综合计算周期内超过法定标准工时的部分按什么比例支付？',
+          counter: '补写150%/200%/300%的支付规则和计算周期。',
+          basis: law['L39'],
+          confidence: '中',
+        ),
+        specialRe);
+  }
+}
+
+/* R25 女职工三期保护 */
+void runR25(_Ctx ctx) {
+  final redRe = RegExp(r'(怀孕|孕期|生育|产期|哺乳|哺乳期)[^。；\n]{0,30}(降薪|调岗|辞退|解除|不续签|扣工资|限制)');
+  final restrictRe = RegExp(r'(不得|禁止|不允许|不能|承诺|保证)[^。；\n]{0,10}(怀孕|生育|结婚)');
+  final protectRe = RegExp(r'(不得|禁止)[^。；\n]{0,8}(因|因为)[^。；\n]{0,6}(怀孕|生育|哺乳)');
+  final leaveRe = RegExp(r'产假[^。；\n]{0,10}?(\d{1,3})\s*天');
+  final lactationRe = RegExp(r'哺乳[^。；\n]{0,20}(30分钟|半小时|扣工资|按事假)');
+  final greenRe = RegExp(r'产假[^。；\n]{0,10}98\s*天|哺乳[^。；\n]{0,20}(1小时|一小时)');
+  Clause? red;
+  for (final cl in ctx.clauses) {
+    final t = cl.full;
+    if ((redRe.hasMatch(t) || restrictRe.hasMatch(t)) &&
+        !protectRe.hasMatch(t) &&
+        !hasRuleItem(ctx, cl.index, 'R16')) {
+      red = cl;
+      break;
+    }
+  }
+  if (red != null) {
+    final q = qFilter(red, RegExp(r'(降薪|调岗|辞退|解除|不续签|不得怀孕|不得生育|视为自动离职)'), protectRe) ??
+        qAny(red, RegExp(r'(怀孕|生育|哺乳)'));
+    _addItem(
+        ctx,
+        _ItemData(
+          base: 'R25',
+          ruleId: 'R25',
+          verdict: Verdict.red,
+          ruleName: '限制婚育或三期降薪辞退',
+          short: '三期降薪或辞退',
+          clauseIndex: red.index,
+          location: clauseLabel(red, red.index),
+          quote: q?.quote ?? '',
+          range: q,
+          consequence: '合同把怀孕、生育、哺乳与降薪、调岗、辞退或不续签挂钩；这类条款违反女职工特殊保护规定，通常无效，但现实中会直接影响岗位和待遇。',
+          ask: 'HR：怀孕、生育后岗位和工资怎么安排？会不会因此解除或不续签？',
+          counter: '删除婚育限制和三期降薪/辞退条款，按女职工劳动保护规定执行。',
+          basis: law['LADY5'],
+          confidence: '高',
+        ));
+    return;
+  }
+  Clause? leave;
+  for (final cl in ctx.clauses) {
+    if (leaveRe.hasMatch(cl.full)) {
+      leave = cl;
+      break;
+    }
+  }
+  if (leave != null) {
+    final m = leaveRe.firstMatch(leave.full);
+    final days = m != null ? (int.tryParse(m.group(1)!) ?? 0) : 0;
+    if (days > 0 && days < 98) {
+      addPatternItem(
+          ctx,
+          leave,
+          _ItemData(
+            base: 'R25',
+            ruleId: 'R25',
+            verdict: Verdict.yellow,
+            ruleName: '产假天数低于法定标准',
+            short: '产假仅 $days 天',
+            consequence: '合同只写产假 $days 天，低于法定98天；难产、多胞胎还应依法增加。',
+            ask: 'HR：产假为什么少于98天？难产和多胞胎是否另行增加？',
+            counter: '改为产假98天起，难产增加15天，多胞胎每多1个婴儿增加15天。',
+            basis: law['LADY7'],
+            confidence: '高',
+          ),
+          leaveRe);
+      return;
+    }
+  }
+  Clause? lactation;
+  for (final cl in ctx.clauses) {
+    if (lactationRe.hasMatch(cl.full)) {
+      lactation = cl;
+      break;
+    }
+  }
+  if (lactation != null) {
+    addPatternItem(
+        ctx,
+        lactation,
+        _ItemData(
+          base: 'R25',
+          ruleId: 'R25',
+          verdict: Verdict.yellow,
+          ruleName: '哺乳时间不足或被扣工资',
+          short: '哺乳时间不足',
+          consequence: '哺乳期每天应安排1小时哺乳时间；写成30分钟、半小时或按事假扣工资，可能低于法定标准。',
+          ask: 'HR：哺乳时间每天多久？是否扣工资？',
+          counter: '每天安排1小时哺乳时间，不扣工资；多胞胎每多1个婴儿每天增加1小时。',
+          basis: law['LADY9'],
+          confidence: '高',
+        ),
+        lactationRe);
+    return;
+  }
+  Clause? green;
+  for (final cl in ctx.clauses) {
+    if (greenRe.hasMatch(cl.full)) {
+      green = cl;
+      break;
+    }
+  }
+  if (green != null) addGreen(ctx, green, '三期保护', greenRe, '产假与哺乳时间按法定标准安排。');
+}
+
+/* R26 工伤申报与待遇 */
+void runR26(_Ctx ctx) {
+  final selfRe = RegExp(r'(工伤|职业病|因工受伤)[^。；\n]{0,24}(自负|自理|自行承担|不负责|不承担|概不负责|与甲方无关)');
+  final waiverRe = RegExp(r'(放弃|不要求|不主张)[^。；\n]{0,18}(工伤|工伤保险待遇|工伤赔偿)');
+  final noInsPayRe = RegExp(r'未[^。；\n]{0,10}(参加|缴纳)[^。；\n]{0,8}工伤保险[^。；\n]{0,20}(不承担|不支付|概不负责)');
+  final commercialRe = RegExp(r'(商业意外险|意外险)[^。；\n]{0,20}(替代|代替|不再|不缴)');
+  final sickRe = RegExp(r'工伤[^。；\n]{0,20}(按病假|按事假|不发工资)');
+  final greenRe = RegExp(r'(依法|按照)[^。；\n]{0,10}(参加|缴纳)[^。；\n]{0,6}工伤保险');
+  Clause? red;
+  for (final cl in ctx.clauses) {
+    final t = cl.full;
+    if ((selfRe.hasMatch(t) || waiverRe.hasMatch(t) || noInsPayRe.hasMatch(t)) &&
+        !hasRuleItem(ctx, cl.index, 'R7')) {
+      red = cl;
+      break;
+    }
+  }
+  if (red != null) {
+    addPatternItem(
+        ctx,
+        red,
+        _ItemData(
+          base: 'R26',
+          ruleId: 'R26',
+          verdict: Verdict.red,
+          ruleName: '工伤责任自负或未参保不承担',
+          short: '工伤责任被推给员工',
+          consequence: '合同把工伤责任推给员工，或未参保还约定不承担；这类约定不能免除单位的工伤保险责任，但出事时医疗费可能先由你垫付。',
+          ask: 'HR：公司是否缴纳工伤保险？事故发生后30日内由谁申报？',
+          counter: '删除工伤自负条款；依法参保并在30日内申报工伤认定。',
+          basis: law['GSW62'],
+          confidence: '高',
+        ),
+        selfRe.hasMatch(red.body) ? selfRe : (waiverRe.hasMatch(red.body) ? waiverRe : noInsPayRe));
+    return;
+  }
+  Clause? commercial;
+  for (final cl in ctx.clauses) {
+    if (commercialRe.hasMatch(cl.full)) {
+      commercial = cl;
+      break;
+    }
+  }
+  if (commercial != null) {
+    addPatternItem(
+        ctx,
+        commercial,
+        _ItemData(
+          base: 'R26',
+          ruleId: 'R26',
+          verdict: Verdict.yellow,
+          ruleName: '商业险替代工伤保险',
+          short: '商业险代替工伤保险',
+          consequence: '商业意外险不能替代工伤保险；未参保时，工伤待遇仍应由单位按条例支付。',
+          ask: 'HR：除了商业意外险，公司是否缴纳工伤保险？',
+          counter: '依法参加工伤保险；商业险只能作为补充。',
+          basis: law['GSW17'],
+          confidence: '中',
+        ),
+        commercialRe);
+    return;
+  }
+  Clause? sick;
+  for (final cl in ctx.clauses) {
+    if (sickRe.hasMatch(cl.full)) {
+      sick = cl;
+      break;
+    }
+  }
+  if (sick != null) {
+    addPatternItem(
+        ctx,
+        sick,
+        _ItemData(
+          base: 'R26',
+          ruleId: 'R26',
+          verdict: Verdict.yellow,
+          ruleName: '工伤期间按病假处理',
+          short: '工伤按病假处理',
+          consequence: '工伤停工留薪期内原工资福利待遇不变，不能按病假或事假处理。',
+          ask: 'HR：工伤停工留薪期的工资按什么标准发？',
+          counter: '按原工资福利待遇支付，医疗费按工伤保险规定处理。',
+          basis: law['GSW17'],
+          confidence: '中',
+        ),
+        sickRe);
+    return;
+  }
+  Clause? green;
+  for (final cl in ctx.clauses) {
+    if (greenRe.hasMatch(cl.full) && RegExp(r'(30日|三十日|停工留薪)').hasMatch(cl.full)) {
+      green = cl;
+      break;
+    }
+  }
+  if (green != null) addGreen(ctx, green, '工伤保险', greenRe, '工伤保险与工伤申报流程已写明。');
+}
+
+/* R27 个人信息与背景调查 */
+void runR27(_Ctx ctx) {
+  final overRe = RegExp(r'(必须|应当|须|要求)[^。；\n]{0,12}(提供|授权|提交)[^。；\n]{0,12}(家庭成员|亲属|收入|犯罪记录|征信)');
+  final noNoticeRe = RegExp(r'(背景调查|背调)[^。；\n]{0,20}(无需|不必|不需)[^。；\n]{0,8}(告知|同意)');
+  final thirdPartyRe = RegExp(r'(向|提供给)[^。；\n]{0,10}(第三方|关联公司|集团)[^。；\n]{0,12}(个人信息|信息)[^。；\n]{0,10}(无需|不必|不需)[^。；\n]{0,6}(同意|告知)');
+  final sensitiveRe = RegExp(r'(背景调查|背调|征信|犯罪记录|学历核验|家庭成员|亲属|生物识别|人脸|指纹|健康信息)');
+  final greenRe = RegExp(r'(最小必要|告知)[^。；\n]{0,20}(同意)|(单独同意)');
+  Clause? red;
+  for (final cl in ctx.clauses) {
+    final t = cl.full;
+    if (overRe.hasMatch(t) || noNoticeRe.hasMatch(t) || thirdPartyRe.hasMatch(t)) {
+      red = cl;
+      break;
+    }
+  }
+  if (red != null) {
+    addPatternItem(
+        ctx,
+        red,
+        _ItemData(
+          base: 'R27',
+          ruleId: 'R27',
+          verdict: Verdict.red,
+          ruleName: '过度收集个人信息或未告知同意',
+          short: '个人信息收集越界',
+          consequence: '合同要求提供与岗位无关的家庭成员、收入、征信或犯罪记录，或背景调查不告知、不取得单独同意；这类收集可能违反个人信息保护法。',
+          ask: 'HR：这些信息与岗位有什么关系？背景调查的范围、机构和用途能否书面告知？',
+          counter: '只收集入职和社保必需的信息；敏感信息和第三方提供另行取得单独同意。',
+          basis: law['PI6'],
+          confidence: '中',
+        ),
+        overRe.hasMatch(red.body) ? overRe : (noNoticeRe.hasMatch(red.body) ? noNoticeRe : thirdPartyRe));
+    return;
+  }
+  Clause? sensitive;
+  for (final cl in ctx.clauses) {
+    if (sensitiveRe.hasMatch(cl.full)) {
+      sensitive = cl;
+      break;
+    }
+  }
+  if (sensitive != null) {
+    addPatternItem(
+        ctx,
+        sensitive,
+        _ItemData(
+          base: 'R27',
+          ruleId: 'R27',
+          verdict: Verdict.yellow,
+          ruleName: '个人信息处理规则不明',
+          short: '背景调查/敏感信息未写规则',
+          consequence: '合同提到背景调查、征信、犯罪记录或生物识别，但没有写清收集目的、范围、保存期限和共享对象。',
+          ask: 'HR：收集这些信息的目的、范围和保存多久？会提供给哪些第三方？',
+          counter: '写明最小必要范围、告知同意、保存期限；敏感信息取得单独同意。',
+          basis: law['PI17'],
+          confidence: '中',
+        ),
+        sensitiveRe);
+    return;
+  }
+  Clause? green;
+  for (final cl in ctx.clauses) {
+    if (greenRe.hasMatch(cl.full)) {
+      green = cl;
+      break;
+    }
+  }
+  if (green != null) addGreen(ctx, green, '个人信息', greenRe, '个人信息处理已写明最小必要与告知同意。');
+}
+
+/* R28 非全日制、劳务派遣与外包混用 */
+void runR28(_Ctx ctx) {
+  final partTimeRe = RegExp(r'(非全日制|小时工|按小时计酬)');
+  final dispatchRe = RegExp(r'(劳务派遣|派遣)');
+  final outsourceRe = RegExp(r'(外包|合作|承揽)[^。；\n]{0,12}(协议|合同)');
+  final controlRe = RegExp(r'(考勤|打卡|固定工资|绩效|工牌|排班)');
+  final dailyRe = RegExp(r'每(?:日|天)[^。；\n]{0,10}?(\d+)\s*小时');
+  final weeklyRe = RegExp(r'每周[^。；\n]{0,10}?(\d+)\s*小时');
+  final monthlyPayRe = RegExp(r'(按月|每月)[^。；\n]{0,8}(发放|结算|支付)');
+  final trialRe = RegExp(r'试用期');
+  final fifteenRe = RegExp(r'(15日|十五日|每15日)');
+  Clause? part;
+  for (final cl in ctx.clauses) {
+    if (partTimeRe.hasMatch(cl.full)) {
+      part = cl;
+      break;
+    }
+  }
+  if (part != null) {
+    final t = part.full;
+    final dm = dailyRe.firstMatch(t);
+    final wm = weeklyRe.firstMatch(t);
+    final daily = dm != null ? int.tryParse(dm.group(1)!) : null;
+    final weekly = wm != null ? int.tryParse(wm.group(1)!) : null;
+    final bad = (daily != null && daily > 4) ||
+        (weekly != null && weekly > 24) ||
+        monthlyPayRe.hasMatch(t) ||
+        trialRe.hasMatch(t);
+    if (bad) {
+      addPatternItem(
+          ctx,
+          part,
+          _ItemData(
+            base: 'R28',
+            ruleId: 'R28',
+            verdict: Verdict.red,
+            ruleName: '非全日制用工超时或按月结算',
+            short: '非全日制名不副实',
+            consequence: '非全日制要求平均每日不超过4小时、每周不超过24小时，报酬结算周期不超过15日，且不得约定试用期；写成全日制工时、按月发薪或约定试用期，可能被按全日制处理。',
+            ask: 'HR：这份非全日制每天、每周实际工作多久？工资多久结算一次？为什么约定试用期？',
+            counter: '改为每日不超过4小时、每周不超过24小时、15日内结算，并删除试用期。',
+            basis: law['L68'],
+            confidence: '高',
+          ),
+          RegExp(r'(非全日制|小时工|按小时计酬|按月|每月|试用期)'));
+      return;
+    }
+    if (daily == null && weekly == null || !fifteenRe.hasMatch(t)) {
+      addPatternItem(
+          ctx,
+          part,
+          _ItemData(
+            base: 'R28',
+            ruleId: 'R28',
+            verdict: Verdict.yellow,
+            ruleName: '非全日制工时或结算周期不明',
+            short: '非全日制规则未写清',
+            consequence: '合同写了非全日制，但没有写清每日/每周工时上限或15日结算周期，实际执行时容易变成全日制。',
+            ask: 'HR：每天和每周最多工作多久？工资多久结算一次？',
+            counter: '写明每日不超过4小时、每周不超过24小时、结算周期不超过15日。',
+            basis: law['L68'],
+            confidence: '中',
+          ),
+          partTimeRe);
+      return;
+    }
+    addGreen(ctx, part, '非全日制', partTimeRe, '非全日制工时与结算周期符合规定。');
+    return;
+  }
+  Clause? outsource;
+  for (final cl in ctx.clauses) {
+    if (outsourceRe.hasMatch(cl.full) &&
+        controlRe.hasMatch(cl.full) &&
+        !hasRuleItem(ctx, cl.index, 'R19')) {
+      outsource = cl;
+      break;
+    }
+  }
+  if (outsource != null) {
+    addPatternItem(
+        ctx,
+        outsource,
+        _ItemData(
+          base: 'R28',
+          ruleId: 'R28',
+          verdict: Verdict.red,
+          ruleName: '假外包真用工',
+          short: '外包协议按员工管理',
+          consequence: '协议写的是外包或合作，却要求考勤、打卡、固定工资、绩效或排班；实际按员工管理，可能被认定为劳动关系或假外包。',
+          ask: 'HR：外包人员为什么还要打卡、绩效考核和固定工资？',
+          counter: '按成果交付和验收结算，不按员工考勤和绩效管理。',
+          basis: law['L66'],
+          confidence: '中',
+        ),
+        outsourceRe);
+    return;
+  }
+  Clause? dispatch;
+  for (final cl in ctx.clauses) {
+    if (dispatchRe.hasMatch(cl.full) && !RegExp(r'(临时性|辅助性|替代性)').hasMatch(cl.full)) {
+      dispatch = cl;
+      break;
+    }
+  }
+  if (dispatch != null) {
+    addPatternItem(
+        ctx,
+        dispatch,
+        _ItemData(
+          base: 'R28',
+          ruleId: 'R28',
+          verdict: Verdict.yellow,
+          ruleName: '派遣岗位性质不明',
+          short: '派遣未写三性岗位',
+          consequence: '劳务派遣只能用于临时性、辅助性或替代性岗位；合同没有写岗位性质，可能长期在主营业务岗位使用派遣工。',
+          ask: 'HR：这个派遣岗位属于临时性、辅助性还是替代性？',
+          counter: '写明岗位性质、期限和同工同酬安排。',
+          basis: law['L66'],
+          confidence: '中',
+        ),
+        dispatchRe);
+  }
+}
+
+/* R29 电子签署与文本交付 */
+void runR29(_Ctx ctx) {
+  final eRe = RegExp(r'(电子合同|电子签名|电子签署|线上签约|电子劳动合同|电子签章)');
+  final noCopyRe = RegExp(r'(不得|不予|拒绝)[^。；\n]{0,10}(下载|打印|提供)[^。；\n]{0,10}(合同|文本)|(仅|只)[^。；\n]{0,8}(平台|系统)[^。；\n]{0,8}(保管|留存)|(平台|系统)[^。；\n]{0,8}(保管|留存)[^。；\n]{0,16}(不得|不予|拒绝)[^。；\n]{0,6}(下载|打印|提供)');
+  final greenRe = RegExp(r'(可靠电子签名|电子签名)[^。；\n]{0,20}(下载|打印)|(下载|打印)[^。；\n]{0,20}(各执一份|双方各执)');
+  Clause? c;
+  for (final cl in ctx.clauses) {
+    if (eRe.hasMatch(cl.full)) {
+      c = cl;
+      break;
+    }
+  }
+  if (c == null) return;
+  final t = c.full;
+  if (noCopyRe.hasMatch(t)) {
+    addPatternItem(
+        ctx,
+        c,
+        _ItemData(
+          base: 'R29',
+          ruleId: 'R29',
+          verdict: Verdict.red,
+          ruleName: '电子合同不提供文本',
+          short: '电子合同不给下载',
+          consequence: '只让在平台点击确认、不提供可下载或打印的合同文本；劳动合同文本应由双方各执一份，平台保管不能替代交付。',
+          ask: 'HR：电子合同能否下载、打印并给我一份完整文本？平台和存证方式是什么？',
+          counter: '使用可靠电子签名；合同可下载、打印，双方各执一份。',
+          basis: law['ESIGN14'],
+          confidence: '高',
+        ),
+        noCopyRe);
+    return;
+  }
+  if (greenRe.hasMatch(t)) {
+    addGreen(ctx, c, '电子签署', greenRe, '电子合同已写明可靠签名与文本交付。');
+    return;
+  }
+  addPatternItem(
+      ctx,
+      c,
+      _ItemData(
+        base: 'R29',
+        ruleId: 'R29',
+        verdict: Verdict.yellow,
+        ruleName: '电子合同交付方式不明',
+        short: '电子合同未写下载/存证',
+        consequence: '写了电子合同，但没有写清平台、存证、下载打印和双方各执一份；发生争议时可能拿不到完整文本。',
+        ask: 'HR：电子合同在哪个平台签署？如何存证？我能否下载打印？',
+        counter: '写明可靠电子签名、存证方式、下载打印和双方各执一份。',
+        basis: law['ESIGN13'],
+        confidence: '中',
+      ),
+      eRe);
+}
+
+/* R30 争议管辖与送达 */
+void runR30(_Ctx ctx) {
+  final redRe = RegExp(r'(争议|纠纷)[^。；\n]{0,20}(只能|仅能|应当)[^。；\n]{0,12}(甲方所在地|公司所在地|用人单位所在地|外地)[^。；\n]{0,10}(仲裁|法院|管辖)|(放弃|不提起)[^。；\n]{0,12}(仲裁|诉讼)');
+  final courtRe = RegExp(r'(争议|纠纷)[^。；\n]{0,20}(法院|诉讼)[^。；\n]{0,10}(管辖|解决)');
+  final deliveryRe = RegExp(r'(短信|微信|电子)[^。；\n]{0,10}送达');
+  final greenRe = RegExp(r'(劳动合同履行地|用人单位所在地)[^。；\n]{0,16}(仲裁|管辖)');
+  Clause? red;
+  for (final cl in ctx.clauses) {
+    if (redRe.hasMatch(cl.full)) {
+      red = cl;
+      break;
+    }
+  }
+  if (red != null) {
+    addPatternItem(
+        ctx,
+        red,
+        _ItemData(
+          base: 'R30',
+          ruleId: 'R30',
+          verdict: Verdict.red,
+          ruleName: '排除法定管辖或放弃救济',
+          short: '只能去公司所在地仲裁',
+          consequence: '劳动争议应由劳动合同履行地或用人单位所在地仲裁委管辖；约定只能去公司所在地或外地，或提前放弃仲裁/诉讼权利，通常会限制你的救济选择。',
+          ask: 'HR：为什么只能去公司所在地仲裁？能否按劳动合同履行地或用人单位所在地选择？',
+          counter: '删除排除性管辖和放弃救济条款，按劳动争议调解仲裁法第二十一条执行。',
+          basis: law['ARB21'],
+          confidence: '高',
+        ),
+        redRe);
+    return;
+  }
+  Clause? court;
+  for (final cl in ctx.clauses) {
+    if (courtRe.hasMatch(cl.full)) {
+      court = cl;
+      break;
+    }
+  }
+  if (court != null) {
+    addPatternItem(
+        ctx,
+        court,
+        _ItemData(
+          base: 'R30',
+          ruleId: 'R30',
+          verdict: Verdict.yellow,
+          ruleName: '劳动争议约定法院管辖',
+          short: '劳动争议直接约定法院',
+          consequence: '劳动争议一般应先申请仲裁，直接约定由法院管辖不符合程序；这类条款可能无法排除仲裁前置。',
+          ask: 'HR：劳动争议是否先走劳动仲裁？为什么直接约定法院管辖？',
+          counter: '改为向劳动合同履行地或用人单位所在地劳动争议仲裁委员会申请仲裁。',
+          basis: law['ARB21'],
+          confidence: '中',
+        ),
+        courtRe);
+    return;
+  }
+  Clause? delivery;
+  for (final cl in ctx.clauses) {
+    if (deliveryRe.hasMatch(cl.full) && !RegExp(r'同意').hasMatch(cl.full)) {
+      delivery = cl;
+      break;
+    }
+  }
+  if (delivery != null) {
+    addPatternItem(
+        ctx,
+        delivery,
+        _ItemData(
+          base: 'R30',
+          ruleId: 'R30',
+          verdict: Verdict.yellow,
+          ruleName: '电子送达未取得同意',
+          short: '短信/微信送达未同意',
+          consequence: '约定短信、微信或电子方式送达，但没有写明经你同意；电子送达应以你同意并能确认收悉为前提。',
+          ask: 'HR：电子送达是否经过我同意？如何确认我收悉？',
+          counter: '写明送达地址、电子送达同意方式和变更通知义务。',
+          basis: law['CIVPRO90'],
+          confidence: '中',
+        ),
+        deliveryRe);
+    return;
+  }
+  Clause? green;
+  for (final cl in ctx.clauses) {
+    if (greenRe.hasMatch(cl.full)) {
+      green = cl;
+      break;
+    }
+  }
+  if (green != null) addGreen(ctx, green, '争议管辖', greenRe, '争议管辖按劳动合同履行地或用人单位所在地约定。');
+}
+
 /* greens（劳动合同） */
 void runLaborGreens(_Ctx ctx) {
   Clause? cHours;
@@ -4028,14 +4943,33 @@ Analysis analyzeContract(String text, {String? docType}) {
     runR17(ctx);
     runR18(ctx);
     runR19(ctx);
+    runR21(ctx);
+    runR22(ctx);
+    runR23(ctx);
+    runR24(ctx);
+    runR25(ctx);
+    runR26(ctx);
+    runR27(ctx);
+    runR28(ctx);
+    runR29(ctx);
+    runR30(ctx);
     runLaborGreens(ctx);
   }
-  if (packs.contains('intern')) runR10(ctx);
+  if (packs.contains('intern')) {
+    runR10(ctx);
+    runR27(ctx);
+    runR29(ctx);
+    runR30(ctx);
+  }
   if (packs.contains('loan')) {
     runR9(ctx);
     runR20(ctx);
   }
-  if (packs.contains('three-party')) runR8(ctx);
+  if (packs.contains('three-party')) {
+    runR8(ctx);
+    runR29(ctx);
+    runR30(ctx);
+  }
   ctx.items.sort((a, b) {
     final orderDiff = verdictOrder[a.verdict]! - verdictOrder[b.verdict]!;
     if (orderDiff != 0) return orderDiff;

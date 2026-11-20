@@ -500,4 +500,97 @@ void main() {
       isTrue,
     );
   });
+
+
+  const fullContract = '''劳动合同书
+甲方（用人单位）：测试公司
+乙方（劳动者）：测试学生
+第一条 合同期限
+本合同期限自2026年1月1日起至2028年12月31日止。
+第二条 工作内容与地点
+乙方担任运营专员，工作地点为杭州市西湖区。
+第三条 工作时间
+甲方实行标准工时制，每日工作8小时，每周工作40小时。
+第四条 劳动报酬
+乙方月工资8000元，每月10日发放。
+第五条 社会保险
+甲方依法为乙方缴纳社会保险。
+第六条 劳动保护
+甲方提供必要的劳动保护。''';
+
+  String withClause(String extra) => '$fullContract\n第七条 其他\n$extra';
+
+  test('R21 识别必备条款缺失，齐全时不误报', () {
+    const bad = '''劳动合同书
+甲方（用人单位）：测试公司
+乙方（劳动者）：测试学生
+第一条 其他
+其他事项按公司制度执行。''';
+    expect(byRule(analyzeContract(bad), 'R21').any((item) => item.verdict == Verdict.red), isTrue);
+    final good = analyzeContract(fullContract);
+    expect(byRule(good, 'R21').any((item) => item.verdict == Verdict.green), isTrue);
+  });
+
+  test('R22 识别违法解除赔偿不足，合法标准不误报', () {
+    final bad = analyzeContract(withClause('甲方违法解除劳动合同的，只支付一个月工资作为赔偿。'));
+    expect(byRule(bad, 'R22').any((item) => item.verdict == Verdict.red && item.ruleName.contains('违法解除')), isTrue);
+    final good = analyzeContract(withClause('经济补偿按乙方在本单位工作年限，每满一年支付一个月工资。'));
+    expect(good.items.any((item) => item.verdict == Verdict.green && item.ruleName == '经济补偿'), isTrue);
+  });
+
+  test('R23 识别规避无固定期限，合法约定不误报', () {
+    final bad = analyzeContract(withClause('乙方连续订立二次固定期限劳动合同后，第三次仍签订一年期固定期限合同。'));
+    expect(byRule(bad, 'R23').any((item) => item.verdict == Verdict.red), isTrue);
+    final good = analyzeContract(withClause('乙方连续工作满十年并提出订立无固定期限合同的，甲方应订立无固定期限劳动合同。'));
+    expect(good.items.any((item) => item.verdict == Verdict.green && item.ruleName == '无固定期限'), isTrue);
+  });
+
+  test('R24 识别特殊工时未审批且不付加班费，审批完整不误报', () {
+    final bad = analyzeContract(withClause('公司实行综合计算工时制，加班费按季度结算，超过部分不再支付。'));
+    expect(byRule(bad, 'R24').any((item) => item.verdict == Verdict.red), isTrue);
+    final good = analyzeContract(withClause('公司经人社局批准实行综合计算工时制，超过法定标准工时的部分按150%支付，法定节假日按300%支付。'));
+    expect(good.items.any((item) => item.verdict == Verdict.green && item.ruleName == '特殊工时'), isTrue);
+  });
+
+  test('R25 识别产假低于98天，法定产假不误报', () {
+    final bad = analyzeContract(withClause('乙方产假为60天。'));
+    expect(byRule(bad, 'R25').any((item) => item.verdict == Verdict.yellow && item.short.contains('60')), isTrue);
+    final good = analyzeContract(withClause('乙方产假98天，哺乳期内每天安排1小时哺乳时间。'));
+    expect(good.items.any((item) => item.verdict == Verdict.green && item.ruleName == '三期保护'), isTrue);
+  });
+
+  test('R26 识别商业险替代工伤保险，依法参保不误报', () {
+    final bad = analyzeContract(withClause('公司为员工购买商业意外险，不再缴纳工伤保险。'));
+    expect(byRule(bad, 'R26').any((item) => item.verdict == Verdict.yellow && item.ruleName.contains('商业险')), isTrue);
+    final good = analyzeContract(withClause('甲方依法为乙方缴纳工伤保险，事故伤害发生之日起30日内申请工伤认定。'));
+    expect(good.items.any((item) => item.verdict == Verdict.green && item.ruleName == '工伤保险'), isTrue);
+  });
+
+  test('R27 识别过度收集个人信息，最小必要不误报', () {
+    final bad = analyzeContract(withClause('乙方入职必须提供全部家庭成员的收入和身份证号。'));
+    expect(byRule(bad, 'R27').any((item) => item.verdict == Verdict.red), isTrue);
+    final good = analyzeContract(withClause('甲方仅为办理入职和缴纳社保收集乙方身份证、学历信息；向第三方提供需另行取得单独同意。'));
+    expect(good.items.any((item) => item.verdict == Verdict.green && item.ruleName == '个人信息'), isTrue);
+  });
+
+  test('R28 识别非全日制超时或按月结算，合规安排不误报', () {
+    final bad = analyzeContract(withClause('本合同为非全日制用工，乙方每天工作8小时，工资按月发放。'));
+    expect(byRule(bad, 'R28').any((item) => item.verdict == Verdict.red), isTrue);
+    final good = analyzeContract(withClause('本合同为非全日制用工，乙方平均每日工作不超过4小时，每周不超过24小时，报酬每15日结算一次。'));
+    expect(good.items.any((item) => item.verdict == Verdict.green && item.ruleName == '非全日制'), isTrue);
+  });
+
+  test('R29 识别电子合同不提供文本，可靠签名与交付不误报', () {
+    final bad = analyzeContract(withClause('双方通过电子平台签署电子合同，合同文本由平台保管，乙方不得下载。'));
+    expect(byRule(bad, 'R29').any((item) => item.verdict == Verdict.red), isTrue);
+    final good = analyzeContract(withClause('双方同意以电子形式订立劳动合同，使用可靠电子签名；合同可下载、打印，双方各执一份。'));
+    expect(good.items.any((item) => item.verdict == Verdict.green && item.ruleName == '电子签署'), isTrue);
+  });
+
+  test('R30 识别排除法定管辖，法定管辖不误报', () {
+    final bad = analyzeContract(withClause('双方争议只能向甲方所在地劳动争议仲裁委员会申请仲裁。'));
+    expect(byRule(bad, 'R30').any((item) => item.verdict == Verdict.red), isTrue);
+    final good = analyzeContract(withClause('双方发生劳动争议，可向劳动合同履行地或用人单位所在地劳动争议仲裁委员会申请仲裁。'));
+    expect(good.items.any((item) => item.verdict == Verdict.green && item.ruleName == '争议管辖'), isTrue);
+  });
 }

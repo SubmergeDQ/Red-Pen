@@ -10,7 +10,7 @@
     "培训贷/培训服务合同",
     "劳务/兼职/非全日制协议"
   ],
-  "howToUse": "本文件是规则说明与实现规范，不直接参与运行时判定。engine.js / engine.dart 可按 rules[].match 增补同义词与正则，按 grading 决定 verdict，按 scripts 生成问法与改法。",
+  "howToUse": "本文件是规则说明与实现规范。R1–R30 已在 engine.js 与 engine.dart 中实现，并通过 golden parity 与回归测试；新增规则时仍按 rules[].match 增补同义词与正则，按 grading 决定 verdict，按 scripts 生成问法与改法。",
   "severityModel": {
     "red": {
       "label": "红线",
@@ -1524,7 +1524,7 @@
     },
     {
       "id": "R21",
-      "status": "new",
+      "status": "implemented",
       "name": "劳动合同必备条款缺失",
       "contractTypes": ["劳动合同", "劳务/兼职协议"],
       "objective": "劳动合同应具备法定必备条款；缺失核心条款会导致权利义务不清、举证困难。",
@@ -1576,7 +1576,7 @@
     },
     {
       "id": "R22",
-      "status": "new",
+      "status": "implemented",
       "name": "经济补偿与违法解除赔偿",
       "contractTypes": ["劳动合同"],
       "objective": "符合法定情形解除或终止应支付经济补偿；违法解除应支付二倍赔偿金；不得提前约定一律不补偿。",
@@ -1628,7 +1628,7 @@
     },
     {
       "id": "R23",
-      "status": "new",
+      "status": "implemented",
       "name": "无固定期限与连续签约",
       "contractTypes": ["劳动合同"],
       "objective": "符合法定情形时，劳动者提出或同意续订的，应订立无固定期限劳动合同；满一年不签书面合同视为无固定期限。",
@@ -1680,7 +1680,7 @@
     },
     {
       "id": "R24",
-      "status": "new",
+      "status": "implemented",
       "name": "特殊工时审批",
       "contractTypes": ["劳动合同"],
       "objective": "实行综合计算工时或不定时工作制，应经劳动行政部门审批；未经审批应按标准工时支付加班费。",
@@ -1733,7 +1733,7 @@
     },
     {
       "id": "R25",
-      "status": "new",
+      "status": "implemented",
       "name": "女职工三期保护",
       "contractTypes": ["劳动合同"],
       "objective": "不得因怀孕、生育、哺乳降低工资、辞退或解除；产假、哺乳时间、生育津贴应按法定标准执行。",
@@ -1786,7 +1786,7 @@
     },
     {
       "id": "R26",
-      "status": "new",
+      "status": "implemented",
       "name": "工伤申报与待遇",
       "contractTypes": ["劳动合同", "劳务/兼职协议"],
       "objective": "用人单位应依法参加工伤保险，在事故伤害发生之日起30日内申请工伤认定；不得约定工伤责任自负或放弃工伤待遇。",
@@ -1839,7 +1839,7 @@
     },
     {
       "id": "R27",
-      "status": "new",
+      "status": "implemented",
       "name": "个人信息与背景调查",
       "contractTypes": ["劳动合同", "实习协议", "劳务/兼职协议"],
       "objective": "收集个人信息应遵循最小必要、告知同意原则；敏感个人信息和向第三方提供应取得单独同意。",
@@ -1891,7 +1891,7 @@
     },
     {
       "id": "R28",
-      "status": "new",
+      "status": "implemented",
       "name": "非全日制、劳务派遣与外包混用",
       "contractTypes": ["劳务/兼职协议", "非全日制协议", "劳务派遣协议", "外包协议"],
       "objective": "非全日制用工每日不超过4小时、每周不超过24小时、结算周期不超过15日；劳务派遣限于临时性、辅助性、替代性岗位；不得以外包/合作名义按员工管理。",
@@ -1944,7 +1944,7 @@
     },
     {
       "id": "R29",
-      "status": "new",
+      "status": "implemented",
       "name": "电子签署与文本交付",
       "contractTypes": ["劳动合同", "实习协议", "三方协议"],
       "objective": "电子劳动合同应经双方同意，使用可靠电子签名，能够下载、打印，双方各执一份；不得只让签字不给文本。",
@@ -1997,7 +1997,7 @@
     },
     {
       "id": "R30",
-      "status": "new",
+      "status": "implemented",
       "name": "争议管辖与送达",
       "contractTypes": ["劳动合同", "实习协议", "三方协议", "劳务/兼职协议"],
       "objective": "劳动争议由劳动合同履行地或用人单位所在地的劳动争议仲裁委员会管辖；不得通过约定排除法定管辖或放弃仲裁/诉讼权利。",
@@ -2050,7 +2050,7 @@
     }
   ],
   "implementationHints": {
-    "priority": "先补同义词与排除守卫，再补 R21–R30；每加一条规则，至少补一个正例和一个反例进 tests/engine.test.js 与 tools/golden_corpus.json。",
+    "priority": "R1–R30 已接入两端运行时；后续新增规则时，先补同义词与排除守卫，再补判定函数，并至少补一个正例和一个反例进 tests/engine.test.js、client/test/engine_rules_test.dart 与 tools/golden_corpus.json。",
     "sentenceLevelExclusion": "R4/R7/R13/R15 的排除逻辑必须下沉到句子级，避免同一条里出现合法情形就漏掉另一句违法表述。",
     "subjectDetection": "R12/R18/R22 需要判断主语是甲方还是乙方；不能用整段是否出现“甲方”来代替。",
     "amountParsing": "新增规则涉及金额时复用 parseAmount/maxAmountAfter，避免把日期、期数、百分比误当金额。",

@@ -1,6 +1,6 @@
 # 红笔 · Flutter 客户端
 
-学生签约前的中文合同核对工具，Windows 与 Android 原生客户端。判定逻辑与 Web 版同源：`engine.js` 的 20 条规则逐函数移植到 Dart，并与 Web 版做逐字节比对。
+学生签约前的中文合同核对工具，Windows 与 Android 原生客户端。判定逻辑与 Web 版同源：`engine.js` 的 30 条规则逐函数移植到 Dart，并与 Web 版做逐字节比对。
 
 ## 构建与运行
 
@@ -48,7 +48,7 @@ node tools/gen_golden.js
 
 ```
 lib/
-  engine/engine.dart        判定引擎：20 条规则、多规则包调度、法条库、样本
+  engine/engine.dart        判定引擎：30 条规则、多规则包调度、法条库、样本
   design/                   1.1 设计系统：tokens、主题、图标表、原子组件
   pages/                    交稿台、核对进度、核对结果、关于
   state/review_controller.dart  阶段、导入、OCR、导出、筛选状态
