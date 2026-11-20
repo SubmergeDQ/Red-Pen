@@ -16,12 +16,14 @@ class DesktopShell extends StatelessWidget {
     required this.child,
     required this.onNewDocument,
     required this.onRules,
+    required this.onAbout,
   });
 
   final ReviewController controller;
   final Widget child;
   final VoidCallback onNewDocument;
   final VoidCallback onRules;
+  final VoidCallback onAbout;
 
   static bool supports(TargetPlatform platform) =>
       platform == TargetPlatform.windows ||
@@ -36,6 +38,7 @@ class DesktopShell extends StatelessWidget {
         _SideRail(
           controller: controller,
           onRules: onRules,
+          onAbout: onAbout,
         ),
         Expanded(
           child: Column(
@@ -52,10 +55,11 @@ class DesktopShell extends StatelessWidget {
 }
 
 class _SideRail extends StatelessWidget {
-  const _SideRail({required this.controller, required this.onRules});
+  const _SideRail({required this.controller, required this.onRules, required this.onAbout});
 
   final ReviewController controller;
   final VoidCallback onRules;
+  final VoidCallback onAbout;
 
   @override
   Widget build(BuildContext context) {
@@ -185,6 +189,14 @@ class _SideRail extends StatelessWidget {
                     hint: 'Ctrl+Shift+C',
                     onTap: a == null ? null : controller.copyReport,
                   ),
+                  const SizedBox(height: 18),
+                  const _RailLabel('应用'),
+                  const SizedBox(height: 6),
+                  _RailItem(
+                    icon: Icons.info_outline,
+                    label: '关于红笔',
+                    onTap: onAbout,
+                  ),
                 ],
               ),
             ),
@@ -194,7 +206,7 @@ class _SideRail extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(20, 14, 20, 18),
             child: IconLabel(
               icon: Icons.lock_outline,
-              label: '只在本机核对，不上传、不留存',
+              label: '合同只在本机核对，不上传、不留存',
               iconSize: RI.dense,
               gap: RI.gapDense,
               maxLines: 2,
@@ -399,7 +411,7 @@ class _StatusBar extends StatelessWidget {
           ),
           const SizedBox(width: 7),
           Text(
-            controller.busy ? (controller.busyNote ?? '正在处理…') : '本机规则 20 类 · 无网络请求',
+            controller.busy ? (controller.busyNote ?? '正在处理…') : '本机规则 20 类 · 合同不上传',
             style: R.sans(size: 10.5, color: R.muted, height: 1.2),
           ),
           const Spacer(),

@@ -1,10 +1,6 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools">
-    <!-- Plugins (pdfrx's http client, ML Kit telemetry) add this during the
-         manifest merge. Red Pen never talks to the network, so drop it. -->
-    <uses-permission
-        android:name="android.permission.INTERNET"
-        tools:node="remove" />
+<manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- 只用于读取 GitHub 发行版信息与下载更新；合同正文始终留在本机。 -->
+    <uses-permission android:name="android.permission.INTERNET" />
     <application
         android:label="红笔"
         android:name="${applicationName}"
@@ -46,6 +42,11 @@
         <intent>
             <action android:name="android.intent.action.PROCESS_TEXT"/>
             <data android:mimeType="text/plain"/>
+        </intent>
+        <!-- 更新说明与安装包通过浏览器打开，Android 11+ 需要声明可见性。 -->
+        <intent>
+            <action android:name="android.intent.action.VIEW"/>
+            <data android:scheme="https"/>
         </intent>
     </queries>
 </manifest>

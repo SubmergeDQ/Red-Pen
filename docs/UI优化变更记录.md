@@ -211,3 +211,183 @@ client/lib/pages/analyzing_page.dart       进度条改琥珀
 client/lib/ui/common.dart                  眉标圆点改琥珀，印章色沿用砖红
 ```
 
+---
+
+# 第三轮：分架构 APK、Windows 安装程序、OCR 准确率（2026-11-20）
+
+## 十二、OCR 准确率：23.00% → 2.56% 字符错误率
+
+### 1. 原因
+
+`test.png` 是 1057×4803 的整页扫描件。旧预处理按「长边 2400」缩放，长页被整体压到一半，正文汉字只剩约 7px 高——任何引擎在这种分辨率下都会大量认错。旧输出里 `劳动合同` 被读成 `劳动合間`、`甲方` 读成 `印方`，都是分辨率不足导致的。
+
+### 2. 新流水线（`lib/services/ocr/ocr_image.dart`）
+
+1. 摆正 EXIF，透明图先垫白底；
+2. 亮度 2%–98% 分位拉伸，把灰底灰字拉成黑白（不改二值化，避免断笔）；
+3. 按宽度归一到 1600px（小图最多放大 2.2×，大图缩小），不再按长边压；
+4. 超高页面按宽高比 ≤ 1:2 纵向切块，块间留 8% 重叠；
+5. 各块分别识别后，按尾部/首部重复行去重合并（`mergeOcrTiles`）。
+
+Android 端把切块像素直接交给 ML Kit（`maxWidth 1800`、`maxPixels 600 万`），不再二次压缩；Windows 端同样的切块走系统 OCR。
+
+### 3. 量化结果（同一引擎、同一张图、同一段真值）
+
+| 指标 | 旧流水线 | 新流水线 |
+|---|---|---|
+| 对比字符数 | 313 | 313 |
+| 编辑距离 | 72 | 8 |
+| 字符错误率 CER | **23.00%** | **2.56%** |
+| 字符准确率 | 77.00% | **97.44%** |
+| 处理耗时（3 块） | — | 2.19 s（含 3 次引擎调用） |
+
+复现命令：
+
+```powershell
+cd client
+dart run tool/ocr_bench.dart "D:\Users\HUANG\Desktop\test.png" --old --ground-truth ..\.oil-ui\tools\gt.txt
+dart run tool/ocr_bench.dart "D:\Users\HUANG\Desktop\test.png" --ground-truth ..\.oil-ui\tools\gt.txt
+```
+
+真值取图首 313 字（标题、甲乙方、第一至三条、五项义务），见 `.oil-ui/tools/gt.txt`。
+以上数据来自 Windows 本机 OCR；Android 的 ML Kit 使用同一套预处理与切块逻辑，但未在真机上复测。
+
+## 十三、分架构 APK
+
+`flutter build apk --release --split-per-abi`，签名与通用包相同（`CN=SWFU Hub`）：
+
+| 包 | 体积 | 内含 |
+|---|---|---|
+| `红笔-1.0.0-arm64-v8a.apk` | 46.0 MB | 仅 arm64-v8a 原生库 + 中文 OCR 模型 + PDF 字体 |
+| `红笔-1.0.0-armeabi-v7a.apk` | 38.5 MB | 仅 armeabi-v7a |
+| `红笔-1.0.0-x86_64.apk` | 48.0 MB | 仅 x86_64（模拟器 / Chromebook） |
+
+逐包校验：每个包只含本架构 `lib/`，`assets/mlkit-google-ocr-models` 中文模型与 `NotoSansSC` 均存在，`apksigner` 验签通过。相比 110 MB 通用包，体积下降 56%–65%。
+`x86_64` 是给模拟器用的，真机装 arm64（少数老机装 armeabi-v7a）。
+
+## 十四、Windows 安装程序
+
+用 Inno Setup 6.7.4 编译（`installer/redpen.iss`），产物 `dist/installer/红笔-1.0.0-windows-x64-setup.exe`，18.2 MB。
+
+- 标准向导（简体中文 / 英文双语），可选安装目录，默认 `{autopf}\红笔`，**按用户安装、不弹 UAC**；
+- 创建开始菜单项与桌面快捷方式（可在「附加任务」里取消桌面图标）；
+- 写 `HKCU\Software\RedPen`（InstallPath / Version / Exe），标准「应用和功能」卸载条目由 Inno 自动维护；
+- 关闭正在运行的实例（`CloseApplications`）、安装日志、卸载时删除安装目录与注册表键；
+- 安装完成页提供「立即运行红笔」。
+
+实测（静默安装到工作区目录）：安装 exit 0，31 个文件落地，注册表三项写入，启动后窗口标题为「红笔 · 签约前 5 分钟」；卸载 exit 0，安装目录、注册表键、卸载条目全部清除。
+**未验证**：桌面与开始菜单快捷方式——当前执行环境的桌面目录拒绝写入（普通 `Set-Content` 同样被拒，非安装器问题），日志里对应两条错误 5 拒绝访问。在正常桌面会话双击安装即可创建。
+
+## 十五、macOS
+
+Flutter 的 macOS 目标只能在 macOS 上用 Xcode 构建，无法在 Windows 上交叉编译，因此本轮没有 macOS 产物。
+已提供 `installer/package_macos.sh`：`flutter build macos --release` → 打包 `.app` → `hdiutil` 生成 dmg，并预留 codesign / notarytool 参数。该脚本未在 macOS 上执行验证。
+
+## 十六、第三轮改动文件
+
+```
+client/lib/services/ocr/ocr_image.dart   对比度拉伸、等比缩放、纵向切块（新增）
+client/lib/services/ocr/ocr.dart         逐块识别 + 重叠去重合并
+client/lib/services/ocr/ocr_android.dart 切块后按宽度/像素上限解码，不再按长边压
+client/test/ocr_image_test.dart          切块与合并的 5 条测试（新增）
+client/tool/ocr_bench.dart               真值对比基准工具（新增）
+installer/redpen.iss                     Windows 安装程序脚本（新增）
+installer/package_macos.sh               macOS 打包脚本（新增，未验证）
+```
+
+---
+
+# 第四轮：自动更新与「关于」页面（2026-11-20）
+
+版本号正式定为 `1.0.0+1`，本轮新增启动更新检查与双端关于页；判定引擎、规则库与既有界面未改动。
+
+## 十七、更新检测
+
+### 1. 结构
+
+| 文件 | 职责 |
+|---|---|
+| `client/lib/services/version.dart` | `SemVer` 解析与比较 |
+| `client/lib/services/update_service.dart` | 读取 GitHub 发行版列表、按平台挑选资产 |
+| `client/lib/services/update_store.dart` | 记住用户跳过的版本 |
+| `client/lib/state/update_controller.dart` | 发行版列表、加载/错误状态、每会话只提示一次 |
+| `client/lib/pages/about_page.dart` | 关于页 + 启动更新提示（桌面对话框 / 移动底部卡片） |
+
+### 2. 版本比较规则
+
+- 去掉 `v` 前缀、`+build` 元数据，兼容 `release-1.2.3` 这类前缀写法；
+- 主、次、修订逐段按数值比较（`1.10.0` > `1.9.9`）；
+- 正式版高于同号预发布版（`1.0.0` > `1.0.0-beta.2`），预发布段内数字按数值、字符串按字典序，数字低于字符串。
+
+### 3. 提示逻辑
+
+- 启动首帧后检查一次；`shouldPrompt()` 同时校验「有新版本」「本会话未提示过」「未被用户跳过」；
+- 「跳过此版本」写入 `update_state.json`；只有出现更高版本才重新提示；
+- 最新版本从非草稿、非预发布中取；桌面优先 `.exe` 安装程序，其次 `.zip`；Android 按 `arm64-v8a → armeabi-v7a → x86_64` 选择 APK；
+- 网络失败、GitHub 403/429 限流均转为可读中文提示，不影响合同核对，也不会产生「有新版本」的误报。
+
+### 4. 状态文件位置
+
+默认写入 `getApplicationSupportDirectory()`（Windows 为 `%APPDATA%\cn.redpen\red_pen`）。当前执行环境拒绝创建该目录（`PathAccessException`，错误 5），因此增加了回退：创建失败时改用临时目录下的 `red_pen/update_state.json`。跳过标记丢失无副作用。
+
+## 十八、关于页
+
+### 1. 入口
+
+- 桌面：左侧栏新增「应用 → 关于红笔」，位于「带走」分组之后，不需要滚动即可看到；
+- 移动：顶栏最右侧新增信息图标，进入独立页面（带返回箭头），符合手机导航习惯；
+- 桌面宽度 ≥ 900 时打开 760px 宽的模态弹窗，窄窗或手机平台进入整页。
+
+### 2. 内容
+
+- 品牌区：印章、名称、副标题、`v1.0.0 (1)` 版本徽标；
+- 更新：状态图标与文案、最近检查时间、「检查更新」、发现新版本时的「下载」与「跳过此版本」、最新更新说明；
+- 历史版本：最近 8 个发行版，逐条展开更新日志，标记「当前版本」「预览版」；
+- 运行环境：应用版本、运行平台、处理器架构（`dart:ffi`）、屏幕逻辑尺寸、像素密度、界面语言、识别引擎、规则库规模；
+- 代码仓库：`https://github.com/SubmergeDQ/Red-Pen`，支持复制与浏览器打开；
+- 隐私与页脚：合同正文不上传、不留存；更新检查只读取公开版本信息。
+
+## 十九、权限与文案修正
+
+第一轮曾为「完全离线」移除 `INTERNET` 权限。本轮更新检查需要读取 GitHub，已恢复该权限，并同步修正容易误解的文案：
+
+| 位置 | 旧 | 新 |
+|---|---|---|
+| Android 清单 | `tools:node="remove"` 移除 INTERNET | 显式声明 `INTERNET`，并补充 Android 11+ 打开浏览器的 `https` 可见性查询 |
+| 桌面状态栏 | 本机规则 20 类 · 无网络请求 | 本机规则 20 类 · 合同不上传 |
+| 桌面侧栏 | 只在本机核对，不上传、不留存 | 合同只在本机核对，不上传、不留存 |
+| 移动顶栏 | 仅本机处理 | 合同仅本机处理 |
+| 关于页 | — | 合同正文只在本机解析与核对；更新检查只向 GitHub 读取公开版本信息，不发送任何合同内容 |
+
+## 二十、验证
+
+- `flutter analyze`：0 error / 0 warning。
+- `flutter test`：89 项全部通过，本轮新增 20 项：SemVer（前缀、位数、构建元数据、预发布）、发行版 JSON（草稿、字段、Windows 资产选择）、HTTP 状态映射、更新状态机（一次提示、跳过、跳过旧版后重新提示、网络错误）。
+- Windows 实机（1600×900，125% 缩放）：
+  - 临时发布 `v1.0.1` 后启动，自动弹出「有新版可用」，版本对比、说明、下载与跳过按钮齐全；
+  - 点「跳过此版本」后状态文件写入 `{"ignoredVersion":"v1.0.1"}`，再次启动不再弹出；
+  - 删除临时发行版后，关于页恢复为无更新状态；
+  - 关于页弹窗与 800px 窄窗的移动版页面均正常，运行环境读取为 `Windows · 10.0 (Build 22621)` / `x64` / `1.25×` / `zh-CN`；
+  - GitHub 未认证接口限流时显示「GitHub 暂时限制了请求频率」，无崩溃、无误报。
+- Android：`flutter build apk --release --split-per-abi` 成功，三个包签名仍为 `CN=SWFU Hub`（SHA-256 `638bf1b7…8505c5`）；`aapt dump permissions` 确认包含 `INTERNET`；每个包只含本架构 `lib/`。
+- 未覆盖：Android 真机 / 模拟器上的更新提示与关于页（本机无连接设备）；macOS 未构建。
+
+## 二十一、第四轮改动文件
+
+```
+client/lib/services/version.dart              SemVer 解析与比较（新增）
+client/lib/services/update_service.dart       GitHub 发行版读取与资产选择（新增）
+client/lib/services/update_store.dart         跳过版本持久化（新增，含目录回退）
+client/lib/state/update_controller.dart       更新状态机（新增）
+client/lib/pages/about_page.dart              关于页与更新提示（新增）
+client/lib/main.dart                          启动检查、关于入口、UpdateController 注入
+client/lib/ui/desktop_shell.dart              侧栏「关于红笔」、状态栏与隐私文案
+client/lib/ui/common.dart                     移动顶栏信息按钮、隐私文案
+client/test/update_test.dart                  版本/解析/状态机 20 项测试（新增）
+client/test/widget_test.dart                  注入离线更新服务
+client/android/app/src/main/AndroidManifest.xml  恢复 INTERNET、补充 https 可见性
+docs/版本更新说明-1.0.0.md                     发行版更新说明（新增）
+```
+
+
+

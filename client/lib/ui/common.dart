@@ -446,6 +446,7 @@ class DeskTopBar extends StatelessWidget {
     required this.onRules,
     required this.onCopyReport,
     required this.onNewDocument,
+    required this.onAbout,
   });
 
   final ReviewController controller;
@@ -453,6 +454,7 @@ class DeskTopBar extends StatelessWidget {
   final VoidCallback onRules;
   final VoidCallback onCopyReport;
   final VoidCallback onNewDocument;
+  final VoidCallback onAbout;
 
   @override
   Widget build(BuildContext context) {
@@ -568,7 +570,7 @@ class DeskTopBar extends StatelessWidget {
                     if (showPrivacy) ...[
                       IconLabel(
                         icon: Icons.lock_outline,
-                        label: '仅本机处理',
+                        label: '合同仅本机处理',
                         iconSize: RI.dense,
                         gap: RI.gapDense,
                         color: R.cream.withValues(alpha: 0.6),
@@ -584,6 +586,12 @@ class DeskTopBar extends StatelessWidget {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
+                        barButton(
+                          icon: Icons.info_outline,
+                          tooltip: '关于红笔',
+                          onPressed: onAbout,
+                        ),
+                        const SizedBox(width: 8),
                         barButton(
                           icon: Icons.menu_book_outlined,
                           label: compact ? null : '核对依据',

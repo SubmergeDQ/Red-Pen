@@ -12,9 +12,18 @@ flutter build windows
 # 产物：build\windows\x64\runner\Release\red_pen.exe
 
 # Android（minSdk 26）
-flutter build apk --release
-# 产物：build\app\outputs\flutter-apk\app-release.apk
+flutter build apk --release --split-per-abi
+# 产物：build\app\outputs\flutter-apk\app-{arm64-v8a,armeabi-v7a,x86_64}-release.apk
 ```
+
+Windows 安装程序（Inno Setup 6）：
+
+```powershell
+iscc installer\redpen.iss
+# 产物：dist\installer\红笔-1.0.0-windows-x64-setup.exe
+```
+
+macOS 需在 macOS 上执行 `installer/package_macos.sh`（Windows 无法交叉编译）。
 
 ## 测试
 

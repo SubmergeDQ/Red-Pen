@@ -3,21 +3,35 @@ import 'dart:async';
 import 'package:flutter/foundation.dart' show defaultTargetPlatform;
 import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 
+import 'pages/about_page.dart';
 import 'pages/analyzing_page.dart';
 import 'pages/intake_page.dart';
 import 'pages/review_page.dart';
 import 'state/review_controller.dart';
+import 'state/update_controller.dart';
 import 'theme.dart';
 import 'ui/common.dart';
 import 'ui/desktop_shell.dart';
 
-void main() {
-  runApp(const RedPenApp());
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  final update = UpdateController();
+  try {
+    final info = await PackageInfo.fromPlatform();
+    update.currentVersion = info.version;
+    update.buildNumber = info.buildNumber;
+  } on Object {
+    // 读不到包信息时保留 pubspec 默认值，更新检查依然可用。
+  }
+  runApp(RedPenApp(update: update));
 }
 
 class RedPenApp extends StatefulWidget {
-  const RedPenApp({super.key});
+  const RedPenApp({super.key, required this.update});
+
+  final UpdateController update;
 
   @override
   State<RedPenApp> createState() => _RedPenAppState();
@@ -35,6 +49,7 @@ class _RedPenAppState extends State<RedPenApp> {
   @override
   void dispose() {
     _controller.dispose();
+    widget.update.dispose();
     super.dispose();
   }
 
@@ -44,15 +59,16 @@ class _RedPenAppState extends State<RedPenApp> {
       title: '红笔 · 签约前 5 分钟',
       debugShowCheckedModeBanner: false,
       theme: R.theme(),
-      home: HomeShell(controller: _controller),
+      home: HomeShell(controller: _controller, update: widget.update),
     );
   }
 }
 
 class HomeShell extends StatefulWidget {
-  const HomeShell({super.key, required this.controller});
+  const HomeShell({super.key, required this.controller, required this.update});
 
   final ReviewController controller;
+  final UpdateController update;
 
   @override
   State<HomeShell> createState() => _HomeShellState();
@@ -68,6 +84,25 @@ class _HomeShellState extends State<HomeShell> {
   void initState() {
     super.initState();
     controller.onNotice = _showNotice;
+    WidgetsBinding.instance.addPostFrameCallback((_) => _checkForUpdates());
+  }
+
+  /// Runs once per launch. A skipped version or a second check stays silent,
+  /// so the prompt can never repeat within the same session.
+  Future<void> _checkForUpdates() async {
+    final update = widget.update;
+    if (update.loading || update.releases.isNotEmpty) return;
+    await update.check();
+    if (!mounted) return;
+    if (!await update.shouldPrompt()) return;
+    if (!mounted) return;
+    final latest = update.latestStable;
+    if (latest == null) return;
+    await showUpdatePrompt(context, update: update, release: latest);
+  }
+
+  void _showAbout() {
+    showAboutPage(context, update: widget.update, ocr: controller.ocr);
   }
 
   @override
@@ -174,6 +209,7 @@ class _HomeShellState extends State<HomeShell> {
                   controller: controller,
                   onRules: () => showRulesPanel(context),
                   onNewDocument: () => _requestNewDocument(context),
+                  onAbout: _showAbout,
                   child: page,
                 ),
               )
@@ -185,6 +221,7 @@ class _HomeShellState extends State<HomeShell> {
                     onRules: () => showRulesPanel(context),
                     onCopyReport: controller.copyReport,
                     onNewDocument: () => _requestNewDocument(context),
+                    onAbout: _showAbout,
                   ),
                   Expanded(child: page),
                 ],

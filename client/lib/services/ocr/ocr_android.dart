@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math' as math;
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
@@ -126,16 +127,27 @@ class MlKitOcrService implements OcrService {
   Future<void> dispose() async {}
 }
 
-/// Decodes to straight RGBA on a worker isolate and caps the long side, so the
-/// platform channel never carries more than ~10 MB.
+/// Decodes to straight RGBA on a worker isolate. Tiles arrive already sized by
+/// `prepareOcrTiles`, so this only guards against oversized input: cap the
+/// width and the total pixel count, never the long side (that would undo the
+/// upscale for tall pages).
 Map<String, Object>? _decodeForMlKit(Uint8List bytes) {
   final decoded = img.decodeImage(bytes);
   if (decoded == null) return null;
   var image = img.bakeOrientation(decoded);
-  const maxSide = 1600;
-  final longSide = image.width > image.height ? image.width : image.height;
-  if (longSide > maxSide) {
-    final scale = maxSide / longSide;
+  const maxWidth = 1800;
+  const maxPixels = 6000000;
+  if (image.width > maxWidth) {
+    final height = (image.height * maxWidth / image.width).round();
+    image = img.copyResize(
+      image,
+      width: maxWidth,
+      height: height,
+      interpolation: img.Interpolation.average,
+    );
+  }
+  if (image.width * image.height > maxPixels) {
+    final scale = math.sqrt(maxPixels / (image.width * image.height));
     image = img.copyResize(
       image,
       width: (image.width * scale).round(),
