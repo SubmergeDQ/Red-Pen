@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart' show defaultTargetPlatform;
+import 'package:flutter/services.dart';
 import 'package:material_ui/material_ui.dart';
 
 import 'pages/analyzing_page.dart';
@@ -8,6 +10,7 @@ import 'pages/review_page.dart';
 import 'state/review_controller.dart';
 import 'theme.dart';
 import 'ui/common.dart';
+import 'ui/desktop_shell.dart';
 
 void main() {
   runApp(const RedPenApp());
@@ -100,11 +103,93 @@ class _HomeShellState extends State<HomeShell> {
     if (replace == true) controller.resetAll();
   }
 
+  Widget _withShortcuts(Widget child) {
+    return CallbackShortcuts(
+      bindings: {
+        const SingleActivator(LogicalKeyboardKey.enter, control: true): () {
+          if (controller.canReview) controller.startReview();
+        },
+        const SingleActivator(LogicalKeyboardKey.keyO, control: true): () {
+          if (!controller.busy) controller.importFile();
+        },
+        const SingleActivator(LogicalKeyboardKey.keyP, control: true): () {
+          if (controller.analysis != null && !controller.exporting) controller.exportPdf();
+        },
+        const SingleActivator(LogicalKeyboardKey.keyC, control: true, shift: true): () {
+          if (controller.analysis != null) controller.copyReport();
+        },
+        const SingleActivator(LogicalKeyboardKey.escape): () {
+          if (controller.phase != Phase.intake) controller.editText();
+        },
+      },
+      child: Focus(autofocus: true, child: child),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return ListenableBuilder(
       listenable: controller,
       builder: (context, _) {
+        final page = AnimatedSwitcher(
+          duration: const Duration(milliseconds: 300),
+          switchInCurve: Curves.easeOutCubic,
+          switchOutCurve: Curves.easeInCubic,
+          layoutBuilder: (current, previous) => Stack(
+            alignment: Alignment.topCenter,
+            children: [...previous, ?current],
+          ),
+          transitionBuilder: (child, animation) {
+            final slide = Tween<Offset>(
+              begin: const Offset(0, 0.012),
+              end: Offset.zero,
+            ).animate(animation);
+            return FadeTransition(
+              opacity: animation,
+              child: SlideTransition(position: slide, child: child),
+            );
+          },
+          child: switch (controller.phase) {
+            Phase.intake => IntakePage(
+                key: const ValueKey('intake'),
+                controller: controller,
+              ),
+            Phase.analyzing => AnalyzingPage(
+                key: const ValueKey('analyzing'),
+                controller: controller,
+              ),
+            Phase.report => ReviewPage(
+                key: const ValueKey('report'),
+                controller: controller,
+              ),
+          },
+        );
+
+        final desktop = MediaQuery.sizeOf(context).width >= 900 &&
+            DesktopShell.supports(defaultTargetPlatform);
+
+        Widget shell = desktop
+            ? _withShortcuts(
+                DesktopShell(
+                  controller: controller,
+                  onRules: () => showRulesPanel(context),
+                  onNewDocument: () => _requestNewDocument(context),
+                  child: page,
+                ),
+              )
+            : Column(
+                children: [
+                  DeskTopBar(
+                    controller: controller,
+                    onHome: () => _requestNewDocument(context),
+                    onRules: () => showRulesPanel(context),
+                    onCopyReport: controller.copyReport,
+                    onNewDocument: () => _requestNewDocument(context),
+                  ),
+                  Expanded(child: page),
+                ],
+              );
+
         return PopScope(
           canPop: controller.phase == Phase.intake,
           onPopInvokedWithResult: (didPop, result) {
@@ -114,52 +199,7 @@ class _HomeShellState extends State<HomeShell> {
             backgroundColor: R.desk,
             body: Stack(
               children: [
-                Column(
-                  children: [
-                    DeskTopBar(
-                      controller: controller,
-                      onHome: () => _requestNewDocument(context),
-                      onRules: () => showRulesPanel(context),
-                      onCopyReport: controller.copyReport,
-                      onNewDocument: () => _requestNewDocument(context),
-                    ),
-                    Expanded(
-                      child: AnimatedSwitcher(
-                        duration: const Duration(milliseconds: 300),
-                        switchInCurve: Curves.easeOutCubic,
-                        switchOutCurve: Curves.easeInCubic,
-                        layoutBuilder: (current, previous) => Stack(
-                          alignment: Alignment.topCenter,
-                          children: [...previous, ?current],
-                        ),
-                        transitionBuilder: (child, animation) {
-                          final slide = Tween<Offset>(
-                            begin: const Offset(0, 0.012),
-                            end: Offset.zero,
-                          ).animate(animation);
-                          return FadeTransition(
-                            opacity: animation,
-                            child: SlideTransition(position: slide, child: child),
-                          );
-                        },
-                        child: switch (controller.phase) {
-                          Phase.intake => IntakePage(
-                              key: const ValueKey('intake'),
-                              controller: controller,
-                            ),
-                          Phase.analyzing => AnalyzingPage(
-                              key: const ValueKey('analyzing'),
-                              controller: controller,
-                            ),
-                          Phase.report => ReviewPage(
-                              key: const ValueKey('report'),
-                              controller: controller,
-                            ),
-                        },
-                      ),
-                    ),
-                  ],
-                ),
+                shell,
                 Positioned(
                   left: 20,
                   right: 20,
@@ -208,7 +248,7 @@ class _NoticeToast extends StatelessWidget {
       constraints: const BoxConstraints(maxWidth: 380),
       padding: const EdgeInsets.fromLTRB(14, 10, 14, 11),
       decoration: BoxDecoration(
-        color: R.pine,
+        color: R.brand,
         borderRadius: BorderRadius.circular(6),
         boxShadow: R.shadowSheet,
       ),

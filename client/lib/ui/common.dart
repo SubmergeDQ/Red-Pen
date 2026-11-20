@@ -146,8 +146,8 @@ class _DeskButtonState extends State<DeskButton> {
     final enabled = widget.onPressed != null;
     final (bg, border, fg) = switch (widget.kind) {
       DeskButtonKind.primary => (
-          _hover && enabled ? R.pine2 : R.pine,
-          _hover && enabled ? R.pine2 : R.pine,
+          _hover && enabled ? R.brand2 : R.brand,
+          _hover && enabled ? R.brand2 : R.brand,
           R.cream,
         ),
       DeskButtonKind.outline => (
@@ -237,7 +237,7 @@ class Eyebrow extends StatelessWidget {
         Container(
           width: 5,
           height: 5,
-          decoration: BoxDecoration(color: R.vermilion.withValues(alpha: 0.9), shape: BoxShape.circle),
+          decoration: BoxDecoration(color: R.accent.withValues(alpha: 0.9), shape: BoxShape.circle),
         ),
         const SizedBox(width: 9),
         Flexible(
@@ -316,7 +316,7 @@ class InfoNote extends StatelessWidget {
       NoteTone.warning => (R.amberSoft, R.amberBorder, R.amberInk),
       NoteTone.danger => (R.vermilionSoft, R.vermilionBorder, R.vermilionInk),
       NoteTone.success => (R.mossSoft, R.mossBorder, R.mossInk),
-      NoteTone.pine => (R.pineSoft, R.pineBorder, R.pineInk),
+      NoteTone.pine => (R.brandSoft, R.brandBorder, R.brandInk),
       NoteTone.neutral => (R.sheet2, R.rule, R.ink2),
     };
     return Container(
@@ -485,7 +485,7 @@ class DeskTopBar extends StatelessWidget {
 
     return Container(
       decoration: const BoxDecoration(
-        color: R.pine,
+        color: R.brand,
         boxShadow: [BoxShadow(color: R.topBarEdge, offset: Offset(0, 2), blurRadius: 8)],
       ),
       child: SafeArea(
@@ -739,7 +739,7 @@ class _RulesCard extends StatelessWidget {
                         ),
                         child: Text(
                           rule.id,
-                          style: R.serif(size: 11.5, color: R.pine, weight: FontWeight.w600, height: 1),
+                          style: R.serif(size: 11.5, color: R.brand, weight: FontWeight.w600, height: 1),
                         ),
                       ),
                       const SizedBox(width: 13),

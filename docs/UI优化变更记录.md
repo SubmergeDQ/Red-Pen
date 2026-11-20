@@ -139,3 +139,75 @@ client/android/gradle.properties       Kotlin 增量编译关闭
 client/android/app/src/main/AndroidManifest.xml  移除 INTERNET
 client/.gitignore                      key.properties、插件本地构建目录
 ```
+
+---
+
+# 第二轮：OCR 稳定性、去红绿配色、桌面/移动双端分化（2026-11-20）
+
+## 七、安卓图片识别修复
+
+### 1. 现象
+
+`Attempt to invoke virtual method 'java.lang.Class java.lang.Object.getClass()' on a null object reference`。
+
+### 2. 定位
+
+ML Kit 插件把图片交给原生层时，文件路径走 `File(path)` → `Uri.fromFile` 这条链，原生侧对路径/解码结果不做判空；只要路径或位图为空，就会在 Java 层抛这个空指针（`File(null)` 内部的 `getClass()`），并由 MethodChannel 以平台异常返回，界面上表现为「ML Kit 识别失败」。这条链本身在 Flutter 侧不可控。
+
+### 3. 处理
+
+`client/lib/services/ocr/ocr_android.dart` 重写为：
+
+- **主路径改为像素直传**：在 worker isolate 解码 → 摆正 EXIF → 长边压到 1600 → 取 RGBA，用 `InputImage.fromBitmap` 交给 ML Kit。整条链路不经过文件路径，空指针这一类失败从根上消失。
+- **文件路径降级为第二次尝试**：像素路径失败时，重新编码 PNG 写入临时目录，并校验文件存在且非空后才交给 ML Kit。
+- **两次都失败**才报错，错误文案区分「识别模型没准备好」和「识别没完成」，并提示可改用「导入文件」；原生错误码与消息写入 `debugPrint`，便于用 logcat 定位。
+- 空图片、尺寸异常、RGBA 长度不匹配都在进入 ML Kit 前拦掉；`recognizer.close()` 单独 try/catch，避免关闭失败覆盖真实错误。
+- 识别图片上限从 2400 降到 1600 长边，单张过通道的数据从约 17MB 降到约 10MB，中端机更稳。
+
+> 说明：本机没有安卓设备/模拟器，这一修复已通过静态审查与构建验证，仍需在真机上点一次「图片识别」确认。
+
+## 八、配色：去掉红绿组合与深绿
+
+- 界面主色由深松绿改为**墨蓝** `#1F3243`（侧栏、主按钮、顶栏），绿色从所有装饰性界面元素中移除。
+- 唯一装饰强调色改为**琥珀** `#B07A3C`：标题下划线、进度条、光标、输入框焦点、眉标圆点。
+- 红笔印章保留砖红 `#A8443A`（品牌语义，不再与绿色同时出现在界面上）。
+- 四色分级降饱和，避免红绿对撞：砖红 `#A8443A`（5.91:1）、赭黄 `#9C6A14`（4.68:1）、石板灰 `#5B6B76`（5.51:1）、灰绿 `#5F7A63`（4.72:1），四者都达到正文级对比度；合同原文的高亮底色同步变浅。
+- 纸面进一步中性化：`#F4F3EF` / `#EDEBE6` / 纯白卡片；三级文字 `#6E747B`（4.7:1）。
+- 语义命名同步调整：`R.pine*` → `R.brand*`，新增 `R.accent / R.accentSoft`。
+
+## 九、Windows 与移动端 UI 分化
+
+Windows（以及 macOS/Linux）在宽度 ≥ 900 时进入 `DesktopShell`，移动端保留原顶栏结构：
+
+| | Windows 桌面 | Android |
+|---|---|---|
+| 全局导航 | 左侧 252px 常驻侧栏：品牌、当前文档信息、文件/核对/带走三组命令 | 顶部通栏 + 底部操作 |
+| 上下文 | 52px 上下文栏：当前阶段 + 文档摘要 + 换一份 | 顶部栏显示文档类型与待看数量 |
+| 状态 | 26px 状态栏：引擎状态 + 快捷键提示 | 无 |
+| 快捷键 | Ctrl+Enter 开始核对、Ctrl+O 导入、Ctrl+P 导出、Ctrl+Shift+C 复制、Esc 返回 | 无 |
+| 结果页 | 侧栏 + 双栏（原文 / 报告）常驻 | 合同原文 / 核对报告 Tab 切换 |
+
+侧栏的「核对结果」带待看数量徽标，报告生成后可直接从侧栏回到结果，不需要重新跑规则（`ReviewController.showReport()`）。桌面端不再渲染移动端的顶部栏，减少一套重复操作。
+
+## 十、第二轮验证
+
+- `flutter analyze`：无问题；`flutter test`：69 项全部通过。
+- Windows：`flutter build windows --release` 成功，原生窗口启动正常，桌面侧栏/上下文栏/状态栏渲染正确。
+- Android：`flutter build apk --release` 成功，签名仍为 `CN=SWFU Hub`。
+- 桌面 1200×800 / 1440×900 与移动 390×844 截图核对：无溢出、错位、截断。
+- 未覆盖：安卓真机运行；原生自动化点击会被前台其他窗口遮挡，桌面端流程改用同组件的预览截图核对。
+
+## 十一、第二轮改动文件
+
+```
+client/lib/services/ocr/ocr_android.dart   像素直传 + 文件降级 + 双重试 + 错误分型
+client/lib/theme.dart                      墨蓝/琥珀配色，四色降饱和，R.pine→R.brand
+client/lib/ui/desktop_shell.dart           桌面侧栏、上下文栏、状态栏（新增）
+client/lib/main.dart                       桌面/移动外壳分流、快捷键、导入调整
+client/lib/state/review_controller.dart    showReport()：从侧栏回到已有结果
+client/lib/pages/intake_page.dart          标题下划线/进度/光标改琥珀，桌面垂直留白收紧
+client/lib/pages/review_page.dart          原文分隔线中性化
+client/lib/pages/analyzing_page.dart       进度条改琥珀
+client/lib/ui/common.dart                  眉标圆点改琥珀，印章色沿用砖红
+```
+

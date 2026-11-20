@@ -1,61 +1,63 @@
 import 'package:material_ui/material_ui.dart';
 
-/// 红笔 · 审阅桌 — clean paper, ink, pine and vermilion.
+/// 红笔 · 审阅桌 — warm paper, ink and a deep ink-blue chrome.
 ///
-/// Every colour, shadow and icon metric lives here so pages never hard-code
-/// values. The four verdict colours keep their meaning: red blocks the
-/// signature, amber costs money, slate needs facts, green is standard.
+/// The palette deliberately avoids a red/green pairing: the chrome is ink blue,
+/// the only decorative accent is amber, and the four verdict colours are muted
+/// so they read as ink annotations instead of traffic lights.
 abstract final class R {
   // Paper and ink.
-  static const desk = Color(0xFFF3F1EB);
-  static const desk2 = Color(0xFFECE9E1);
+  static const desk = Color(0xFFF4F3EF);
+  static const desk2 = Color(0xFFEDEBE6);
   static const sheet = Color(0xFFFFFFFF);
-  static const sheet2 = Color(0xFFF7F5F0);
-  static const ink = Color(0xFF191C19);
-  static const ink2 = Color(0xFF363C35);
-  static const muted = Color(0xFF565C52);
-  static const faint = Color(0xFF6E746A);
-  static const prose = Color(0xFF2B3026);
+  static const sheet2 = Color(0xFFF7F6F2);
+  static const ink = Color(0xFF1A1D22);
+  static const ink2 = Color(0xFF3A3F47);
+  static const muted = Color(0xFF5C6268);
+  static const faint = Color(0xFF6E747B);
+  static const prose = Color(0xFF2A2E34);
 
   // Rules and borders.
-  static const rule = Color(0xFFE3DFD5);
-  static const rule2 = Color(0xFFEFECE5);
-  static const ruleStrong = Color(0xFFCBC5B7);
-  static const focusBorder = Color(0xFFA6A091);
+  static const rule = Color(0xFFE2E0DA);
+  static const rule2 = Color(0xFFEFEDE8);
+  static const ruleStrong = Color(0xFFC9C6BE);
+  static const focusBorder = Color(0xFFA9A59B);
 
-  // Brand.
-  static const pine = Color(0xFF123A2D);
-  static const pine2 = Color(0xFF1B5140);
-  static const pineSoft = Color(0xFFE3EDE7);
-  static const cream = Color(0xFFF7F3E7);
+  // Brand chrome: ink blue.
+  static const brand = Color(0xFF1F3243);
+  static const brand2 = Color(0xFF2B4459);
+  static const brandSoft = Color(0xFFE8EDF1);
+  static const cream = Color(0xFFF5F2EA);
+  static const accent = Color(0xFFB07A3C);
+  static const accentSoft = Color(0xFFF6EDDF);
   static const gold = Color(0xFFB08D57);
 
-  // Verdicts.
-  static const vermilion = Color(0xFFC0392B);
-  static const vermilion2 = Color(0xFF9B2C20);
-  static const vermilionSoft = Color(0xFFFBEAE6);
-  static const amber = Color(0xFF9E6407);
-  static const amberSoft = Color(0xFFFBF0D9);
-  static const slate = Color(0xFF56676E);
-  static const slateSoft = Color(0xFFE9EFF1);
-  static const moss = Color(0xFF1B7845);
-  static const mossSoft = Color(0xFFE2F0E7);
+  // Verdicts: brick, ochre, slate, sage. No pure red/green pair.
+  static const vermilion = Color(0xFFA8443A);
+  static const vermilion2 = Color(0xFF8C372E);
+  static const vermilionSoft = Color(0xFFF8E8E4);
+  static const amber = Color(0xFF9C6A14);
+  static const amberSoft = Color(0xFFFAF0DA);
+  static const slate = Color(0xFF5B6B76);
+  static const slateSoft = Color(0xFFE9EEF1);
+  static const moss = Color(0xFF5F7A63);
+  static const mossSoft = Color(0xFFECF1EC);
 
   // Soft borders and text inks for notices.
-  static const vermilionBorder = Color(0xFFEFCFC7);
-  static const vermilionInk = Color(0xFF7A261B);
-  static const amberBorder = Color(0xFFEBD8AE);
-  static const amberInk = Color(0xFF6B4708);
-  static const mossBorder = Color(0xFFC6DCCE);
-  static const mossInk = Color(0xFF1D4B32);
-  static const pineBorder = Color(0xFFC9DCD1);
-  static const pineInk = Color(0xFF1B4030);
+  static const vermilionBorder = Color(0xFFEBCFC9);
+  static const vermilionInk = Color(0xFF6F2A22);
+  static const amberBorder = Color(0xFFE8D8B4);
+  static const amberInk = Color(0xFF5E410C);
+  static const mossBorder = Color(0xFFCBD9CD);
+  static const mossInk = Color(0xFF33452F);
+  static const brandBorder = Color(0xFFC8D3DB);
+  static const brandInk = Color(0xFF1E3345);
 
   // Overlays.
-  static const barrier = Color(0x66191C19);
-  static const topBarEdge = Color(0x26101B16);
-  static const focusRing = Color(0x1A1B5140);
-  static const linkUnderline = Color(0x4D8FA89A);
+  static const barrier = Color(0x66181B20);
+  static const topBarEdge = Color(0x26131A21);
+  static const focusRing = Color(0x1A1F3243);
+  static const linkUnderline = Color(0x4D8FA0AE);
 
   static const serifFamily = 'RedPenSerifA';
   static const serifFallback = [
@@ -124,26 +126,26 @@ abstract final class R {
       ).copyWith(fontFeatures: const [FontFeature.tabularFigures()]);
 
   static const shadowSheet = [
-    BoxShadow(color: Color(0x0F1A1F1C), offset: Offset(0, 1), blurRadius: 2),
-    BoxShadow(color: Color(0x241A1F1C), offset: Offset(0, 14), blurRadius: 32, spreadRadius: -24),
+    BoxShadow(color: Color(0x0F1A1D22), offset: Offset(0, 1), blurRadius: 2),
+    BoxShadow(color: Color(0x241A1D22), offset: Offset(0, 14), blurRadius: 32, spreadRadius: -24),
   ];
 
   static const shadowFloat = [
-    BoxShadow(color: Color(0x59101B16), offset: Offset(0, 22), blurRadius: 56, spreadRadius: -20),
+    BoxShadow(color: Color(0x59131A21), offset: Offset(0, 22), blurRadius: 56, spreadRadius: -20),
   ];
 
   static const shadowButton = [
-    BoxShadow(color: Color(0x14101B16), offset: Offset(0, 1), blurRadius: 2),
+    BoxShadow(color: Color(0x14131A21), offset: Offset(0, 1), blurRadius: 2),
   ];
 
   static ThemeData theme() {
     final scheme = ColorScheme.fromSeed(
-      seedColor: pine,
+      seedColor: brand,
       brightness: Brightness.light,
     ).copyWith(
-      primary: pine,
+      primary: brand,
       onPrimary: cream,
-      secondary: vermilion,
+      secondary: accent,
       onSecondary: Colors.white,
       surface: sheet,
       onSurface: ink,
@@ -161,13 +163,13 @@ abstract final class R {
       fontFamilyFallback: sansFallback,
       splashFactory: InkRipple.splashFactory,
       textSelectionTheme: const TextSelectionThemeData(
-        cursorColor: vermilion,
-        selectionColor: Color(0x2BC0392B),
-        selectionHandleColor: vermilion,
+        cursorColor: accent,
+        selectionColor: Color(0x2BB07A3C),
+        selectionHandleColor: accent,
       ),
       tooltipTheme: TooltipThemeData(
         decoration: BoxDecoration(
-          color: pine,
+          color: brand,
           borderRadius: BorderRadius.circular(4),
         ),
         textStyle: sans(size: 11.5, color: cream, height: 1.4),
@@ -176,11 +178,11 @@ abstract final class R {
       scrollbarTheme: ScrollbarThemeData(
         thickness: WidgetStateProperty.all(6),
         radius: const Radius.circular(3),
-        thumbColor: WidgetStateProperty.all(const Color(0x667E857B)),
+        thumbColor: WidgetStateProperty.all(const Color(0x667A8088)),
       ),
       snackBarTheme: SnackBarThemeData(
         behavior: SnackBarBehavior.floating,
-        backgroundColor: pine,
+        backgroundColor: brand,
         contentTextStyle: sans(size: 13, color: cream),
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6)),
         insetPadding: const EdgeInsets.all(20),
@@ -218,16 +220,4 @@ abstract final class RI {
 extension InkPalette on BuildContext {
   bool get isNarrow => MediaQuery.sizeOf(this).width < 760;
   bool get isWide => MediaQuery.sizeOf(this).width >= 1000;
-
-  void showNotice(String message) {
-    ScaffoldMessenger.of(this)
-      ..hideCurrentSnackBar()
-      ..showSnackBar(
-        SnackBar(
-          content: Text(message),
-          width: isNarrow ? null : 420,
-          duration: const Duration(seconds: 2),
-        ),
-      );
-  }
 }

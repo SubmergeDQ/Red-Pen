@@ -378,7 +378,7 @@ class _Paper extends StatelessWidget {
             left: narrow ? 10 : 44,
             top: 0,
             bottom: 0,
-            child: Container(width: 1, color: R.vermilion.withValues(alpha: 0.13)),
+            child: Container(width: 1, color: R.ruleStrong),
           ),
           Padding(
             padding: EdgeInsets.fromLTRB(
@@ -825,7 +825,7 @@ class _ReportPane extends StatelessWidget {
                           '查看 ${ruleLibrary.length} 类核对依据与法律出处',
                           style: R.sans(
                             size: 12,
-                            color: R.pine,
+                            color: R.brand,
                             height: 1.5,
                           ).copyWith(decoration: TextDecoration.underline, decorationColor: R.linkUnderline),
                         ),
@@ -1268,8 +1268,8 @@ class _FindingDetail extends StatelessWidget {
                     label: '在原文中定位',
                     iconSize: RI.dense,
                     gap: RI.gapDense,
-                    color: R.pine,
-                    style: R.sans(size: 11.5, weight: FontWeight.w500, color: R.pine, height: 1.4),
+                    color: R.brand,
+                    style: R.sans(size: 11.5, weight: FontWeight.w500, color: R.brand, height: 1.4),
                   ),
                 ),
               ),

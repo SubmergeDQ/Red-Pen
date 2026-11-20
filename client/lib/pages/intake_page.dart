@@ -90,9 +90,9 @@ class _IntakePageState extends State<IntakePage> {
           controller: _scroll,
           padding: EdgeInsets.fromLTRB(
             wide ? 32 : 16,
-            wide ? 48 : 28,
+            wide ? 30 : 28,
             wide ? 32 : 16,
-            32,
+            24,
           ),
           child: Center(
             child: ConstrainedBox(
@@ -103,7 +103,7 @@ class _IntakePageState extends State<IntakePage> {
                   const Eyebrow('签约前自查 · 学生与应届生'),
                   SizedBox(height: wide ? 18 : 16),
                   _Header(wide: wide),
-                  SizedBox(height: wide ? 34 : 24),
+                  SizedBox(height: wide ? 26 : 24),
                   if (wide)
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -142,7 +142,7 @@ class _IntakePageState extends State<IntakePage> {
                       activeId: c.activeSample,
                     ),
                   ],
-                  SizedBox(height: wide ? 44 : 30),
+                  SizedBox(height: wide ? 32 : 30),
                   const Divider(height: 1, color: R.rule),
                   const SizedBox(height: 15),
                   Text(
@@ -195,8 +195,8 @@ class _Header extends StatelessWidget {
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
                       colors: [
-                        R.vermilion.withValues(alpha: 0.2),
-                        R.vermilion.withValues(alpha: 0.07),
+                        R.accent.withValues(alpha: 0.24),
+                        R.accent.withValues(alpha: 0.08),
                       ],
                     ),
                     borderRadius: const BorderRadius.only(
@@ -320,7 +320,7 @@ class _EditorCardState extends State<_EditorCard> {
                 width: 6,
                 height: 6,
                 transform: Matrix4.rotationZ(0.785398),
-                decoration: const BoxDecoration(color: R.vermilion),
+                decoration: const BoxDecoration(color: R.accent),
               ),
               const SizedBox(width: 10),
               Text(
@@ -353,7 +353,7 @@ class _EditorCardState extends State<_EditorCard> {
               textInputAction: TextInputAction.newline,
               enableSuggestions: false,
               autocorrect: false,
-              cursorColor: R.vermilion,
+              cursorColor: R.accent,
               style: R.serif(size: wide ? 15 : 14.5, weight: FontWeight.w400, color: R.ink, height: 1.9),
               decoration: InputDecoration(
                 isCollapsed: true,
@@ -575,7 +575,7 @@ class _DocTypeButtonState extends State<_DocTypeButton> {
                   SizedBox(
                     width: 20,
                     child: entry.$1 == c.docTypeChoice
-                        ? const Icon(Icons.check, size: RI.inline, color: R.pine)
+                        ? const Icon(Icons.check, size: RI.inline, color: R.brand)
                         : null,
                   ),
                   Text(entry.$2, style: R.sans(size: 12.5, color: R.ink2)),
@@ -636,7 +636,7 @@ class _BusyBlock extends StatelessWidget {
               const SizedBox(
                 width: 14,
                 height: 14,
-                child: CircularProgressIndicator(strokeWidth: 2, color: R.pine),
+                child: CircularProgressIndicator(strokeWidth: 2, color: R.brand),
               ),
               const SizedBox(width: 10),
               Expanded(
@@ -659,7 +659,7 @@ class _BusyBlock extends StatelessWidget {
               value: c.progress?.clamp(0.02, 1),
               minHeight: 3,
               backgroundColor: R.rule,
-              color: R.vermilion,
+              color: R.accent,
             ),
           ),
         ],
@@ -790,8 +790,8 @@ class _SampleRowState extends State<_SampleRow> {
                       height: 30,
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: _hover ? R.pine : R.sheet,
-                        border: Border.all(color: _hover ? R.pine : R.ruleStrong),
+                        color: _hover ? R.brand : R.sheet,
+                        border: Border.all(color: _hover ? R.brand : R.ruleStrong),
                       ),
                       child: Icon(
                         Icons.arrow_forward,
@@ -842,7 +842,7 @@ class _ImageSourceSheet extends StatelessWidget {
                 width: 6,
                 height: 6,
                 transform: Matrix4.rotationZ(0.785398),
-                decoration: const BoxDecoration(color: R.vermilion),
+                decoration: const BoxDecoration(color: R.accent),
               ),
               const SizedBox(width: 10),
               Text('识别图片文字', style: R.serif(size: 17, weight: FontWeight.w600)),
@@ -920,7 +920,7 @@ class _SourceOption extends StatelessWidget {
                   border: Border.all(color: R.rule),
                   borderRadius: BorderRadius.circular(4),
                 ),
-                child: Icon(icon, size: RI.leading, color: R.pine),
+                child: Icon(icon, size: RI.leading, color: R.brand),
               ),
               const SizedBox(width: 12),
               Expanded(

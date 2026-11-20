@@ -42,10 +42,13 @@ lib/
   state/review_controller.dart  阶段、导入、OCR、导出、筛选状态
   services/                 PDF/Word/TXT 解析、本机 OCR、PDF 报告导出
   ui/common.dart            顶栏、按钮、标签、依据面板等共享组件
-  theme.dart                纸张/松绿/朱红配色与字体
+  ui/desktop_shell.dart     桌面侧栏外壳（Windows / macOS / Linux）
+  theme.dart                纸面/墨蓝配色、四色分级、图标尺寸与间距
   assets/fonts/             PDF 内嵌用的 Noto Sans SC（OFL）与界面衬线字体
 ```
 
 ## 隐私
 
 无后端、无登录、无网络请求，Android manifest 未声明 `INTERNET` 权限。合同正文只在本进程内存里，导入的扫描件走本机 OCR（Windows 用系统 OCR 接口，Android 用 ML Kit 离线模型），导出的 PDF 写入用户选择的目录。
+
+Android 的 OCR 默认把图片解码成 RGBA 像素直接交给 ML Kit，文件路径只作为第二次尝试，避免插件在空路径上抛原生空指针。

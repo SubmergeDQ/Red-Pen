@@ -465,6 +465,16 @@ class ReviewController extends ChangeNotifier {
 
   void backToIntake() => editText();
 
+  /// Reopens the last report without re-running the rules.
+  void showReport() {
+    if (analysis == null) return;
+    _runId++;
+    phase = Phase.report;
+    busy = false;
+    error = null;
+    notifyListeners();
+  }
+
   void resetAll() {
     _opId++;
     _runId++;

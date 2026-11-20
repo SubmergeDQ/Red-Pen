@@ -72,7 +72,7 @@ class _AnalyzingPageState extends State<AnalyzingPage> with SingleTickerProvider
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
                                         border: Border.all(
-                                          color: R.pine.withValues(alpha: 0.22 * (1 - t)),
+                                          color: R.brand.withValues(alpha: 0.22 * (1 - t)),
                                         ),
                                       ),
                                     );
@@ -86,7 +86,7 @@ class _AnalyzingPageState extends State<AnalyzingPage> with SingleTickerProvider
                                     shape: BoxShape.circle,
                                     border: Border.all(color: R.ruleStrong),
                                   ),
-                                  child: const Icon(Icons.description_outlined, size: 17, color: R.pine),
+                                  child: const Icon(Icons.description_outlined, size: 17, color: R.brand),
                                 ),
                               ],
                             ),
@@ -147,7 +147,7 @@ class _AnalyzingPageState extends State<AnalyzingPage> with SingleTickerProvider
                             value: value,
                             minHeight: 3,
                             backgroundColor: R.rule,
-                            color: R.vermilion,
+                            color: R.accent,
                           ),
                         ),
                       ),
