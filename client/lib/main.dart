@@ -154,6 +154,11 @@ class _HomeShellState extends State<HomeShell> {
           if (controller.analysis != null) controller.copyReport();
         },
         const SingleActivator(LogicalKeyboardKey.escape): () {
+          final navigator = Navigator.of(context);
+          if (navigator.canPop()) {
+            navigator.pop();
+            return;
+          }
           if (controller.phase != Phase.intake) controller.editText();
         },
       },

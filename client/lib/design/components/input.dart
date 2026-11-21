@@ -186,42 +186,50 @@ class _Segment extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      behavior: HitTestBehavior.opaque,
-      child: AnimatedContainer(
-        duration: AppDuration.fast,
-        height: compact ? 30 : 34,
-        padding: const EdgeInsets.symmetric(horizontal: 8),
-        decoration: BoxDecoration(
-          color: selected ? AppColors.surface : Colors.transparent,
+    return Semantics(
+      button: true,
+      selected: selected,
+      label: label,
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
           borderRadius: BorderRadius.circular(AppRadius.sm),
-          boxShadow: selected
-              ? const [BoxShadow(color: Color(0x14101820), offset: Offset(0, 1), blurRadius: 3)]
-              : null,
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (icon != null) ...[
-              Icon(
-                icon,
-                size: 15,
-                color: selected ? AppColors.ink : AppColors.inkTertiary,
-              ),
-              const SizedBox(width: 6),
-            ],
-            Text(
-              label,
-              maxLines: 1,
-              overflow: TextOverflow.ellipsis,
-              style: AppType.strong(
-                color: selected ? AppColors.ink : AppColors.inkTertiary,
-                size: compact ? 12 : 12.5,
-              ),
+          child: AnimatedContainer(
+            duration: AppDuration.fast,
+            height: compact ? 30 : 34,
+            padding: const EdgeInsets.symmetric(horizontal: 8),
+            decoration: BoxDecoration(
+              color: selected ? AppColors.surface : Colors.transparent,
+              borderRadius: BorderRadius.circular(AppRadius.sm),
+              boxShadow: selected
+                  ? const [BoxShadow(color: Color(0x14101820), offset: Offset(0, 1), blurRadius: 3)]
+                  : null,
             ),
-          ],
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                if (icon != null) ...[
+                  Icon(
+                    icon,
+                    size: 15,
+                    color: selected ? AppColors.ink : AppColors.inkTertiary,
+                  ),
+                  const SizedBox(width: 6),
+                ],
+                Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: AppType.strong(
+                    color: selected ? AppColors.ink : AppColors.inkTertiary,
+                    size: compact ? 12 : 12.5,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

@@ -21,14 +21,36 @@ Future<void> showAboutPage(
   final desktop = size.width >= 900 &&
       (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
   if (desktop) {
-    await showAppDialog<void>(
+    final navigator = Navigator.of(context, rootNavigator: true);
+    await showGeneralDialog<void>(
       context: context,
-      maxWidth: 820,
-      builder: (context) => _AboutPanel(
-        update: update,
-        ocr: ocr,
-        onClose: () => Navigator.of(context).pop(),
-      ),
+      barrierDismissible: true,
+      barrierLabel: '关闭关于红笔',
+      barrierColor: AppColors.overlay,
+      // 关闭时立即移除路由，避免窗口失焦时退场动画卡住、遮罩残留吞掉点击。
+      transitionDuration: Duration.zero,
+      pageBuilder: (dialogContext, _, _) {
+        final dialogSize = MediaQuery.sizeOf(dialogContext);
+        return Dialog(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          insetPadding: const EdgeInsets.all(AppSpace.x5),
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: 820,
+              maxHeight: dialogSize.height * 0.88,
+            ),
+            child: _AboutPanel(
+              update: update,
+              ocr: ocr,
+              onClose: () {
+                FocusManager.instance.primaryFocus?.unfocus();
+                navigator.pop();
+              },
+            ),
+          ),
+        );
+      },
     );
     return;
   }
@@ -94,22 +116,30 @@ class _AboutPanel extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return AppDialogSurface(
-      child: Column(
-        children: [
-          AppDialogHeader(
-            title: '关于红笔',
-            subtitle: '版本、运行环境与更新',
-            onClose: onClose,
+    return CallbackShortcuts(
+      bindings: {
+        const SingleActivator(LogicalKeyboardKey.escape): onClose,
+      },
+      child: Focus(
+        autofocus: true,
+        child: AppDialogSurface(
+          child: Column(
+            children: [
+              AppDialogHeader(
+                title: '关于红笔',
+                subtitle: '版本、运行环境与更新',
+                onClose: onClose,
+              ),
+              const Divider(),
+              Expanded(
+                child: SingleChildScrollView(
+                  padding: const EdgeInsets.fromLTRB(AppSpace.x5, AppSpace.x4, AppSpace.x5, AppSpace.x8),
+                  child: _AboutContent(update: update, ocr: ocr),
+                ),
+              ),
+            ],
           ),
-          const Divider(),
-          Expanded(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(AppSpace.x5, AppSpace.x4, AppSpace.x5, AppSpace.x8),
-              child: _AboutContent(update: update, ocr: ocr),
-            ),
-          ),
-        ],
+        ),
       ),
     );
   }

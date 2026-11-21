@@ -150,10 +150,15 @@ class _ReviewPageState extends State<ReviewPage> {
             ),
           ),
           Expanded(
-            child: IndexedStack(
-              index: c.mobileTab,
-              children: [report, source],
-            ),
+            child: c.mobileTab == 0
+                ? KeyedSubtree(
+                    key: const ValueKey('mobile-report'),
+                    child: report,
+                  )
+                : KeyedSubtree(
+                    key: const ValueKey('mobile-source'),
+                    child: source,
+                  ),
           ),
           if (c.mobileTab == 0)
             _MobileReportBar(controller: c),
