@@ -403,9 +403,9 @@ test('R21 识别必备条款缺失，齐全时不误报', () => {
 甲方（用人单位）：测试公司
 乙方（劳动者）：测试学生
 第一条 其他
-其他事项按公司制度执行。`);
+其他事项按公司制度执行。`, { scope: 'full' });
   assert.ok(byRule(bad, 'R21').some(item => item.verdict === 'red'));
-  const good = analyzeContract(fullContract);
+  const good = analyzeContract(fullContract, { scope: 'full' });
   assert.ok(byRule(good, 'R21').some(item => item.verdict === 'green'));
 });
 

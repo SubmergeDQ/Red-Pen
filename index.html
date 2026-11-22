@@ -80,12 +80,13 @@ svg.icon{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-w
 .meta-dot{width:5px;height:5px;border-radius:50%;background:var(--gold)}
 .top-actions{margin-left:auto;display:flex;align-items:center;gap:6px}
 .privacy-tag{display:flex;align-items:center;gap:6px;font-size:11.5px;letter-spacing:.04em;color:rgba(244,239,223,.6);margin-right:10px;white-space:nowrap}
-.tbtn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:36px;padding:0 12px;border-radius:5px;background:transparent;border:1px solid rgba(244,239,223,.18);color:rgba(244,239,223,.92);font-size:12.5px;transition:background .16s,border-color .16s}
+.tbtn{display:inline-flex;align-items:center;justify-content:center;gap:7px;min-height:36px;padding:0 12px;border-radius:5px;background:transparent;border:1px solid rgba(244,239,223,.18);color:rgba(244,239,223,.92);font-size:12.5px;transition:background .16s,border-color .16s,transform .12s}
+.tbtn:active{transform:translateY(1px)}
 .tbtn:hover{background:rgba(244,239,223,.08);border-color:rgba(244,239,223,.34)}
 .tbtn svg{width:15px;height:15px}
 
 /* ---------- shared controls ---------- */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:6px;border:1px solid transparent;font-size:14px;font-weight:500;min-height:42px;padding:0 18px;transition:background .16s,border-color .16s,color .16s,transform .16s}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border-radius:6px;border:1px solid transparent;font-size:14px;font-weight:500;min-height:42px;padding:0 18px;transition:background .16s,border-color .16s,color .16s,transform .12s}
 .btn:active{transform:translateY(1px)}
 .btn-primary{background:var(--pine);color:var(--cream);box-shadow:inset 0 1px 0 rgba(255,255,255,.07)}
 .btn-primary:hover{background:var(--pine-2)}
@@ -95,7 +96,8 @@ svg.icon{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-w
 .textbtn{display:inline-flex;align-items:center;gap:6px;border:0;background:none;padding:4px 0;color:var(--muted);font-size:12px;border-bottom:1px solid transparent;transition:color .15s,border-color .15s}
 .textbtn:hover{color:var(--ink);border-bottom-color:var(--rule-strong)}
 .textbtn svg{width:14px;height:14px}
-.iconbtn{display:grid;place-items:center;width:36px;height:36px;border:1px solid var(--rule);background:var(--sheet);border-radius:5px;color:var(--ink-2)}
+.iconbtn{display:grid;place-items:center;width:36px;height:36px;border:1px solid var(--rule);background:var(--sheet);border-radius:5px;color:var(--ink-2);transition:background .16s,transform .12s}
+.iconbtn:active{transform:translateY(1px)}
 .iconbtn:hover{background:var(--sheet-2)}
 .linkbtn{border:0;background:none;padding:0;color:var(--pine);font-size:12px;text-decoration:underline;text-underline-offset:3px;text-decoration-color:#A9B8A5}
 
@@ -194,7 +196,7 @@ svg.icon{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-w
 .clause.flag-yellow{--fc:var(--amber)}
 .clause.flag-gray{--fc:var(--slate)}
 .clause.flag-green{--fc:var(--moss)}
-.clause.flash{animation:flashClause 1.15s ease-out 1}
+.clause.flash{animation:flashClause .7s ease-out 1}
 @keyframes flashClause{0%{box-shadow:0 0 0 3px color-mix(in srgb,var(--fc) 24%,transparent)}100%{box-shadow:0 0 0 3px transparent}}
 .rk{background:linear-gradient(180deg,transparent 56%,var(--vbg) 56%);color:inherit;padding:0 1px;border-bottom:1.5px solid var(--vc);cursor:pointer;transition:background .15s}
 .rk:hover,.rk.is-active{background:var(--vbg)}
@@ -231,6 +233,7 @@ svg.icon{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-w
 .chip:disabled{opacity:.38}
 .chip:disabled:hover{background:transparent}
 .clear-note,.insufficient{margin-top:16px;border:1px solid #C9D8C1;background:var(--moss-soft);border-radius:5px;padding:10px 12px;font-size:12px;line-height:1.7;color:#2D4A36}
+.scope-note{margin:8px 0 0;font-size:12px;line-height:1.7;color:#5F6257}
 .insufficient{border-color:#DDCBA3;background:var(--amber-soft);color:#624712}
 .items{display:flex;flex-direction:column;margin-top:18px;border-top:1px solid var(--rule)}
 .finding{position:relative;background:transparent;border:0;border-bottom:1px solid var(--rule);padding:17px 6px 15px 18px;transition:background .16s,box-shadow .16s}
@@ -249,8 +252,8 @@ svg.icon{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-w
 .finding-head[aria-expanded="true"] .chev{transform:rotate(180deg) translateY(-2px)}
 .c-label{display:block;font-size:11px;letter-spacing:.14em;color:var(--faint);margin:10px 0 3px}
 .consequence{padding:0;font-size:13.5px;line-height:1.75;color:var(--ink-2);text-wrap:pretty}
-.finding-detail{border-top:1px dashed var(--vline);margin-top:12px;padding-top:12px;animation:fadeIn .18s ease-out}
-@keyframes fadeIn{from{opacity:0;transform:translateY(-2px)}to{opacity:1;transform:none}}
+.finding-detail{border-top:1px dashed var(--vline);margin-top:12px;padding-top:12px;animation:fadeIn .16s ease-out}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 .quote-block{border-left:2px solid var(--vline);padding:2px 0 2px 11px;margin-bottom:13px}
 .q-label,.basis-label,.qa-label{display:block;font-size:11px;letter-spacing:.14em;color:var(--faint);margin-bottom:3px}
 .quote-text{font-family:var(--serif);font-size:13px;line-height:1.85;color:var(--ink-2)}
@@ -308,9 +311,10 @@ svg.icon{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-w
 .analyzing-note svg{width:12px;height:12px}
 
 /* drawer */
-.scrim{position:fixed;inset:0;z-index:90;background:rgba(23,32,26,.4);backdrop-filter:blur(2px);animation:fadeIn .18s ease-out}
-.drawer{position:fixed;top:0;right:0;bottom:0;z-index:91;width:min(460px,94vw);background:var(--desk);box-shadow:var(--shadow-float);display:flex;flex-direction:column;animation:drawerIn .24s var(--ease)}
-@keyframes drawerIn{from{transform:translateX(24px);opacity:.4}to{transform:none;opacity:1}}
+.scrim{position:fixed;inset:0;z-index:90;background:rgba(23,32,26,.4);backdrop-filter:blur(2px);opacity:0;pointer-events:none;transition:opacity .22s ease}
+.scrim.is-open{opacity:1;pointer-events:auto}
+.drawer{position:fixed;top:0;right:0;bottom:0;z-index:91;width:min(460px,94vw);background:var(--desk);box-shadow:var(--shadow-float);display:flex;flex-direction:column;opacity:.4;transform:translateX(24px);pointer-events:none;transition:transform .22s var(--ease),opacity .22s ease}
+.drawer.is-open{opacity:1;transform:none;pointer-events:auto}
 .drawer-head{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;padding:22px 22px 16px;border-bottom:1px solid var(--rule)}
 .drawer-head h2{font-family:var(--serif);font-size:19px;font-weight:600;letter-spacing:.02em;margin-top:7px}
 .drawer-body{flex:1;overflow:auto;padding:8px 22px 24px;scrollbar-width:thin}
@@ -426,6 +430,14 @@ svg.icon{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-w
 }
 @media (prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important;scroll-behavior:auto!important}
+  .btn:active,.tbtn:active,.iconbtn:active{transform:none!important}
+  .toast,.toast.is-show{transform:translate(-50%,0)!important}
+  .drawer{transform:none!important}
+  .drawer:not(.is-open){opacity:0}
+  .drawer.is-open{opacity:1}
+  .scrim{transition:none!important}
+  .finding-detail,.intake-head,.paste-card,.samples{animation:none!important}
+  .scan-mark::after{animation:none!important;opacity:0}
 }
 </style>
 </head>
@@ -485,6 +497,14 @@ svg.icon{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-w
                   <option value="intern">实习协议</option>
                   <option value="three-party">三方协议</option>
                   <option value="loan">培训贷</option>
+                </select>
+              </label>
+              <label class="doc-select">
+                <span class="sr-only">审阅范围</span>
+                <select id="scopeChoice" aria-label="选择审阅范围">
+                  <option value="unknown">范围未确认</option>
+                  <option value="full">完整合同全文</option>
+                  <option value="excerpt">仅条款摘录</option>
                 </select>
               </label>
               <span id="charCount">0 字</span>
@@ -611,6 +631,7 @@ svg.icon{width:16px;height:16px;flex:none;fill:none;stroke:currentColor;stroke-w
               <div class="eyebrow"><span class="eyebrow-rule"></span>审阅结果</div>
               <p class="one-liner" id="oneLiner" tabindex="-1"></p>
               <p class="pack-note" id="packNote" hidden></p>
+              <p class="scope-note" id="scopeNote" hidden></p>
               <div class="filter-chips" id="filterChips" role="group" aria-label="按风险等级筛选"></div>
               <div class="clear-note" id="clearNote" hidden></div>
               <div class="insufficient" id="insufficient" hidden></div>
@@ -661,7 +682,7 @@ if(window.pdfjsLib){
   window.pdfjsLib.GlobalWorkerOptions.workerSrc = 'vendor/pdfjs/pdf.worker.min.js';
 }
 
-const { RULE_LIBRARY, SAMPLES, VERDICT_ORDER, VERDICT_LABEL, analyzeContract, clauseLabel, guessTextKind, looksLikeContract } = window.RedPenEngine;
+const { RULE_LIBRARY, SAMPLES, VERDICT_ORDER, VERDICT_LABEL, analyzeContract, clauseLabel, guessTextKind, shouldAcceptInput, summarizePdfImport, buildExportHTML: buildExportHTMLEngine } = window.RedPenEngine;
 
 function $(sel,root){ return (root||document).querySelector(sel); }
 function $all(sel,root){ return Array.from((root||document).querySelectorAll(sel)); }
@@ -685,6 +706,9 @@ const state = {
   analysis:null,
   rawText:'',
   docTypeChoice:'auto',
+  scopeChoice:'unknown',
+  importInfo:null,
+  importSeq:0,
   filter:'all',
   expanded:new Set(),
   activeId:null,
@@ -704,6 +728,7 @@ const els = {
   input:$('#contractInput'),
   charCount:$('#charCount'),
   docTypeChoice:$('#docTypeChoice'),
+  scopeChoice:$('#scopeChoice'),
   clipBtn:$('#clipBtn'),
   clearBtn:$('#clearBtn'),
   analyzeBtn:$('#analyzeBtn'),
@@ -725,11 +750,10 @@ const els = {
   contractPaper:$('#contractPaper'),
   reportScroll:$('#reportScroll'),
   analyzingPanel:$('#analyzingPanel'),
-  stageList:$('#stageList'),
-  progressBar:$('#progressBar'),
   reportContent:$('#reportContent'),
   oneLiner:$('#oneLiner'),
   packNote:$('#packNote'),
+  scopeNote:$('#scopeNote'),
   filterChips:$('#filterChips'),
   clearNote:$('#clearNote'),
   insufficient:$('#insufficient'),
@@ -749,10 +773,12 @@ const BASE_HINT = '支持劳动合同、实习协议、三方协议、培训贷�
 let errorBox = null;
 let lastFocus = null;
 let toastTimer = null;
+let drawerCloseTimer = null;
+let flashTimer = null;
+let flashTarget = null;
 
 function isMobile(){ return window.matchMedia('(max-width: 900px)').matches; }
 function reducedMotion(){ return window.matchMedia('(prefers-reduced-motion: reduce)').matches; }
-function sleep(ms){ return new Promise(resolve => setTimeout(resolve, ms)); }
 
 function toast(msg){
   els.toast.textContent = msg;
@@ -821,32 +847,40 @@ function startAnalysis(raw, options){
     els.input.focus();
     return;
   }
-  if(!looksLikeContract(text)){
+  const scope = opts.scope || (els.scopeChoice ? els.scopeChoice.value : state.scopeChoice) || 'unknown';
+  const importInfo = opts.importInfo !== undefined ? opts.importInfo : state.importInfo;
+  const gate = shouldAcceptInput(text, choice === 'auto' ? {} : { docType:choice });
+  if(!gate.accept){
     if(opts.rerun){ toast('当前文本无法重新分析'); return; }
-    showIntakeError(`这看起来不是协议条款，更像${guessTextKind(text)}。没有检测到甲乙方、条款编号或权利义务表述。把合同正文重新粘贴，或载入一份试用合同。`);
+    const kind = choice === 'auto' ? `更像${guessTextKind(text)}，` : '';
+    showIntakeError(`${kind}${gate.reason}`);
     return;
   }
-  const analysis = analyzeContract(text, choice === 'auto' ? {} : {docType:choice});
+  const analysisOpts = { scope };
+  if(choice !== 'auto') analysisOpts.docType = choice;
+  if(importInfo) analysisOpts.importInfo = importInfo;
+  const analysis = analyzeContract(text, analysisOpts);
   if(analysis.docKey === 'other'){
     if(opts.rerun){
       toast('自动识别无法归类，请手动选择一个文件类型');
       syncDocSelectors(state.docTypeChoice);
     }else{
-      showIntakeError('这份文本像协议，但不在这四类里：劳动合同、实习协议、三方协议、培训贷。为避免套错规则，这一版不做判断。');
+      showIntakeError('这份文本像协议，但不在这四类里：劳动合同、实习协议、三方协议、培训贷；如果只是条款摘录，请先选择类型。');
     }
     return;
   }
   hideIntakeError();
   state.rawText = text;
   state.docTypeChoice = choice;
+  state.scopeChoice = scope;
+  state.importInfo = importInfo || null;
   syncDocSelectors(choice);
   state.analysis = analysis;
   state.filter = 'all';
   state.expanded.clear();
   state.activeId = null;
-  state.phase = 'analyzing';
+  state.phase = 'report';
   state.runId++;
-  const runId = state.runId;
   const riskCount = analysis.items.filter(it => it.verdict !== 'green').length;
 
   els.intakeView.hidden = true;
@@ -863,52 +897,14 @@ function startAnalysis(raw, options){
   els.paneHint.textContent = riskCount ? '点带标记的条款可查看批注' : '没有可定位的批注';
   els.tabCount.textContent = `(${riskCount})`;
   els.reportContent.hidden = true;
-  els.analyzingPanel.hidden = false;
-  els.progressBar.style.width = '0%';
-  const notes = ['正在分段','正在判断','正在扫描','正在生成'];
-  $all('.stage', els.stageList).forEach((li,i) => {
-    li.className = 'stage';
-    li.querySelector('[data-stage-note]').textContent = notes[i];
-  });
   renderContract(analysis);
+  renderReport(analysis);
   setMobileTab('report');
-  els.reportScroll.scrollTop = 0;
-  window.scrollTo(0,0);
-  runAnalysisAnimation(analysis, runId);
-}
-
-async function runAnalysisAnimation(analysis, runId){
-  const reduced = reducedMotion();
-  const delays = reduced ? [20,20,30,20] : [320,300,520,320];
-  const numbered = analysis.clauses.filter(c => c.heading).length || analysis.clauses.length;
-  const notes = [
-    `已拆出 ${numbered} 条`,
-    `识别为${analysis.docType}${analysis.forced ? '（手动指定）' : ''}`,
-    `应用 ${analysis.packLabels.join(' / ') || '通用'} 规则，命中 ${analysis.items.filter(it => it.verdict !== 'green').length} 处，含 ${analysis.counts.red} 条红线`,
-    `整理出 ${analysis.pending.length} 个待确认问题`
-  ];
-  const stages = $all('.stage', els.stageList);
-  for(let i=0;i<stages.length;i++){
-    if(runId !== state.runId) return;
-    stages[i].classList.add('is-active');
-    els.progressBar.style.width = `${Math.round((i / stages.length) * 100)}%`;
-    els.progressBar.parentElement.setAttribute('aria-valuenow', String(Math.round((i / stages.length) * 100)));
-    await sleep(delays[i]);
-    if(runId !== state.runId) return;
-    stages[i].classList.remove('is-active');
-    stages[i].classList.add('is-done');
-    stages[i].querySelector('[data-stage-note]').textContent = notes[i];
-  }
-  els.progressBar.style.width = '100%';
-  els.progressBar.parentElement.setAttribute('aria-valuenow','100');
-  await sleep(reduced ? 30 : 240);
-  if(runId !== state.runId) return;
-  state.phase = 'report';
-  els.analyzingPanel.hidden = true;
   els.reportContent.hidden = false;
   els.exportBtn.hidden = false;
-  renderReport(analysis);
+  els.analyzingPanel.hidden = true;
   els.reportScroll.scrollTop = 0;
+  window.scrollTo(0,0);
   if(els.rulesDrawer.hidden) els.oneLiner.focus({preventScroll:true});
 }
 
@@ -1050,6 +1046,10 @@ function renderReport(analysis){
   els.oneLiner.className = `one-liner v-${analysis.topVerdict}`;
   els.packNote.hidden = !analysis.packLabels || !analysis.packLabels.length;
   els.packNote.textContent = `应用规则：${(analysis.packLabels || []).join(' / ')}${analysis.forced ? ' · 文件类型为手动指定' : ''}`;
+  const scope = analysis.scopeInfo;
+  els.scopeNote.hidden = !scope;
+  els.scopeNote.textContent = scope ? `审阅范围：${scope.label}。${scope.note}` : '';
+  els.scopeNote.dataset.scope = scope ? scope.scope : '';
   renderChips(analysis);
   const quiet = analysis.counts.red === 0 && analysis.counts.yellow === 0 && analysis.counts.gray === 0;
   els.clearNote.hidden = !quiet;
@@ -1097,7 +1097,9 @@ function activateItem(id, shouldScroll){
   highlightMarks(id);
   if(isMobile()) setMobileTab('report');
   if(shouldScroll){
+    const runId = state.runId;
     requestAnimationFrame(() => {
+      if(runId !== state.runId) return;
       const card = document.getElementById(`item-${id}`);
       if(!card) return;
       const cr = els.reportScroll.getBoundingClientRect();
@@ -1145,7 +1147,9 @@ function locateItem(id){
     return;
   }
   if(isMobile()) setMobileTab('contract');
+  const runId = state.runId;
   requestAnimationFrame(() => {
+    if(runId !== state.runId) return;
     const target = els.contractPaper.querySelector(`.clause[data-clause="${item.clauseIndex}"]`);
     if(!target) return;
     const cr = els.contractScroll.getBoundingClientRect();
@@ -1154,11 +1158,23 @@ function locateItem(id){
       top:Math.max(0, els.contractScroll.scrollTop + r.top - cr.top - cr.height/2 + r.height/2),
       behavior:reducedMotion() ? 'auto' : 'smooth'
     });
-    target.classList.remove('flash');
-    void target.offsetWidth;
-    target.classList.add('flash');
+    flashLocatedClause(target);
     highlightMarks(id);
   });
+}
+
+function flashLocatedClause(target){
+  clearTimeout(flashTimer);
+  if(flashTarget && flashTarget !== target) flashTarget.classList.remove('flash');
+  flashTarget = target;
+  target.classList.remove('flash');
+  void target.offsetWidth;
+  target.classList.add('flash');
+  flashTimer = setTimeout(() => {
+    target.classList.remove('flash');
+    if(flashTarget === target) flashTarget = null;
+    flashTimer = null;
+  }, reducedMotion() ? 0 : 700);
 }
 
 async function copyText(text,label){
@@ -1183,9 +1199,13 @@ async function copyText(text,label){
 function resetApp(){
   state.runId++;
   state.phase = 'intake';
+  if(!els.rulesDrawer.hidden || els.rulesDrawer.classList.contains('is-open')) closeDrawer(false);
   state.analysis = null;
   state.rawText = '';
   state.docTypeChoice = 'auto';
+  state.scopeChoice = 'unknown';
+  state.importInfo = null;
+  state.importSeq++;
   state.filter = 'all';
   state.expanded.clear();
   state.activeId = null;
@@ -1198,10 +1218,12 @@ function resetApp(){
   els.reportContent.hidden = true;
   els.analyzingPanel.hidden = true;
   els.packNote.hidden = true;
+  els.scopeNote.hidden = true;
   els.contractPaper.innerHTML = '';
   els.itemsList.innerHTML = '';
   els.filterChips.innerHTML = '';
   els.input.value = '';
+  if(els.scopeChoice) els.scopeChoice.value = 'unknown';
   syncDocSelectors('auto');
   syncInput();
   hideIntakeError();
@@ -1223,70 +1245,40 @@ function renderRules(){
 }
 
 function openDrawer(){
-  lastFocus = document.activeElement;
+  if(!els.rulesDrawer.classList.contains('is-open')) lastFocus = document.activeElement;
+  clearTimeout(drawerCloseTimer);
+  drawerCloseTimer = null;
   els.drawerScrim.hidden = false;
   els.rulesDrawer.hidden = false;
+  els.rulesDrawer.inert = false;
+  els.drawerScrim.inert = false;
+  els.rulesDrawer.setAttribute('aria-hidden','false');
+  void els.rulesDrawer.offsetWidth;
+  els.drawerScrim.classList.add('is-open');
+  els.rulesDrawer.classList.add('is-open');
   els.drawerClose.focus();
 }
-function closeDrawer(){
-  els.drawerScrim.hidden = true;
-  els.rulesDrawer.hidden = true;
-  const back = lastFocus && lastFocus.isConnected && lastFocus.getClientRects().length ? lastFocus : els.rulesBtn;
-  back.focus();
+function closeDrawer(restoreFocus = true){
+  clearTimeout(drawerCloseTimer);
+  drawerCloseTimer = null;
+  els.drawerScrim.classList.remove('is-open');
+  els.rulesDrawer.classList.remove('is-open');
+  els.rulesDrawer.setAttribute('aria-hidden','true');
+  els.rulesDrawer.inert = true;
+  els.drawerScrim.inert = true;
+  if(restoreFocus){
+    const back = lastFocus && lastFocus.isConnected && lastFocus.getClientRects().length ? lastFocus : els.rulesBtn;
+    back.focus();
+  }
+  drawerCloseTimer = setTimeout(() => {
+    drawerCloseTimer = null;
+    if(els.rulesDrawer.classList.contains('is-open')) return;
+    els.drawerScrim.hidden = true;
+    els.rulesDrawer.hidden = true;
+  }, reducedMotion() ? 0 : 220);
 }
 
-function buildExportHTML(analysis){
-  const now = new Date().toLocaleString('zh-CN',{hour12:false});
-  const riskCount = analysis.items.filter(it => it.verdict !== 'green').length;
-  const items = analysis.items.map(it => `
-    <article class="item v-${it.verdict}">
-      <div class="item-top"><span class="tag">${VERDICT_LABEL[it.verdict]}</span><strong>${esc(it.ruleName)}</strong><span class="loc">${esc(it.location)}</span></div>
-      <p class="cons"><b>最坏会发生：</b>${esc(it.consequence)}</p>
-      ${it.quote ? `<p class="quote">原文：“${esc(it.quote)}”</p>` : ''}
-      ${it.basis ? `<div class="basis"><b>依据：</b>${esc(it.basis.law)} ${esc(it.basis.article === '需核对' ? '（条文序号需核对）' : it.basis.article)}<br>${esc(it.basis.text)}</div>` : ''}
-      ${it.ask ? `<p><b>问谁 · 问什么：</b>${esc(it.ask)}</p>` : ''}
-      ${it.counter ? `<p><b>可以怎么改：</b>${esc(it.counter)}</p>` : ''}
-      <p class="meta">规则 ${esc(it.ruleId)} · 把握：${esc(it.confidence)}</p>
-    </article>`).join('');
-  const pending = analysis.pending.length ? `<section class="pending"><h2>还要确认 ${analysis.pending.length} 件事</h2><ol>${analysis.pending.map(p => `<li>${esc(p)}</li>`).join('')}</ol></section>` : '';
-  return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>签约前风险提示 · ${esc(analysis.docType)}</title>
-  <style>
-    @page{margin:16mm 14mm}
-    *{box-sizing:border-box}
-    body{margin:0;color:#20251F;font-family:"Noto Serif SC","Songti SC","SimSun",serif;font-size:11pt;line-height:1.75}
-    .head{border-bottom:1.5pt solid #20251F;padding-bottom:10pt;margin-bottom:12pt;display:flex;justify-content:space-between;align-items:flex-end;gap:20pt}
-    h1{font-size:20pt;margin:0;letter-spacing:.06em}
-    .sub{font-family:"Noto Sans SC","Microsoft YaHei",sans-serif;font-size:9pt;color:#5F6257;text-align:right;line-height:1.7}
-    .one{font-size:13pt;font-weight:700;line-height:1.6;border-left:3pt solid #A33327;padding-left:8pt;margin:0 0 8pt}
-    .counts{font-family:"Noto Sans SC","Microsoft YaHei",sans-serif;font-size:9.5pt;color:#5F6257;margin:0 0 14pt}
-    .item{border:0.6pt solid #DCD5C3;border-left:2.5pt solid #777;border-radius:3pt;padding:8pt 10pt;margin:0 0 8pt;break-inside:avoid;page-break-inside:avoid}
-    .item.v-red{border-left-color:#A33327}.item.v-yellow{border-left-color:#9A6E1E}.item.v-gray{border-left-color:#5F6B72}.item.v-green{border-left-color:#2F5A41}
-    .item-top{display:flex;align-items:baseline;gap:6pt;flex-wrap:wrap;margin-bottom:4pt}
-    .tag{font-family:"Noto Sans SC","Microsoft YaHei",sans-serif;font-size:8pt;border:0.6pt solid #C9C0AB;border-radius:2pt;padding:0 3pt;color:#5F6257}
-    .item-top strong{font-size:11.5pt}
-    .loc{margin-left:auto;font-family:"Noto Sans SC","Microsoft YaHei",sans-serif;font-size:8pt;color:#5F6257}
-    p{margin:3pt 0}
-    .cons{font-family:"Noto Sans SC","Microsoft YaHei",sans-serif;font-size:9.5pt;line-height:1.7}
-    .quote{color:#42483F;font-size:10pt;padding-left:7pt;border-left:1.5pt solid #DCD5C3}
-    .basis{font-size:8.5pt;color:#5F6257;line-height:1.65;margin-top:4pt}
-    .meta{font-family:"Noto Sans SC","Microsoft YaHei",sans-serif;font-size:8pt;color:#5F6257}
-    .pending{border:0.6pt solid #DCD5C3;border-radius:3pt;padding:8pt 10pt;margin-top:12pt;break-inside:avoid}
-    .pending h2{font-size:11pt;margin:0 0 4pt}
-    .pending ol{margin:4pt 0 0 16pt;padding:0;font-family:"Noto Sans SC","Microsoft YaHei",sans-serif;font-size:9pt;line-height:1.7}
-    .foot{margin-top:14pt;border-top:0.6pt solid #DCD5C3;padding-top:7pt;font-family:"Noto Sans SC","Microsoft YaHei",sans-serif;font-size:8pt;color:#5F6257;line-height:1.7}
-    .brand{font-size:9pt;letter-spacing:.12em;color:#153B32}
-  </style></head><body>
-    <header class="head">
-      <div><h1>签约前风险提示</h1><p class="brand">红笔 · 签字前 5 分钟</p></div>
-      <div class="sub">${esc(analysis.docType)} · ${analysis.numberedCount || analysis.clauses.length} 条 · 约 ${analysis.charCount.toLocaleString('zh-CN')} 字<br>应用规则：${esc((analysis.packLabels || []).join(' / '))}${analysis.forced ? '（手动指定类型）' : ''}<br>生成时间：${esc(now)}</div>
-    </header>
-    <p class="one">${esc(analysis.oneLiner)}</p>
-    <p class="counts">红线 ${analysis.counts.red} · 黄线 ${analysis.counts.yellow} · 灰线 ${analysis.counts.gray} · 绿线 ${analysis.counts.green}${riskCount ? '' : ' · 本次规则未命中风险'}</p>
-    ${items || '<p>没有命中规则。</p>'}
-    ${pending}
-    <footer class="foot">以上为签约前风险提示，基于你提供的文本和你所在地区的通用规定，不构成法律意见。涉及金额较大或已产生争议，请拨打 12348 公共法律服务热线或联系学校法律援助中心。<br>本报告由本地规则引擎生成，未调用外部服务；规则匹配不能替代律师审阅。</footer>
-  </body></html>`;
-}
+function buildExportHTML(analysis){ return buildExportHTMLEngine(analysis); }
 
 let printFrame = null;
 
@@ -1402,21 +1394,26 @@ async function extractPdf(file){
     useSystemFonts:true
   }).promise;
   const pages = [];
-  const total = Math.min(doc.numPages, 80);
-  for(let i=1;i<=total;i++){
-    const page = await doc.getPage(i);
-    const content = await page.getTextContent();
-    pages.push(pdfItemsToText(content.items));
-    page.cleanup();
+  const totalPages = doc.numPages;
+  const limit = Math.min(totalPages, 80);
+  try{
+    for(let i=1;i<=limit;i++){
+      const page = await doc.getPage(i);
+      const content = await page.getTextContent();
+      pages.push(pdfItemsToText(content.items));
+      page.cleanup();
+    }
+  }finally{
+    await doc.destroy();
   }
-  await doc.destroy();
-  return pages.join('\n\n');
+  return summarizePdfImport(pages, { maxPages:80, totalPages });
 }
 
 async function importFile(file){
   if(!file) return;
   const name = file.name || '';
   const ext = name.includes('.') ? name.split('.').pop().toLowerCase() : '';
+  const seq = ++state.importSeq;
   hideIntakeError();
   if(file.size > IMPORT_MAX){ showIntakeError('文件超过 20MB，请先压缩或拆分后再导入。'); return; }
   if(ext === 'doc'){ showIntakeError('旧版 .doc 暂不支持，请用 Word 另存为 .docx 后再导入。'); return; }
@@ -1428,27 +1425,43 @@ async function importFile(file){
   els.fileBtn.setAttribute('aria-busy','true');
   els.importHint.textContent = '正在本机解析…';
   try{
-    let text = '';
-    if(ext === 'txt' || ext === 'md') text = await file.text();
-    else if(ext === 'docx') text = await extractDocx(file);
-    else text = await extractPdf(file);
-    text = normalizeImportedText(text);
-    if(ext === 'pdf' && text.replace(/\s/g,'').length < 60){
-      showIntakeError('这份 PDF 几乎提取不到文字，可能是扫描件。网页端不做图片识字，请用桌面或手机客户端的「拍照识字」导入，或直接粘贴文字。');
+    let raw = '';
+    let imported = null;
+    if(ext === 'txt' || ext === 'md') raw = await file.text();
+    else if(ext === 'docx') raw = await extractDocx(file);
+    else imported = await extractPdf(file);
+    if(seq !== state.importSeq) return;
+    const text = normalizeImportedText(imported ? imported.text : raw);
+    if(imported){
+      const info = {...imported};
+      delete info.text;
+      state.importInfo = info;
+    }else{
+      state.importInfo = null;
+    }
+    if(!text || text.replace(/\s/g,'').length < 2){
+      showIntakeError('没有从文件里提取到可用文字，换一份试试。');
       return;
     }
-    if(!text || text.length < 12){ showIntakeError('没有从文件里提取到可用文字，换一份试试。'); return; }
+    if(imported && !imported.complete){
+      const detail = imported.reason || '有页面未能提取';
+      els.importHint.textContent = `已提取 ${imported.readPageCount}/${imported.totalPages} 页 · 有页面未读取`;
+      showIntakeError(`${detail}。以下仍按已提取文字核对；这不等同于全文，请重新导入、补传缺页或直接粘贴缺失部分。`);
+    }
     els.input.value = text;
     syncInput();
     toast(`已导入 ${name} · 约 ${text.length.toLocaleString('zh-CN')} 字`);
     els.input.focus();
   }catch(err){
+    if(seq !== state.importSeq) return;
     console.error('import failed', err);
     showIntakeError(`文件解析失败：${err && err.message ? err.message : '未知错误'}。可以另存后重试，或直接粘贴文字。`);
   }finally{
-    els.fileBtn.classList.remove('is-busy');
-    els.fileBtn.removeAttribute('aria-busy');
-    els.importHint.textContent = IMPORT_HINT;
+    if(seq === state.importSeq){
+      els.fileBtn.classList.remove('is-busy');
+      els.fileBtn.removeAttribute('aria-busy');
+      if(els.importHint.textContent === '正在本机解析…') els.importHint.textContent = IMPORT_HINT;
+    }
   }
 }
 
@@ -1479,11 +1492,16 @@ window.addEventListener('dragover', e => e.preventDefault());
 window.addEventListener('drop', e => e.preventDefault());
 
 els.input.addEventListener('input', () => {
+  state.importInfo = null;
+  state.importSeq++;
   syncInput();
   hideIntakeError();
 });
 els.charCount.textContent = '0 字';
 els.clearBtn.addEventListener('click', () => {
+  state.importInfo = null;
+  state.importSeq++;
+  els.importHint.textContent = IMPORT_HINT;
   els.input.value = '';
   syncInput();
   hideIntakeError();
@@ -1496,6 +1514,8 @@ els.clipBtn.addEventListener('click', async () => {
       toast('剪贴板里没有文本');
       return;
     }
+    state.importInfo = null;
+    state.importSeq++;
     els.input.value = text;
     syncInput();
     hideIntakeError();
@@ -1515,6 +1535,8 @@ els.sampleList.addEventListener('click', e => {
   if(!sample) return;
   els.input.value = sample.text;
   state.docTypeChoice = 'auto';
+  state.importInfo = null;
+  state.importSeq++;
   syncDocSelectors('auto');
   syncInput();
   hideIntakeError();
@@ -1529,6 +1551,15 @@ els.docTypeChoice.addEventListener('change', () => {
   els.inputHint.classList.remove('is-error');
   els.inputHint.textContent = docChoiceHint();
 });
+if(els.scopeChoice){
+  els.scopeChoice.addEventListener('change', () => {
+    state.scopeChoice = els.scopeChoice.value;
+    if(state.rawText && !els.workspace.hidden){
+      const choice = els.wsDocType ? els.wsDocType.value : state.docTypeChoice;
+      startAnalysis(state.rawText, { docType:choice, scope:state.scopeChoice, rerun:true });
+    }
+  });
+}
 els.brandHome.addEventListener('click', () => {
   if(state.phase === 'intake' && els.workspace.hidden){
     window.scrollTo({top:0,behavior:reducedMotion() ? 'auto' : 'smooth'});
@@ -1543,7 +1574,7 @@ els.rulesLink.addEventListener('click', openDrawer);
 els.drawerClose.addEventListener('click', closeDrawer);
 els.drawerScrim.addEventListener('click', closeDrawer);
 document.addEventListener('keydown', e => {
-  if(e.key === 'Escape' && !els.rulesDrawer.hidden) closeDrawer();
+  if(e.key === 'Escape' && els.rulesDrawer.classList.contains('is-open')) closeDrawer();
 });
 els.rulesDrawer.addEventListener('keydown', e => {
   if(e.key !== 'Tab') return;
