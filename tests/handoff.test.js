@@ -370,7 +370,7 @@ test('E16 样本 C 空白模板不报齐全，摘录不做全文缺项，完整�
 第一条 社会保险
 甲方依法为乙方缴纳社会保险。`;
   const excerpt = analyzeContract(excerptText, { scope: 'excerpt' });
-  assert.ok(byRule(excerpt, 'R21').some(item => item.verdict === 'gray' && item.ruleName.includes('审阅范围')));
+  assert.ok(byRule(excerpt, 'R21').some(item => item.verdict === 'gray' && /审阅范围|摘录/.test(item.ruleName)));
   assert.ok(!byRule(excerpt, 'R21').some(item => item.verdict === 'red'));
   assert.equal(excerpt.scopeInfo.scope, 'excerpt');
   const html = buildExportHTML(excerpt);

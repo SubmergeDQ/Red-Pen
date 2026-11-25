@@ -67,7 +67,8 @@ class _IntakePageState extends State<IntakePage> {
   }
 
   Future<void> _importImage() async {
-    final mobile = !kIsWeb &&
+    final mobile =
+        !kIsWeb &&
         (defaultTargetPlatform == TargetPlatform.android ||
             defaultTargetPlatform == TargetPlatform.iOS);
     if (!mobile) {
@@ -131,7 +132,12 @@ class _IntakePageState extends State<IntakePage> {
         children: [
           Expanded(
             child: Padding(
-              padding: EdgeInsets.fromLTRB(horizontal, vertical, horizontal, vertical),
+              padding: EdgeInsets.fromLTRB(
+                horizontal,
+                vertical,
+                horizontal,
+                vertical,
+              ),
               child: Center(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 1180),
@@ -183,7 +189,12 @@ class _IntakePageState extends State<IntakePage> {
             controller: _scroll,
             child: SingleChildScrollView(
               controller: _scroll,
-              padding: EdgeInsets.fromLTRB(horizontal, vertical, horizontal, vertical),
+              padding: EdgeInsets.fromLTRB(
+                horizontal,
+                vertical,
+                horizontal,
+                vertical,
+              ),
               child: Center(
                 child: ConstrainedBox(
                   constraints: const BoxConstraints(maxWidth: 1180),
@@ -207,7 +218,8 @@ class _Hero extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final titleStyle = (compact || dense ? AppType.h1() : AppType.display()).copyWith(height: 1.22);
+    final titleStyle = (compact || dense ? AppType.h1() : AppType.display())
+        .copyWith(height: 1.22);
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -230,10 +242,7 @@ class _Hero extends StatelessWidget {
               ),
             ),
             const SizedBox(width: AppSpace.x3),
-            const Padding(
-              padding: EdgeInsets.only(top: 2),
-              child: SignBadge(),
-            ),
+            const Padding(padding: EdgeInsets.only(top: 2), child: SignBadge()),
           ],
         ),
         SizedBox(height: dense ? AppSpace.x2 : AppSpace.x3),
@@ -242,10 +251,9 @@ class _Hero extends StatelessWidget {
           child: Text(
             compact
                 ? '粘贴合同条款，逐条核对风险、依据与谈判说法。'
-                : '粘贴合同条款，按 ${ruleLibrary.length} 类规则逐条核对：哪条是红线、哪条能谈、该问谁。',
-            style: AppType.body(color: AppColors.inkSecondary).copyWith(
-              fontSize: compact ? 14 : 15,
-            ),
+                : '粘贴合同条款，按识别到的类型应用规则库中的规则逐条核对：哪条是红线、哪条能谈、该问谁。',
+            style: AppType.body(color: AppColors.inkSecondary)
+                .copyWith(fontSize: compact ? 14 : 15),
           ),
         ),
         SizedBox(height: dense ? AppSpace.x2 + 2 : AppSpace.x4),
@@ -253,7 +261,10 @@ class _Hero extends StatelessWidget {
           spacing: AppSpace.x2,
           runSpacing: AppSpace.x2,
           children: [
-            AppTag(label: '${ruleLibrary.length} 类规则', tone: AppTone.neutral),
+            AppTag(
+              label: '${ruleLibrary.length} 类 · $ruleLibraryVersion 快照',
+              tone: AppTone.neutral,
+            ),
             const AppTag(label: '4 类合同', tone: AppTone.neutral),
             const AppTag(label: '本机 OCR', tone: AppTone.neutral),
             const AppTag(label: '合同不上传', tone: AppTone.neutral),
@@ -373,13 +384,7 @@ class _EditorHeader extends StatelessWidget {
           ],
         ),
         const SizedBox(height: AppSpace.x2 + 2),
-        Row(
-          children: [
-            select,
-            const Spacer(),
-            count,
-          ],
-        ),
+        Row(children: [select, const Spacer(), count]),
       ],
     );
   }
@@ -396,7 +401,9 @@ class _EditorCardState extends State<_EditorCard> {
   void initState() {
     super.initState();
     _focus.addListener(() {
-      if (_focused != _focus.hasFocus) setState(() => _focused = _focus.hasFocus);
+      if (_focused != _focus.hasFocus) {
+        setState(() => _focused = _focus.hasFocus);
+      }
     });
   }
 
@@ -438,7 +445,9 @@ class _EditorCardState extends State<_EditorCard> {
             child: Row(
               children: [
                 Text(
-                  c.hasText ? '已载入 · ${c.sourceName.isEmpty ? '正文' : c.sourceName}' : '等待输入',
+                  c.hasText
+                      ? '已载入 · ${c.sourceName.isEmpty ? '正文' : c.sourceName}'
+                      : '等待输入',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: AppType.caption(color: AppColors.inkTertiary),
@@ -461,7 +470,12 @@ class _EditorCardState extends State<_EditorCard> {
             ),
           if (c.busy || c.ocrUsed || c.notes.isNotEmpty || c.error != null)
             Padding(
-              padding: const EdgeInsets.fromLTRB(AppSpace.x4, AppSpace.x3, AppSpace.x4, 0),
+              padding: const EdgeInsets.fromLTRB(
+                AppSpace.x4,
+                AppSpace.x3,
+                AppSpace.x4,
+                0,
+              ),
               child: Column(
                 children: [
                   if (c.busy) _BusyBanner(controller: c),
@@ -471,7 +485,8 @@ class _EditorCardState extends State<_EditorCard> {
                       icon: AppIcons.image,
                       message: '识别文字已填入正文，可以直接修改。请对照原件核对金额、日期和条款编号，再开始核对。',
                     ),
-                  if (!c.busy && c.ocrUsed && c.notes.isNotEmpty) const SizedBox(height: AppSpace.x2),
+                  if (!c.busy && c.ocrUsed && c.notes.isNotEmpty)
+                    const SizedBox(height: AppSpace.x2),
                   if (!c.busy && c.notes.isNotEmpty)
                     AppBanner(
                       tone: AppTone.amber,
@@ -479,7 +494,8 @@ class _EditorCardState extends State<_EditorCard> {
                       onClose: c.clearNotes,
                     ),
                   if (c.error != null) ...[
-                    if (c.busy || c.ocrUsed || c.notes.isNotEmpty) const SizedBox(height: AppSpace.x2),
+                    if (c.busy || c.ocrUsed || c.notes.isNotEmpty)
+                      const SizedBox(height: AppSpace.x2),
                     AppBanner(tone: AppTone.red, message: c.error!),
                   ],
                 ],
@@ -534,11 +550,17 @@ class _EditorCardState extends State<_EditorCard> {
             decoration: const BoxDecoration(
               color: AppColors.surfaceMuted,
               border: Border(top: BorderSide(color: AppColors.border)),
-              borderRadius: BorderRadius.vertical(bottom: Radius.circular(AppRadius.lg)),
+              borderRadius: BorderRadius.vertical(
+                bottom: Radius.circular(AppRadius.lg),
+              ),
             ),
             child: Row(
               children: [
-                const Icon(AppIcons.lock, size: 14, color: AppColors.inkTertiary),
+                const Icon(
+                  AppIcons.lock,
+                  size: 14,
+                  color: AppColors.inkTertiary,
+                ),
                 const SizedBox(width: 6),
                 Expanded(
                   child: Text(
@@ -547,7 +569,10 @@ class _EditorCardState extends State<_EditorCard> {
                   ),
                 ),
                 if (!widget.compact)
-                  Text('Ctrl + Enter 开始核对', style: AppType.caption(color: AppColors.inkDisabled)),
+                  Text(
+                    'Ctrl + Enter 开始核对',
+                    style: AppType.caption(color: AppColors.inkDisabled),
+                  ),
               ],
             ),
           ),
@@ -559,7 +584,10 @@ class _EditorCardState extends State<_EditorCard> {
   Widget _buildTextArea() {
     return AppField(
       focused: _focused,
-      padding: const EdgeInsets.symmetric(horizontal: AppSpace.x3, vertical: AppSpace.x2),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpace.x3,
+        vertical: AppSpace.x2,
+      ),
       child: Scrollbar(
         controller: _textScroll,
         thumbVisibility: true,
@@ -581,7 +609,8 @@ class _EditorCardState extends State<_EditorCard> {
             border: InputBorder.none,
             hintMaxLines: 8,
             hintText: '把要签的条款贴到这里，例如：\n\n第一条 合同期限\n本合同为固定期限劳动合同，合同期限自……\n\n第二条 劳动报酬\n乙方试用期工资为每月……',
-            hintStyle: AppType.body(color: AppColors.inkDisabled).copyWith(height: 1.85),
+            hintStyle: AppType.body(color: AppColors.inkDisabled)
+                .copyWith(height: 1.85),
           ),
         ),
       ),
@@ -599,7 +628,10 @@ class _DesktopActionBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = controller;
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: AppSpace.x8, vertical: AppSpace.x3),
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpace.x8,
+        vertical: AppSpace.x3,
+      ),
       decoration: const BoxDecoration(
         color: AppColors.surface,
         border: Border(top: BorderSide(color: AppColors.border)),
@@ -650,7 +682,12 @@ class _BusyBanner extends StatelessWidget {
   Widget build(BuildContext context) {
     final c = controller;
     return Container(
-      padding: const EdgeInsets.fromLTRB(AppSpace.x3, AppSpace.x3, AppSpace.x3, AppSpace.x3),
+      padding: const EdgeInsets.fromLTRB(
+        AppSpace.x3,
+        AppSpace.x3,
+        AppSpace.x3,
+        AppSpace.x3,
+      ),
       decoration: BoxDecoration(
         color: AppColors.surfaceMuted,
         border: Border.all(color: AppColors.border),
@@ -673,8 +710,10 @@ class _BusyBanner extends StatelessWidget {
               if (c.progress != null)
                 Text(
                   '${(c.progress!.clamp(0, 1) * 100).round()}%',
-                  style: AppType.num(color: AppColors.inkSecondary, size: 12)
-                      .copyWith(fontWeight: FontWeight.w600),
+                  style: AppType.num(
+                    color: AppColors.inkSecondary,
+                    size: 12,
+                  ).copyWith(fontWeight: FontWeight.w600),
                 ),
             ],
           ),
@@ -750,7 +789,11 @@ class _SamplePanelState extends State<_SamplePanel> {
               children: [
                 Row(
                   children: [
-                    const Icon(AppIcons.article, size: 17, color: AppColors.inkTertiary),
+                    const Icon(
+                      AppIcons.article,
+                      size: 17,
+                      color: AppColors.inkTertiary,
+                    ),
                     const SizedBox(width: 6),
                     Text('试用文本', style: AppType.h3()),
                   ],
@@ -778,8 +821,9 @@ class _SamplePanelState extends State<_SamplePanel> {
                   Text('覆盖范围', style: AppType.label()),
                   const SizedBox(height: AppSpace.x1 + 2),
                   Text(
-                    '试用期 · 违约金 · 服务期 · 竞业 · 押金扣押 · 工时加班 · 工资社保 · 休假 · 保密 · 离职手续 · 合同签订 · 实习 · 培训贷',
-                    style: AppType.caption(color: AppColors.inkTertiary).copyWith(height: 1.75),
+                    '试用期 · 违约金 · 服务期 · 竞业 · 押金扣押 · 工时加班 · 工资社保 · 休假 · 保密 · 离职手续 · 合同签订 · 实习 · 培训贷 · 预付课程',
+                    style: AppType.caption(color: AppColors.inkTertiary)
+                        .copyWith(height: 1.75),
                   ),
                 ],
               ),
@@ -839,13 +883,17 @@ class _SampleRowState extends State<_SampleRow> {
                   height: widget.compact ? 30 : 34,
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: widget.active ? AppColors.accentSoft : AppColors.surfaceSunken,
+                    color: widget.active
+                        ? AppColors.accentSoft
+                        : AppColors.surfaceSunken,
                     borderRadius: BorderRadius.circular(AppRadius.sm),
                   ),
                   child: Icon(
                     AppIcons.article,
                     size: 17,
-                    color: widget.active ? AppColors.accent : AppColors.inkTertiary,
+                    color: widget.active
+                        ? AppColors.accent
+                        : AppColors.inkTertiary,
                   ),
                 ),
                 const SizedBox(width: AppSpace.x3),
@@ -861,7 +909,9 @@ class _SampleRowState extends State<_SampleRow> {
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: AppType.strong(
-                                color: widget.active ? AppColors.accent : AppColors.ink,
+                                color: widget.active
+                                    ? AppColors.accent
+                                    : AppColors.ink,
                                 size: 13.5,
                               ),
                             ),
@@ -881,7 +931,11 @@ class _SampleRowState extends State<_SampleRow> {
                   ),
                 ),
                 const SizedBox(width: AppSpace.x2),
-                Icon(AppIcons.chevronRight, size: 18, color: AppColors.inkDisabled),
+                Icon(
+                  AppIcons.chevronRight,
+                  size: 18,
+                  color: AppColors.inkDisabled,
+                ),
               ],
             ),
           ),
@@ -902,7 +956,12 @@ class _MobileActionBar extends StatelessWidget {
     final c = controller;
     final bottom = MediaQuery.paddingOf(context).bottom;
     return Container(
-      padding: EdgeInsets.fromLTRB(AppSpace.x4, AppSpace.x3, AppSpace.x4, AppSpace.x3 + bottom),
+      padding: EdgeInsets.fromLTRB(
+        AppSpace.x4,
+        AppSpace.x3,
+        AppSpace.x4,
+        AppSpace.x3 + bottom,
+      ),
       decoration: const BoxDecoration(
         color: AppColors.surface,
         border: Border(top: BorderSide(color: AppColors.border)),
@@ -919,7 +978,10 @@ class _MobileActionBar extends StatelessWidget {
                   c.hasText ? '${c.charCount} 字' : '还没有载入合同',
                   style: AppType.strong(size: 12.5),
                 ),
-                Text('合同只在本机处理', style: AppType.caption().copyWith(fontSize: 11)),
+                Text(
+                  '合同只在本机处理',
+                  style: AppType.caption().copyWith(fontSize: 11),
+                ),
               ],
             ),
           ),
@@ -948,7 +1010,12 @@ class _ImageSourceSheet extends StatelessWidget {
       child: SafeArea(
         top: false,
         child: Padding(
-          padding: const EdgeInsets.fromLTRB(AppSpace.x5, 0, AppSpace.x5, AppSpace.x5),
+          padding: const EdgeInsets.fromLTRB(
+            AppSpace.x5,
+            0,
+            AppSpace.x5,
+            AppSpace.x5,
+          ),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -1019,7 +1086,11 @@ class _SourceOption extends StatelessWidget {
               ],
             ),
           ),
-          const Icon(AppIcons.chevronRight, size: 18, color: AppColors.inkDisabled),
+          const Icon(
+            AppIcons.chevronRight,
+            size: 18,
+            color: AppColors.inkDisabled,
+          ),
         ],
       ),
     );

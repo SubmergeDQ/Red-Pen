@@ -6,25 +6,25 @@ import '../state/review_controller.dart';
 import '../ui/rules_panel.dart';
 
 Color verdictColor(Verdict v) => switch (v) {
-      Verdict.red => AppColors.red,
-      Verdict.yellow => AppColors.amber,
-      Verdict.gray => AppColors.slate,
-      Verdict.green => AppColors.green,
-    };
+  Verdict.red => AppColors.red,
+  Verdict.yellow => AppColors.amber,
+  Verdict.gray => AppColors.slate,
+  Verdict.green => AppColors.green,
+};
 
 Color verdictSoft(Verdict v) => switch (v) {
-      Verdict.red => AppColors.redSoft,
-      Verdict.yellow => AppColors.amberSoft,
-      Verdict.gray => AppColors.slateSoft,
-      Verdict.green => AppColors.greenSoft,
-    };
+  Verdict.red => AppColors.redSoft,
+  Verdict.yellow => AppColors.amberSoft,
+  Verdict.gray => AppColors.slateSoft,
+  Verdict.green => AppColors.greenSoft,
+};
 
 AppTone verdictTone(Verdict v) => switch (v) {
-      Verdict.red => AppTone.red,
-      Verdict.yellow => AppTone.amber,
-      Verdict.gray => AppTone.slate,
-      Verdict.green => AppTone.green,
-    };
+  Verdict.red => AppTone.red,
+  Verdict.yellow => AppTone.amber,
+  Verdict.gray => AppTone.slate,
+  Verdict.green => AppTone.green,
+};
 
 class ReviewPage extends StatefulWidget {
   const ReviewPage({super.key, required this.controller});
@@ -113,7 +113,9 @@ class _ReviewPageState extends State<ReviewPage> {
   Widget build(BuildContext context) {
     final analysis = a;
     if (analysis == null) {
-      return const Center(child: EmptyState(title: '还没有核对结果。', message: '回到交稿台粘贴合同，开始核对。'));
+      return const Center(
+        child: EmptyState(title: '还没有核对结果。', message: '回到交稿台粘贴合同，开始核对。'),
+      );
     }
     final size = MediaQuery.sizeOf(context);
     final wide = size.width >= 1000;
@@ -138,13 +140,26 @@ class _ReviewPageState extends State<ReviewPage> {
       return Column(
         children: [
           Container(
-            padding: const EdgeInsets.fromLTRB(AppSpace.x4, AppSpace.x3, AppSpace.x4, AppSpace.x3),
+            padding: const EdgeInsets.fromLTRB(
+              AppSpace.x4,
+              AppSpace.x3,
+              AppSpace.x4,
+              AppSpace.x3,
+            ),
             color: AppColors.canvas,
             child: AppSegmented<int>(
               value: c.mobileTab,
               options: [
-                AppSelectOption(value: 0, label: '核对报告 · ${c.riskCount}', icon: AppIcons.report),
-                const AppSelectOption(value: 1, label: '合同原文', icon: AppIcons.article),
+                AppSelectOption(
+                  value: 0,
+                  label: '核对报告 · ${c.riskCount}',
+                  icon: AppIcons.report,
+                ),
+                const AppSelectOption(
+                  value: 1,
+                  label: '合同原文',
+                  icon: AppIcons.article,
+                ),
               ],
               onChanged: c.setMobileTab,
             ),
@@ -160,20 +175,27 @@ class _ReviewPageState extends State<ReviewPage> {
                     child: source,
                   ),
           ),
-          if (c.mobileTab == 0)
-            _MobileReportBar(controller: c),
+          if (c.mobileTab == 0) _MobileReportBar(controller: c),
         ],
       );
     }
 
     return Padding(
-      padding: const EdgeInsets.fromLTRB(AppSpace.x8, AppSpace.x6, AppSpace.x8, 0),
+      padding: const EdgeInsets.fromLTRB(
+        AppSpace.x8,
+        AppSpace.x6,
+        AppSpace.x8,
+        0,
+      ),
       child: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 1440),
           child: Column(
             children: [
-              _ReviewHeader(controller: c, onRules: () => showRulesPanel(context)),
+              _ReviewHeader(
+                controller: c,
+                onRules: () => showRulesPanel(context),
+              ),
               const SizedBox(height: AppSpace.x5),
               Expanded(
                 child: Row(
@@ -216,7 +238,11 @@ class _ReviewHeader extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      AppTag(label: verdictLabel[analysis.topVerdict]!, tone: verdictTone(analysis.topVerdict), dot: true),
+                      AppTag(
+                        label: verdictLabel[analysis.topVerdict]!,
+                        tone: verdictTone(analysis.topVerdict),
+                        dot: true,
+                      ),
                       const SizedBox(width: AppSpace.x2),
                       Text(analysis.docType, style: AppType.caption()),
                       if (analysis.packLabels.isNotEmpty) ...[
@@ -226,7 +252,9 @@ class _ReviewHeader extends StatelessWidget {
                             analysis.packLabels.join(' / '),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
-                            style: AppType.caption(color: AppColors.inkDisabled),
+                            style: AppType.caption(
+                              color: AppColors.inkDisabled,
+                            ),
                           ),
                         ),
                       ],
@@ -283,7 +311,8 @@ class _CountStrip extends StatelessWidget {
           for (final entry in entries)
             StatTile(
               label: entry.$2,
-              value: '${entry.$1 == null ? analysis.items.length : analysis.countOf(entry.$1!)}',
+              value:
+                  '${entry.$1 == null ? analysis.items.length : analysis.countOf(entry.$1!)}',
               tone: entry.$3,
               active: controller.filter == entry.$1,
               onTap: () => controller.setFilter(entry.$1),
@@ -336,7 +365,9 @@ class _ReportPane extends StatelessWidget {
   Widget build(BuildContext context) {
     final analysis = controller.analysis!;
     final items = controller.visibleFindings;
-    final nonGreen = analysis.items.where((f) => f.verdict != Verdict.green).length;
+    final nonGreen = analysis.items
+        .where((f) => f.verdict != Verdict.green)
+        .length;
 
     final compact = MediaQuery.sizeOf(context).width < 1000;
     return Scrollbar(
@@ -367,7 +398,8 @@ class _ReportPane extends StatelessWidget {
             if (analysis.insufficient) ...[
               AppBanner(
                 tone: AppTone.amber,
-                message: '这份文本只拆出 ${analysis.clauseCount} 条实质条款，可能不是完整合同。请确认粘贴了全文，下面的结果仅供参考。',
+                message:
+                    '这份文本只拆出 ${analysis.clauseCount} 条实质条款，可能不是完整合同。请确认粘贴了全文，下面的结果仅供参考。',
               ),
               const SizedBox(height: AppSpace.x3),
             ],
@@ -375,7 +407,7 @@ class _ReportPane extends StatelessWidget {
               AppBanner(
                 tone: AppTone.green,
                 icon: AppIcons.checkCircle,
-                message: '这 ${ruleLibrary.length} 类规则没有扫到明显风险。金额、合同主体和附件仍要人工核对。',
+                message: '本次应用的规则没有扫到明显风险，但未覆盖的规则不等于无风险；金额、合同主体和附件仍要人工核对。',
               ),
               const SizedBox(height: AppSpace.x3),
             ],
@@ -383,7 +415,9 @@ class _ReportPane extends StatelessWidget {
               AppCard(
                 child: EmptyState(
                   compact: true,
-                  title: controller.filter == null ? '没有可展开的条目。' : '这个等级没有发现问题。',
+                  title: controller.filter == null
+                      ? '没有可展开的条目。'
+                      : '这个等级没有发现问题。',
                   message: controller.filter == null ? null : '切换到「全部」查看其他等级。',
                 ),
               )
@@ -408,6 +442,11 @@ class _ReportPane extends StatelessWidget {
             const SizedBox(height: AppSpace.x5),
             Text(
               '以上为签约前风险提示，基于你提供的文本和通用规定，不构成法律意见。涉及金额较大或已产生争议，请拨打 12348 公共法律服务热线，或联系学校法律援助中心。',
+              style: AppType.caption(),
+            ),
+            const SizedBox(height: AppSpace.x2),
+            Text(
+              '规则库 $ruleLibraryVersion 快照（${ruleLibrary.length} 类）；$ruleLibrarySnapshotNote',
               style: AppType.caption(),
             ),
             const SizedBox(height: AppSpace.x2),
@@ -466,7 +505,8 @@ class _MobileSummary extends StatelessWidget {
                   width: 88,
                   child: StatTile(
                     label: entries[i].$2,
-                    value: '${entries[i].$1 == null ? analysis.items.length : analysis.countOf(entries[i].$1!)}',
+                    value:
+                        '${entries[i].$1 == null ? analysis.items.length : analysis.countOf(entries[i].$1!)}',
                     tone: entries[i].$3,
                     active: controller.filter == entries[i].$1,
                     onTap: () => controller.setFilter(entries[i].$1),
@@ -526,10 +566,17 @@ class _FindingCardState extends State<_FindingCard> {
         child: AnimatedContainer(
           duration: AppDuration.fast,
           decoration: BoxDecoration(
-            color: _hover && !widget.active ? AppColors.surfaceMuted.withValues(alpha: 0.55) : null,
+            color: _hover && !widget.active
+                ? AppColors.surfaceMuted.withValues(alpha: 0.55)
+                : null,
             borderRadius: BorderRadius.circular(AppRadius.lg),
           ),
-          padding: const EdgeInsets.fromLTRB(AppSpace.x4, AppSpace.x3 + 2, AppSpace.x3, AppSpace.x3 + 2),
+          padding: const EdgeInsets.fromLTRB(
+            AppSpace.x4,
+            AppSpace.x3 + 2,
+            AppSpace.x3,
+            AppSpace.x3 + 2,
+          ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -538,7 +585,11 @@ class _FindingCardState extends State<_FindingCard> {
                 children: [
                   Padding(
                     padding: const EdgeInsets.only(top: 1),
-                    child: AppTag(label: verdictLabel[f.verdict]!, tone: verdictTone(f.verdict), compact: true),
+                    child: AppTag(
+                      label: verdictLabel[f.verdict]!,
+                      tone: verdictTone(f.verdict),
+                      compact: true,
+                    ),
                   ),
                   const SizedBox(width: AppSpace.x2),
                   Expanded(
@@ -550,7 +601,10 @@ class _FindingCardState extends State<_FindingCard> {
                     ),
                   ),
                   const SizedBox(width: AppSpace.x2),
-                  Text(f.location, style: AppType.caption(color: AppColors.inkDisabled)),
+                  Text(
+                    f.location,
+                    style: AppType.caption(color: AppColors.inkDisabled),
+                  ),
                   const SizedBox(width: AppSpace.x1),
                   AnimatedRotation(
                     turns: widget.expanded ? 0.5 : 0,
@@ -558,16 +612,15 @@ class _FindingCardState extends State<_FindingCard> {
                     child: Icon(
                       AppIcons.expandMore,
                       size: 20,
-                      color: _hover ? AppColors.inkSecondary : AppColors.inkDisabled,
+                      color: _hover
+                          ? AppColors.inkSecondary
+                          : AppColors.inkDisabled,
                     ),
                   ),
                 ],
               ),
               const SizedBox(height: AppSpace.x2),
-              Text(
-                label,
-                style: AppType.label(color: AppColors.inkTertiary),
-              ),
+              Text(label, style: AppType.label(color: AppColors.inkTertiary)),
               const SizedBox(height: 1),
               Text(
                 f.consequence,
@@ -577,7 +630,11 @@ class _FindingCardState extends State<_FindingCard> {
                 duration: AppDuration.base,
                 alignment: Alignment.topCenter,
                 child: widget.expanded
-                    ? _FindingDetail(finding: f, onLocate: widget.onLocate, onCopy: widget.onCopy)
+                    ? _FindingDetail(
+                        finding: f,
+                        onLocate: widget.onLocate,
+                        onCopy: widget.onCopy,
+                      )
                     : const SizedBox(width: double.infinity),
               ),
             ],
@@ -618,7 +675,8 @@ class _FindingDetail extends StatelessWidget {
             const SizedBox(height: AppSpace.x1 + 2),
             Text(
               f.quote,
-              style: AppType.bodySm(color: AppColors.inkSecondary).copyWith(height: 1.8),
+              style: AppType.bodySm(color: AppColors.inkSecondary)
+                  .copyWith(height: 1.8),
             ),
             const SizedBox(height: AppSpace.x3),
           ],
@@ -632,7 +690,8 @@ class _FindingDetail extends StatelessWidget {
             const SizedBox(height: 2),
             Text(
               f.basis!.text,
-              style: AppType.caption(color: AppColors.inkSecondary).copyWith(height: 1.75),
+              style: AppType.caption(color: AppColors.inkSecondary)
+                  .copyWith(height: 1.75),
             ),
             const SizedBox(height: AppSpace.x3),
           ],
@@ -642,7 +701,8 @@ class _FindingDetail extends StatelessWidget {
               text: f.ask,
               onCopy: () => onCopy(f.ask, '这句话'),
             ),
-          if (f.ask.isNotEmpty && f.counter.isNotEmpty) const SizedBox(height: AppSpace.x3),
+          if (f.ask.isNotEmpty && f.counter.isNotEmpty)
+            const SizedBox(height: AppSpace.x3),
           if (f.counter.isNotEmpty)
             _AdviceRow(
               label: '可以怎么改',
@@ -660,7 +720,10 @@ class _FindingDetail extends StatelessWidget {
                 color: color,
               ),
               const Spacer(),
-              Text('把握：${f.confidence}', style: AppType.caption(color: AppColors.inkDisabled)),
+              Text(
+                '把握：${f.confidence}',
+                style: AppType.caption(color: AppColors.inkDisabled),
+              ),
             ],
           ),
         ],
@@ -697,17 +760,14 @@ class _AdviceRow extends StatelessWidget {
                 text,
                 style: emphasis
                     ? AppType.strong(size: 13).copyWith(height: 1.7)
-                    : AppType.bodySm(color: AppColors.inkSecondary).copyWith(height: 1.7),
+                    : AppType.bodySm(color: AppColors.inkSecondary)
+                          .copyWith(height: 1.7),
               ),
             ],
           ),
         ),
         const SizedBox(width: AppSpace.x2),
-        AppIconButton(
-          icon: AppIcons.copy,
-          tooltip: '复制这句话',
-          onPressed: onCopy,
-        ),
+        AppIconButton(icon: AppIcons.copy, tooltip: '复制这句话', onPressed: onCopy),
       ],
     );
   }
@@ -736,7 +796,9 @@ class _PendingCard extends StatelessWidget {
           const SizedBox(height: AppSpace.x3),
           for (var i = 0; i < items.length; i++)
             Padding(
-              padding: EdgeInsets.only(bottom: i == items.length - 1 ? 0 : AppSpace.x2),
+              padding: EdgeInsets.only(
+                bottom: i == items.length - 1 ? 0 : AppSpace.x2,
+              ),
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -744,13 +806,18 @@ class _PendingCard extends StatelessWidget {
                     width: 24,
                     child: Text(
                       '${i + 1}'.padLeft(2, '0'),
-                      style: AppType.num(color: AppColors.inkDisabled, size: 12)
-                          .copyWith(fontWeight: FontWeight.w600),
+                      style: AppType.num(
+                        color: AppColors.inkDisabled,
+                        size: 12,
+                      ).copyWith(fontWeight: FontWeight.w600),
                     ),
                   ),
                   const SizedBox(width: AppSpace.x2),
                   Expanded(
-                    child: Text(items[i], style: AppType.bodySm(color: AppColors.inkSecondary)),
+                    child: Text(
+                      items[i],
+                      style: AppType.bodySm(color: AppColors.inkSecondary),
+                    ),
                   ),
                 ],
               ),
@@ -791,10 +858,19 @@ class _SourcePane extends StatelessWidget {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.fromLTRB(AppSpace.x4, AppSpace.x3, AppSpace.x4, AppSpace.x3),
+            padding: const EdgeInsets.fromLTRB(
+              AppSpace.x4,
+              AppSpace.x3,
+              AppSpace.x4,
+              AppSpace.x3,
+            ),
             child: Row(
               children: [
-                const Icon(AppIcons.article, size: 18, color: AppColors.inkTertiary),
+                const Icon(
+                  AppIcons.article,
+                  size: 18,
+                  color: AppColors.inkTertiary,
+                ),
                 const SizedBox(width: AppSpace.x2),
                 Text('合同原文', style: AppType.strong(size: 14)),
                 const SizedBox(width: AppSpace.x2),
@@ -814,7 +890,12 @@ class _SourcePane extends StatelessWidget {
               child: SingleChildScrollView(
                 controller: scroll,
                 physics: const ClampingScrollPhysics(),
-                padding: const EdgeInsets.fromLTRB(AppSpace.x4, AppSpace.x4, AppSpace.x4, AppSpace.x8),
+                padding: const EdgeInsets.fromLTRB(
+                  AppSpace.x4,
+                  AppSpace.x4,
+                  AppSpace.x4,
+                  AppSpace.x8,
+                ),
                 child: SelectionArea(
                   child: _ClauseList(
                     analysis: analysis,
@@ -830,11 +911,16 @@ class _SourcePane extends StatelessWidget {
           if (wide)
             Container(
               width: double.infinity,
-              padding: const EdgeInsets.symmetric(horizontal: AppSpace.x4, vertical: AppSpace.x2 + 2),
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSpace.x4,
+                vertical: AppSpace.x2 + 2,
+              ),
               decoration: const BoxDecoration(
                 color: AppColors.surfaceMuted,
                 border: Border(top: BorderSide(color: AppColors.border)),
-                borderRadius: BorderRadius.vertical(bottom: Radius.circular(AppRadius.lg)),
+                borderRadius: BorderRadius.vertical(
+                  bottom: Radius.circular(AppRadius.lg),
+                ),
               ),
               child: Text(
                 analysis.pending.isNotEmpty
@@ -868,18 +954,19 @@ class _ClauseList extends StatelessWidget {
   Widget build(BuildContext context) {
     final titleKey = analysis.title.replaceAll(RegExp(r'\s+'), '');
     final clauses = [
-      if (analysis.clauses.isNotEmpty) _stripTitleLine(analysis.clauses.first, titleKey),
+      if (analysis.clauses.isNotEmpty)
+        _stripTitleLine(analysis.clauses.first, titleKey),
       ...analysis.clauses.skip(analysis.clauses.isEmpty ? 0 : 1),
     ];
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
-        Text(
-          analysis.title,
-          style: AppType.h3().copyWith(height: 1.5),
-        ),
+        Text(analysis.title, style: AppType.h3().copyWith(height: 1.5)),
         const SizedBox(height: 2),
-        Text('共 ${analysis.clauseCount} 条 · 规则在本机逐条核对', style: AppType.caption()),
+        Text(
+          '共 ${analysis.clauseCount} 条 · 规则在本机逐条核对',
+          style: AppType.caption(),
+        ),
         const SizedBox(height: AppSpace.x4),
         for (final clause in clauses)
           if (!(clause.kind == 'preamble' && clause.body.trim().isEmpty))
@@ -889,7 +976,8 @@ class _ClauseList extends StatelessWidget {
                 clause: clause,
                 findings: findingsByClause[clause.index] ?? const [],
                 active: activeClause == clause.index,
-                onTap: () => onClauseTap(findingsByClause[clause.index] ?? const []),
+                onTap: () =>
+                    onClauseTap(findingsByClause[clause.index] ?? const []),
               ),
             ),
         if (clauses.isEmpty)
@@ -897,7 +985,10 @@ class _ClauseList extends StatelessWidget {
         if (clauses.isNotEmpty) ...[
           const SizedBox(height: AppSpace.x4),
           Center(
-            child: Text('正文完', style: AppType.caption(color: AppColors.inkDisabled)),
+            child: Text(
+              '正文完',
+              style: AppType.caption(color: AppColors.inkDisabled),
+            ),
           ),
         ],
       ],
@@ -906,7 +997,9 @@ class _ClauseList extends StatelessWidget {
 
   Clause _stripTitleLine(Clause clause, String titleKey) {
     final bodyLines = clause.body.split('\n');
-    if (bodyLines.first.replaceAll(RegExp(r'\s+'), '') != titleKey) return clause;
+    if (bodyLines.first.replaceAll(RegExp(r'\s+'), '') != titleKey) {
+      return clause;
+    }
     final textLines = clause.text.split('\n');
     return Clause(
       kind: clause.kind,
@@ -940,7 +1033,9 @@ class _ClauseBlock extends StatelessWidget {
     if (findings.isEmpty) return null;
     var result = findings.first;
     for (final finding in findings.skip(1)) {
-      if (verdictOrder[finding.verdict]! < verdictOrder[result.verdict]!) result = finding;
+      if (verdictOrder[finding.verdict]! < verdictOrder[result.verdict]!) {
+        result = finding;
+      }
     }
     return result;
   }
@@ -958,7 +1053,8 @@ class _ClauseBlock extends StatelessWidget {
         ),
         child: Text(
           clause.body,
-          style: AppType.bodySm(color: AppColors.inkSecondary).copyWith(height: 1.85),
+          style: AppType.bodySm(color: AppColors.inkSecondary)
+              .copyWith(height: 1.85),
         ),
       );
     }
@@ -968,13 +1064,18 @@ class _ClauseBlock extends StatelessWidget {
     final block = AnimatedContainer(
       duration: AppDuration.base,
       margin: const EdgeInsets.only(bottom: AppSpace.x1 + 2),
-      padding: const EdgeInsets.fromLTRB(AppSpace.x3, AppSpace.x3, AppSpace.x3, AppSpace.x3),
+      padding: const EdgeInsets.fromLTRB(
+        AppSpace.x3,
+        AppSpace.x3,
+        AppSpace.x3,
+        AppSpace.x3,
+      ),
       decoration: BoxDecoration(
         color: active
             ? color.withValues(alpha: 0.08)
             : flagged
-                ? color.withValues(alpha: 0.04)
-                : Colors.transparent,
+            ? color.withValues(alpha: 0.04)
+            : Colors.transparent,
         borderRadius: BorderRadius.circular(AppRadius.sm),
         border: Border.all(
           color: active ? color.withValues(alpha: 0.5) : Colors.transparent,
@@ -1016,7 +1117,8 @@ class _ClauseBlock extends StatelessWidget {
                 if (clause.body.isEmpty && clause.heading.isEmpty)
                   Text(
                     clause.text,
-                    style: AppType.bodySm(color: AppColors.inkSecondary).copyWith(height: 1.9),
+                    style: AppType.bodySm(color: AppColors.inkSecondary)
+                        .copyWith(height: 1.9),
                   ),
                 if (flagged) ...[
                   const SizedBox(height: AppSpace.x1 + 2),
@@ -1026,7 +1128,8 @@ class _ClauseBlock extends StatelessWidget {
                       const SizedBox(width: 4),
                       Text(
                         '批注 ${findings.length}',
-                        style: AppType.caption(color: color).copyWith(fontWeight: FontWeight.w600),
+                        style: AppType.caption(color: color)
+                            .copyWith(fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),
@@ -1061,7 +1164,8 @@ class _HighlightedText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final base = AppType.bodySm(color: AppColors.inkSecondary).copyWith(height: 1.9);
+    final base = AppType.bodySm(color: AppColors.inkSecondary)
+        .copyWith(height: 1.9);
     final ranges = <(int, int, Color)>[];
     for (final finding in findings) {
       final quote = finding.quote.trim();
@@ -1077,7 +1181,9 @@ class _HighlightedText extends StatelessWidget {
     for (final range in ranges) {
       if (range.$1 < cursor) continue;
       if (range.$1 > cursor) {
-        spans.add(TextSpan(text: text.substring(cursor, range.$1), style: base));
+        spans.add(
+          TextSpan(text: text.substring(cursor, range.$1), style: base),
+        );
       }
       spans.add(
         TextSpan(
@@ -1095,7 +1201,9 @@ class _HighlightedText extends StatelessWidget {
     }
 
     return Text.rich(
-      TextSpan(children: spans.isEmpty ? [TextSpan(text: text, style: base)] : spans),
+      TextSpan(
+        children: spans.isEmpty ? [TextSpan(text: text, style: base)] : spans,
+      ),
       style: base,
     );
   }
@@ -1110,7 +1218,12 @@ class _MobileReportBar extends StatelessWidget {
   Widget build(BuildContext context) {
     final bottom = MediaQuery.paddingOf(context).bottom;
     return Container(
-      padding: EdgeInsets.fromLTRB(AppSpace.x4, AppSpace.x2 + 2, AppSpace.x4, AppSpace.x2 + 2 + bottom),
+      padding: EdgeInsets.fromLTRB(
+        AppSpace.x4,
+        AppSpace.x2 + 2,
+        AppSpace.x4,
+        AppSpace.x2 + 2 + bottom,
+      ),
       decoration: const BoxDecoration(
         color: AppColors.surface,
         border: Border(top: BorderSide(color: AppColors.border)),

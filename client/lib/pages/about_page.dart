@@ -18,7 +18,8 @@ Future<void> showAboutPage(
   required OcrService ocr,
 }) async {
   final size = MediaQuery.sizeOf(context);
-  final desktop = size.width >= 900 &&
+  final desktop =
+      size.width >= 900 &&
       (Platform.isWindows || Platform.isMacOS || Platform.isLinux);
   if (desktop) {
     final navigator = Navigator.of(context, rootNavigator: true);
@@ -96,7 +97,12 @@ class _AboutScreen extends StatelessWidget {
             ),
             Expanded(
               child: SingleChildScrollView(
-                padding: const EdgeInsets.fromLTRB(AppSpace.x4, AppSpace.x4, AppSpace.x4, AppSpace.x8),
+                padding: const EdgeInsets.fromLTRB(
+                  AppSpace.x4,
+                  AppSpace.x4,
+                  AppSpace.x4,
+                  AppSpace.x8,
+                ),
                 child: _AboutContent(update: update, ocr: ocr),
               ),
             ),
@@ -108,7 +114,11 @@ class _AboutScreen extends StatelessWidget {
 }
 
 class _AboutPanel extends StatelessWidget {
-  const _AboutPanel({required this.update, required this.ocr, required this.onClose});
+  const _AboutPanel({
+    required this.update,
+    required this.ocr,
+    required this.onClose,
+  });
 
   final UpdateController update;
   final OcrService ocr;
@@ -117,9 +127,7 @@ class _AboutPanel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return CallbackShortcuts(
-      bindings: {
-        const SingleActivator(LogicalKeyboardKey.escape): onClose,
-      },
+      bindings: {const SingleActivator(LogicalKeyboardKey.escape): onClose},
       child: Focus(
         autofocus: true,
         child: AppDialogSurface(
@@ -133,7 +141,12 @@ class _AboutPanel extends StatelessWidget {
               const Divider(),
               Expanded(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.fromLTRB(AppSpace.x5, AppSpace.x4, AppSpace.x5, AppSpace.x8),
+                  padding: const EdgeInsets.fromLTRB(
+                    AppSpace.x5,
+                    AppSpace.x4,
+                    AppSpace.x5,
+                    AppSpace.x8,
+                  ),
                   child: _AboutContent(update: update, ocr: ocr),
                 ),
               ),
@@ -173,7 +186,10 @@ class _AboutContent extends StatelessWidget {
                         style: AppType.h2().copyWith(letterSpacing: 1.2),
                       ),
                       const SizedBox(height: 2),
-                      Text('签约前 5 分钟 · 学生与应届生的合同自查工具', style: AppType.caption()),
+                      Text(
+                        '签约前 5 分钟 · 学生与应届生的合同自查工具',
+                        style: AppType.caption(),
+                      ),
                     ],
                   ),
                 ),
@@ -197,25 +213,27 @@ class _AboutContent extends StatelessWidget {
                         update.error != null
                             ? AppIcons.cloudOff
                             : update.hasUpdate
-                                ? AppIcons.release
-                                : update.releases.isEmpty
-                                    ? AppIcons.info
-                                    : AppIcons.checkCircle,
+                            ? AppIcons.release
+                            : update.releases.isEmpty
+                            ? AppIcons.info
+                            : AppIcons.checkCircle,
                         size: 19,
                         color: update.error != null
                             ? AppColors.red
                             : update.hasUpdate
-                                ? AppColors.accent
-                                : update.releases.isEmpty
-                                    ? AppColors.inkTertiary
-                                    : AppColors.green,
+                            ? AppColors.accent
+                            : update.releases.isEmpty
+                            ? AppColors.inkTertiary
+                            : AppColors.green,
                       ),
                       const SizedBox(width: AppSpace.x2),
                       Expanded(
                         child: Text(
                           update.statusLabel,
                           style: AppType.strong(
-                            color: update.error != null ? AppColors.redInk : AppColors.inkSecondary,
+                            color: update.error != null
+                                ? AppColors.redInk
+                                : AppColors.inkSecondary,
                             size: 13.5,
                           ),
                         ),
@@ -257,7 +275,9 @@ class _AboutContent extends StatelessWidget {
                             await update.skipLatest();
                             if (context.mounted) {
                               ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('已跳过 ${latest.tag}，有新版本时会再提醒。')),
+                                SnackBar(
+                                  content: Text('已跳过 ${latest.tag}，有新版本时会再提醒。'),
+                                ),
                               );
                             }
                           },
@@ -291,7 +311,11 @@ class _AboutContent extends StatelessWidget {
                       flat: true,
                       child: Column(
                         children: [
-                          for (var i = 0; i < update.releases.take(8).length; i++) ...[
+                          for (
+                            var i = 0;
+                            i < update.releases.take(8).length;
+                            i++
+                          ) ...[
                             if (i > 0) const Divider(height: 1),
                             _ReleaseTile(
                               release: update.releases[i],
@@ -305,7 +329,10 @@ class _AboutContent extends StatelessWidget {
             _Section(
               title: '运行环境',
               child: AppCard(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpace.x4, vertical: AppSpace.x1),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpace.x4,
+                  vertical: AppSpace.x1,
+                ),
                 flat: true,
                 child: Column(
                   children: [
@@ -326,11 +353,29 @@ class _AboutContent extends StatelessWidget {
                           '${MediaQuery.sizeOf(context).width.round()} × ${MediaQuery.sizeOf(context).height.round()} 逻辑像素 · ${MediaQuery.devicePixelRatioOf(context).toStringAsFixed(2)}×',
                     ),
                     const Divider(height: 1),
-                    KeyValueRow(label: '界面语言', value: Platform.localeName.replaceAll('_', '-')),
+                    KeyValueRow(
+                      label: '界面语言',
+                      value: Platform.localeName.replaceAll('_', '-'),
+                    ),
                     const Divider(height: 1),
                     KeyValueRow(label: '识别引擎', value: ocr.engineLabel),
                     const Divider(height: 1),
-                    KeyValueRow(label: '规则库', value: '${ruleLibrary.length} 类 · 本机运行'),
+                    KeyValueRow(
+                      label: '规则库',
+                      value: '${ruleLibrary.length} 类 · 本机运行',
+                    ),
+                    const Divider(height: 1),
+                    KeyValueRow(
+                      label: '规则版本',
+                      value: '$ruleLibraryVersion 快照（R1–R36）',
+                    ),
+                    const Divider(height: 1),
+                    KeyValueRow(label: '规则差异', value: ruleLibrarySnapshotNote),
+                    const Divider(height: 1),
+                    KeyValueRow(
+                      label: '法源核对',
+                      value: '$lawCheckedAt · $lawOfficialUrl',
+                    ),
                   ],
                 ),
               ),
@@ -338,11 +383,18 @@ class _AboutContent extends StatelessWidget {
             _Section(
               title: '代码仓库',
               child: AppCard(
-                padding: const EdgeInsets.symmetric(horizontal: AppSpace.x4, vertical: AppSpace.x3),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: AppSpace.x4,
+                  vertical: AppSpace.x3,
+                ),
                 flat: true,
                 child: Row(
                   children: [
-                    const Icon(AppIcons.repo, size: 18, color: AppColors.inkTertiary),
+                    const Icon(
+                      AppIcons.repo,
+                      size: 18,
+                      color: AppColors.inkTertiary,
+                    ),
                     const SizedBox(width: AppSpace.x2),
                     Expanded(
                       child: SelectableText(
@@ -355,7 +407,9 @@ class _AboutContent extends StatelessWidget {
                       icon: AppIcons.copy,
                       tooltip: '复制地址',
                       onPressed: () async {
-                        await Clipboard.setData(const ClipboardData(text: UpdateService.repoUrl));
+                        await Clipboard.setData(
+                          const ClipboardData(text: UpdateService.repoUrl),
+                        );
                         if (context.mounted) {
                           ScaffoldMessenger.of(context).showSnackBar(
                             const SnackBar(content: Text('仓库地址已复制。')),
@@ -366,7 +420,8 @@ class _AboutContent extends StatelessWidget {
                     AppIconButton(
                       icon: AppIcons.external,
                       tooltip: '在浏览器中打开',
-                      onPressed: () => openExternal(context, UpdateService.repoUrl),
+                      onPressed: () =>
+                          openExternal(context, UpdateService.repoUrl),
                     ),
                   ],
                 ),
@@ -376,7 +431,8 @@ class _AboutContent extends StatelessWidget {
             AppBanner(
               tone: AppTone.brand,
               icon: AppIcons.shield,
-              message: '合同正文只在本机解析与核对，不上传、不留存。更新检查只向 GitHub 读取公开的版本信息，不发送任何合同内容。',
+              message:
+                  '合同正文只在本机解析与核对，不上传、不留存。更新检查只向 GitHub 读取公开的版本信息，不发送任何合同内容。',
             ),
             const SizedBox(height: AppSpace.x3),
             Text(
@@ -437,7 +493,12 @@ class _ReleaseTileState extends State<_ReleaseTile> {
           child: InkWell(
             onTap: () => setState(() => _open = !_open),
             child: Padding(
-              padding: const EdgeInsets.fromLTRB(AppSpace.x3, AppSpace.x2 + 2, AppSpace.x2, AppSpace.x2 + 2),
+              padding: const EdgeInsets.fromLTRB(
+                AppSpace.x3,
+                AppSpace.x2 + 2,
+                AppSpace.x2,
+                AppSpace.x2 + 2,
+              ),
               child: Row(
                 children: [
                   AppTag(
@@ -461,12 +522,19 @@ class _ReleaseTileState extends State<_ReleaseTile> {
                     const SizedBox(width: AppSpace.x2),
                   ],
                   if (release.prerelease)
-                    Text('预览版', style: AppType.caption(color: AppColors.inkDisabled)),
+                    Text(
+                      '预览版',
+                      style: AppType.caption(color: AppColors.inkDisabled),
+                    ),
                   const SizedBox(width: AppSpace.x1),
                   AnimatedRotation(
                     turns: _open ? 0.5 : 0,
                     duration: AppDuration.fast,
-                    child: const Icon(AppIcons.expandMore, size: 18, color: AppColors.inkDisabled),
+                    child: const Icon(
+                      AppIcons.expandMore,
+                      size: 18,
+                      color: AppColors.inkDisabled,
+                    ),
                   ),
                 ],
               ),
@@ -476,10 +544,17 @@ class _ReleaseTileState extends State<_ReleaseTile> {
         AnimatedCrossFade(
           firstChild: const SizedBox(width: double.infinity),
           secondChild: Padding(
-            padding: const EdgeInsets.fromLTRB(AppSpace.x3, 0, AppSpace.x3, AppSpace.x3),
+            padding: const EdgeInsets.fromLTRB(
+              AppSpace.x3,
+              0,
+              AppSpace.x3,
+              AppSpace.x3,
+            ),
             child: ReleaseNotesBox(notes: release.notes),
           ),
-          crossFadeState: _open ? CrossFadeState.showSecond : CrossFadeState.showFirst,
+          crossFadeState: _open
+              ? CrossFadeState.showSecond
+              : CrossFadeState.showFirst,
           duration: AppDuration.base,
         ),
       ],
@@ -491,9 +566,10 @@ String _platformLabel() {
   final version = Platform.operatingSystemVersion;
   if (Platform.isAndroid) {
     final sdk = RegExp(r'SDK\s*(\d+)').firstMatch(version)?.group(0);
-    final release = RegExp(r'android\s+([0-9.]+)', caseSensitive: false)
-        .firstMatch(version)
-        ?.group(1);
+    final release = RegExp(
+      r'android\s+([0-9.]+)',
+      caseSensitive: false,
+    ).firstMatch(version)?.group(1);
     final parts = [
       'Android',
       if (release != null && release.isNotEmpty) release,

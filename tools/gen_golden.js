@@ -1,5 +1,10 @@
 // Generates golden analysis output from the web rule engine (engine.js)
 // for the Dart parity tests. Run: node tools/gen_golden.js
+//
+// NOTE: client/test/golden/golden.json is the 1.0 baseline (R1-R30). The Dart
+// engine now also implements R31-R36, covered by client/test/engine_consumer_test.dart.
+// Regenerating this file against the current web engine changes the baseline, so do it
+// only when both engines are intentionally updated together.
 'use strict';
 const fs = require('fs');
 const path = require('path');

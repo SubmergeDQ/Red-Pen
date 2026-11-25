@@ -6,3 +6,6 @@ dist/
 
 # 本机动效验收产物（截图/录屏/逐帧）
 .acceptance/
+
+# 本地 HTML 分享打包缓存
+.trae-html-share-packages/

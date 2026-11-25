@@ -49,7 +49,11 @@ class PdfExporter {
     String sourceName = '',
     bool ocrUsed = false,
   }) async {
-    final bytes = await build(analysis, sourceName: sourceName, ocrUsed: ocrUsed);
+    final bytes = await build(
+      analysis,
+      sourceName: sourceName,
+      ocrUsed: ocrUsed,
+    );
     final name = fileName(analysis);
 
     if (!kIsWeb &&
@@ -71,7 +75,8 @@ class PdfExporter {
 
   static String fileName(Analysis analysis) {
     final now = DateTime.now();
-    final stamp = '${now.year}'
+    final stamp =
+        '${now.year}'
         '${now.month.toString().padLeft(2, '0')}'
         '${now.day.toString().padLeft(2, '0')}';
     return '红笔-${analysis.docType}-$stamp.pdf';
@@ -100,22 +105,22 @@ class PdfExporter {
       double height = 1.5,
       double spacing = 0,
       pw.TextAlign align = pw.TextAlign.left,
-    }) =>
-        pw.Text(
-          value,
-          textAlign: align,
-          style: pw.TextStyle(
-            font: font,
-            fontSize: size,
-            color: color,
-            lineSpacing: (size * (height - 1)).clamp(1, 6),
-            letterSpacing: spacing,
-            wordSpacing: 0,
-          ),
-          lineSplitter: _splitCjk,
-        );
+    }) => pw.Text(
+      value,
+      textAlign: align,
+      style: pw.TextStyle(
+        font: font,
+        fontSize: size,
+        color: color,
+        lineSpacing: (size * (height - 1)).clamp(1, 6),
+        letterSpacing: spacing,
+        wordSpacing: 0,
+      ),
+      lineSplitter: _splitCjk,
+    );
 
-    pw.Widget label(String value) => text(value, size: 8.5, color: _faint, spacing: 0.8);
+    pw.Widget label(String value) =>
+        text(value, size: 8.5, color: _faint, spacing: 0.8);
 
     pw.Widget field(String title, String value) {
       if (value.trim().isEmpty) return pw.SizedBox();
@@ -143,7 +148,9 @@ class PdfExporter {
               margin: const pw.EdgeInsets.only(bottom: 12),
               padding: const pw.EdgeInsets.fromLTRB(10, 9, 10, 10),
               decoration: pw.BoxDecoration(
-                border: pw.Border(left: pw.BorderSide(color: color, width: 2.4)),
+                border: pw.Border(
+                  left: pw.BorderSide(color: color, width: 2.4),
+                ),
               ),
               child: pw.Column(
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
@@ -152,13 +159,25 @@ class PdfExporter {
                     crossAxisAlignment: pw.CrossAxisAlignment.start,
                     children: [
                       pw.Container(
-                        padding: const pw.EdgeInsets.symmetric(horizontal: 4, vertical: 1.5),
+                        padding: const pw.EdgeInsets.symmetric(
+                          horizontal: 4,
+                          vertical: 1.5,
+                        ),
                         color: soft,
-                        child: text(verdictLabel[f.verdict] ?? '', size: 8, color: color),
+                        child: text(
+                          verdictLabel[f.verdict] ?? '',
+                          size: 8,
+                          color: color,
+                        ),
                       ),
                       pw.SizedBox(width: 6),
                       pw.Expanded(
-                        child: text(f.ruleName, size: 11.5, color: _ink, height: 1.4),
+                        child: text(
+                          f.ruleName,
+                          size: 11.5,
+                          color: _ink,
+                          height: 1.4,
+                        ),
                       ),
                       pw.SizedBox(width: 6),
                       text(f.location, size: 9, color: _faint, height: 1.4),
@@ -170,7 +189,12 @@ class PdfExporter {
                       width: double.infinity,
                       padding: const pw.EdgeInsets.fromLTRB(8, 6, 8, 7),
                       color: _sheet2,
-                      child: text(f.quote, size: 9.5, color: _ink2, height: 1.6),
+                      child: text(
+                        f.quote,
+                        size: 9.5,
+                        color: _ink2,
+                        height: 1.6,
+                      ),
                     ),
                   ],
                   if (f.basis != null) ...[
@@ -189,7 +213,11 @@ class PdfExporter {
                   field('问谁 · 问什么', f.ask),
                   field('可以怎么改', f.counter),
                   pw.SizedBox(height: 7),
-                  text('规则 ${f.ruleId} · 把握：${f.confidence}', size: 8.5, color: _faint),
+                  text(
+                    '规则 ${f.ruleId} · 把握：${f.confidence}',
+                    size: 8.5,
+                    color: _faint,
+                  ),
                 ],
               ),
             ),
@@ -199,30 +227,30 @@ class PdfExporter {
     }
 
     pw.Widget countCell(Verdict verdict, int value) => pw.Expanded(
-          child: pw.Container(
-            padding: const pw.EdgeInsets.symmetric(vertical: 7, horizontal: 8),
-            decoration: pw.BoxDecoration(
-              border: pw.Border(
-                top: pw.BorderSide(color: _rule, width: 0.6),
-                bottom: pw.BorderSide(color: _rule, width: 0.6),
-                right: pw.BorderSide(color: _rule2, width: 0.6),
-              ),
-            ),
-            child: pw.Column(
-              crossAxisAlignment: pw.CrossAxisAlignment.start,
-              children: [
-                text(
-                  '$value',
-                  size: 17,
-                  color: _color(verdict),
-                  height: 1.1,
-                ),
-                pw.SizedBox(height: 1),
-                text(verdictLabel[verdict] ?? '', size: 8.5, color: _muted, spacing: 0.6),
-              ],
-            ),
+      child: pw.Container(
+        padding: const pw.EdgeInsets.symmetric(vertical: 7, horizontal: 8),
+        decoration: pw.BoxDecoration(
+          border: pw.Border(
+            top: pw.BorderSide(color: _rule, width: 0.6),
+            bottom: pw.BorderSide(color: _rule, width: 0.6),
+            right: pw.BorderSide(color: _rule2, width: 0.6),
           ),
-        );
+        ),
+        child: pw.Column(
+          crossAxisAlignment: pw.CrossAxisAlignment.start,
+          children: [
+            text('$value', size: 17, color: _color(verdict), height: 1.1),
+            pw.SizedBox(height: 1),
+            text(
+              verdictLabel[verdict] ?? '',
+              size: 8.5,
+              color: _muted,
+              spacing: 0.6,
+            ),
+          ],
+        ),
+      ),
+    );
 
     doc.addPage(
       pw.MultiPage(
@@ -235,7 +263,9 @@ class PdfExporter {
             margin: const pw.EdgeInsets.only(bottom: 12),
             padding: const pw.EdgeInsets.only(bottom: 6),
             decoration: const pw.BoxDecoration(
-              border: pw.Border(bottom: pw.BorderSide(color: _rule, width: 0.6)),
+              border: pw.Border(
+                bottom: pw.BorderSide(color: _rule, width: 0.6),
+              ),
             ),
             child: pw.Row(
               children: [
@@ -256,7 +286,11 @@ class PdfExporter {
             children: [
               text('规则在本机运行，正文没有上传，也没有保存到磁盘。', size: 8, color: _faint),
               pw.Spacer(),
-              text('${context.pageNumber} / ${context.pagesCount}', size: 8, color: _faint),
+              text(
+                '${context.pageNumber} / ${context.pagesCount}',
+                size: 8,
+                color: _faint,
+              ),
             ],
           ),
         ),
@@ -298,22 +332,36 @@ class PdfExporter {
             padding: const pw.EdgeInsets.fromLTRB(10, 9, 12, 10),
             decoration: pw.BoxDecoration(
               border: pw.Border(
-                left: pw.BorderSide(color: _color(analysis.topVerdict), width: 3),
+                left: pw.BorderSide(
+                  color: _color(analysis.topVerdict),
+                  width: 3,
+                ),
               ),
             ),
             child: text(analysis.oneLiner, size: 13, color: _ink, height: 1.55),
           ),
           if (analysis.packLabels.isNotEmpty) ...[
             pw.SizedBox(height: 6),
-            text('应用规则：${analysis.packLabels.join(' / ')}', size: 8.5, color: _muted),
+            text(
+              '应用规则：${analysis.packLabels.join(' / ')}',
+              size: 8.5,
+              color: _muted,
+            ),
           ],
           if (ocrUsed) ...[
             pw.SizedBox(height: 6),
             pw.Container(
               width: double.infinity,
-              padding: const pw.EdgeInsets.symmetric(horizontal: 8, vertical: 6),
+              padding: const pw.EdgeInsets.symmetric(
+                horizontal: 8,
+                vertical: 6,
+              ),
               color: _verdictSoft[Verdict.yellow],
-              child: text('正文来自本机 OCR。请对照原件核对金额、日期和条款编号。', size: 9, color: _ink2),
+              child: text(
+                '正文来自本机 OCR。请对照原件核对金额、日期和条款编号。',
+                size: 9,
+                color: _ink2,
+              ),
             ),
           ],
           pw.SizedBox(height: 12),
@@ -338,7 +386,11 @@ class PdfExporter {
               child: pw.Column(
                 crossAxisAlignment: pw.CrossAxisAlignment.start,
                 children: [
-                  text('还要确认 ${analysis.pending.length} 件事', size: 12, color: _ink),
+                  text(
+                    '还要确认 ${analysis.pending.length} 件事',
+                    size: 12,
+                    color: _ink,
+                  ),
                   pw.SizedBox(height: 6),
                   for (var i = 0; i < analysis.pending.length; i++)
                     pw.Padding(
@@ -351,7 +403,11 @@ class PdfExporter {
                             child: text('${i + 1}', size: 9.5, color: _faint),
                           ),
                           pw.Expanded(
-                            child: text(analysis.pending[i], size: 10, color: _ink2),
+                            child: text(
+                              analysis.pending[i],
+                              size: 10,
+                              color: _ink2,
+                            ),
                           ),
                         ],
                       ),
@@ -376,7 +432,17 @@ class PdfExporter {
                   height: 1.7,
                 ),
                 pw.SizedBox(height: 4),
-                text('规则 ${analysis.items.length} 条判定 · 规则库 20 类 · 红笔 · 签约前 5 分钟', size: 8, color: _faint),
+                text(
+                  '规则 ${analysis.items.length} 条判定 · 规则库 ${ruleLibrary.length} 类（$ruleLibraryVersion 快照） · 红笔 · 签约前 5 分钟',
+                  size: 8,
+                  color: _faint,
+                ),
+                pw.SizedBox(height: 2),
+                text(
+                  '法源核对 $lawCheckedAt · 原文以国家法律法规数据库为准：$lawOfficialUrl',
+                  size: 8,
+                  color: _faint,
+                ),
               ],
             ),
           ),
@@ -388,11 +454,11 @@ class PdfExporter {
   }
 
   static String _consequenceLabel(Verdict verdict) => switch (verdict) {
-        Verdict.red => '最坏会发生',
-        Verdict.yellow => '可能吃亏',
-        Verdict.gray => '需要确认',
-        Verdict.green => '规则核对',
-      };
+    Verdict.red => '最坏会发生',
+    Verdict.yellow => '可能吃亏',
+    Verdict.gray => '需要确认',
+    Verdict.green => '规则核对',
+  };
 
   /// Line breaker for Chinese text: every CJK character can start a new line,
   /// but closing punctuation sticks to the character before it and opening

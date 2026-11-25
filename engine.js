@@ -48,7 +48,7 @@ const LAW = {
   LADY5:{law:'《女职工劳动保护特别规定》',article:'第五条',text:'用人单位不得因女职工怀孕、生育、哺乳降低其工资、予以辞退、与其解除劳动或者聘用合同。'},
   AD24:{law:'《中华人民共和国广告法》',article:'第二十四条',text:'教育、培训广告不得含有下列内容：（一）对升学、通过考试、获得学位学历或者合格证书，或者对教育、培训的效果作出明示或者暗示的保证性承诺；（二）明示或者暗示有相关考试机构或者其工作人员、考试命题人员参与教育、培训；（三）利用科研单位、学术机构、教育机构、行业协会、专业人士、受益者的名义或者形象作推荐、证明。'},
   C20:{law:'《中华人民共和国消费者权益保护法》',article:'第二十条',text:'经营者向消费者提供有关商品或者服务的质量、性能、用途、有效期限等信息，应当真实、全面，不得作虚假或者引人误解的宣传。'},
-  R10:{law:'《职业学校学生实习管理规定》',article:'需核对',text:'该规定要求实习单位为学生投保实习责任保险；具体条文序号需核对原文。'},
+  R10:{law:'《职业学校学生实习管理规定》',article:'第十五条、第十七条、第十八条、第二十条',text:'条文摘要：实习单位应当为实习学生投保实习责任保险；不得通过中介机构或者有偿代理组织、安排和管理学生实习；不得安排学生从事高空、井下、放射性、易燃易爆等危险性作业；具体条文以教育部等部门公布的原文为准。'},
   L14:{law:'《中华人民共和国劳动合同法》',article:'第十四条',text:'有下列情形之一，劳动者提出或者同意续订、订立劳动合同的，除劳动者提出订立固定期限劳动合同外，应当订立无固定期限劳动合同：（一）劳动者在该用人单位连续工作满十年的；（二）用人单位初次实行劳动合同制度或者国有企业改制重新订立劳动合同时，劳动者在该用人单位连续工作满十年且距法定退休年龄不足十年的；（三）连续订立二次固定期限劳动合同，且劳动者没有本法第三十九条和第四十条第一项、第二项规定的情形，续订劳动合同的。用人单位自用工之日起满一年不与劳动者订立书面劳动合同的，视为用人单位与劳动者已订立无固定期限劳动合同。'},
   L39:{law:'《中华人民共和国劳动法》',article:'第三十九条',text:'企业因生产特点不能实行本法第三十六条、第三十八条规定的，经劳动行政部门批准，可以实行其他工作和休息办法。'},
   SPWORK:{law:'《关于企业实行不定时工作制和综合计算工时工作制的审批办法》',article:'第四条、第五条、第七条',text:'企业实行不定时工作制或综合计算工时工作制，应符合规定条件并经劳动行政部门审批。具体条文以最新有效文本为准。'},
@@ -65,6 +65,7 @@ const LAW = {
   LADY7:{law:'《女职工劳动保护特别规定》',article:'第七条',text:'女职工生育享受98天产假，其中产前可以休假15天；难产的，增加产假15天；生育多胞胎的，每多生育1个婴儿，增加产假15天。女职工怀孕未满4个月流产的，享受15天产假；怀孕满4个月流产的，享受42天产假。'},
   LADY9:{law:'《女职工劳动保护特别规定》',article:'第九条',text:'对哺乳未满1周岁婴儿的女职工，用人单位不得延长劳动时间或者安排夜班劳动。用人单位应当在每天的劳动时间内为哺乳期女职工安排1小时哺乳时间；女职工生育多胞胎的，每多哺乳1个婴儿每天增加1小时哺乳时间。'},
   GSW17:{law:'《工伤保险条例》',article:'第十七条',text:'职工发生事故伤害或者按照职业病防治法规定被诊断、鉴定为职业病，所在单位应当自事故伤害发生之日或者被诊断、鉴定为职业病之日起30日内，向统筹地区社会保险行政部门提出工伤认定申请。遇有特殊情况，经报社会保险行政部门同意，申请时限可以适当延长。用人单位未按前款规定提出工伤认定申请的，工伤职工或者其近亲属、工会组织在事故伤害发生之日或者被诊断、鉴定为职业病之日起1年内，可以直接向用人单位所在地统筹地区社会保险行政部门提出工伤认定申请。'},
+  GSW33:{law:'《工伤保险条例》',article:'第三十三条',text:'职工因工作遭受事故伤害或者患职业病需要暂停工作接受工伤医疗的，在停工留薪期内，原工资福利待遇不变，由所在单位按月支付。停工留薪期一般不超过12个月。伤情严重或者情况特殊，经设区的市级劳动能力鉴定委员会确认，可以适当延长，但延长不得超过12个月。'},
   GSW62:{law:'《工伤保险条例》',article:'第六十二条',text:'依照本条例规定应当参加工伤保险而未参加工伤保险的用人单位职工发生工伤的，由该用人单位按照本条例规定的工伤保险待遇项目和标准支付费用。'},
   SI41:{law:'《中华人民共和国社会保险法》',article:'第四十一条',text:'职工所在用人单位未依法缴纳工伤保险费，发生工伤事故的，由用人单位支付工伤保险待遇。用人单位不支付的，从工伤保险基金中先行支付。从工伤保险基金中先行支付的工伤保险待遇应当由用人单位偿还。用人单位不偿还的，社会保险经办机构可以依照本法第六十三条的规定追偿。'},
   PI6:{law:'《中华人民共和国个人信息保护法》',article:'第六条',text:'处理个人信息应当具有明确、合理的目的，并应当与处理目的直接相关，采取对个人权益影响最小的方式。收集个人信息，应当限于实现处理目的的最小范围，不得过度收集个人信息。'},
@@ -97,6 +98,48 @@ const LAW = {
   PI30:{law:'《中华人民共和国个人信息保护法》',article:'第三十条',text:'个人信息处理者处理敏感个人信息的，除本法第十七条第一款规定的事项外，还应当向个人告知处理敏感个人信息的必要性以及对个人权益的影响。'},
   FACE10:{law:'《人脸识别技术应用安全管理办法》',article:'第十条',text:'实现相同目的或者达到同等业务要求，存在其他非人脸识别技术方式的，不得将人脸识别技术作为唯一验证方式。个人不同意通过人脸信息进行身份验证的，应当提供其他合理、便捷的方式。'}
 };
+
+// 法源元数据：统一核对日期 + 官方数据库入口 + 已核实的文号。
+// 不联网核对，只提供可追溯的静态出处；未列入的法规仍指向官方数据库检索页。
+const LAW_CHECKED_AT = '2026-11-25';
+const LAW_OFFICIAL_DB = 'https://flk.npc.gov.cn/';
+const LAW_DOC_NO = {
+  '《中华人民共和国劳动合同法》':'主席令第六十五号',
+  '《中华人民共和国劳动法》':'主席令第二十八号',
+  '《中华人民共和国社会保险法》':'主席令第三十五号',
+  '《中华人民共和国民法典》':'主席令第四十五号',
+  '《中华人民共和国个人信息保护法》':'主席令第九十一号',
+  '《中华人民共和国消费者权益保护法》':'主席令第七号',
+  '《中华人民共和国广告法》':'主席令第二十二号',
+  '《中华人民共和国电子签名法》':'主席令第十八号',
+  '《中华人民共和国劳动争议调解仲裁法》':'主席令第八十号',
+  '《中华人民共和国民事诉讼法》':'主席令第十一号',
+  '《住房公积金管理条例》':'国务院令第350号',
+  '《工伤保险条例》':'国务院令第586号',
+  '《职工带薪年休假条例》':'国务院令第514号',
+  '《女职工劳动保护特别规定》':'国务院令第619号',
+  '《工资支付暂行规定》':'劳部发〔1994〕489号',
+  '《职业学校学生实习管理规定》':'教职成〔2021〕4号',
+  '《关于企业实行不定时工作制和综合计算工时工作制的审批办法》':'劳部发〔1994〕503号',
+  '《个人贷款业务明示综合融资成本规定》':'金规〔2026〕2号',
+  '《最高人民法院关于审理民间借贷案件适用法律若干问题的规定》':'法释〔2020〕17号',
+  '《最高人民法院关于适用〈中华人民共和国民法典〉合同编通则若干问题的解释》':'法释〔2023〕13号',
+  '《中华人民共和国消费者权益保护法实施条例》':'国务院令第778号',
+  '中国人民银行公告〔2021〕第3号':'中国人民银行公告〔2021〕第3号'
+};
+const LAW_EFFECTIVE = {
+  '《个人贷款业务明示综合融资成本规定》':'2026-08-01',
+  '《最高人民法院关于审理预付式消费民事纠纷案件适用法律若干问题的解释》':'2025-05-01',
+  '《中华人民共和国消费者权益保护法实施条例》':'2024-07-01',
+  '《人脸识别技术应用安全管理办法》':'2025-06-01'
+};
+Object.keys(LAW).forEach(key => {
+  const item = LAW[key];
+  item.checkedAt = LAW_CHECKED_AT;
+  item.url = LAW_OFFICIAL_DB;
+  item.docNo = LAW_DOC_NO[item.law] || '';
+  item.effectiveAt = LAW_EFFECTIVE[item.law] || '';
+});
 
 const RULE_LIBRARY = [
   {id:'R1',name:'试用期期限',cite:'《劳动合同法》第十九条',gist:'3 个月–1 年最多 1 个月，1–3 年最多 2 个月，3 年以上最多 6 个月；同一单位只能约定一次。'},
@@ -250,13 +293,69 @@ const SAMPLES = [
 
 第四条 单位解除
 甲方因自身原因解除本协议的，不承担违约责任，无需赔偿乙方。`
+  },
+  {
+    id:'normal',
+    type:'劳动合同',
+    name:'正常劳动合同（对照）',
+    sub:'试用期工资达标 · 无离职违约金 · 社保齐全',
+    text:`劳动合同书
+
+甲方（用人单位）：杭州示例科技有限公司
+乙方（劳动者）：李宁
+
+第一条 合同期限
+本合同为固定期限劳动合同，合同期限自 2026 年 1 月 1 日起至 2028 年 12 月 31 日止，试用期 2 个月。
+
+第二条 工作内容与地点
+乙方担任产品助理岗位，工作地点为杭州市西湖区。
+
+第三条 工作时间
+甲方实行标准工时制，乙方每日工作 8 小时，每周工作 40 小时，依法安排休息休假。
+
+第四条 劳动报酬
+乙方试用期工资为每月 6400 元，转正后工资为每月 8000 元，甲方于每月 10 日前以银行转账方式支付上月工资。
+
+第五条 社会保险
+甲方依法为乙方缴纳社会保险，乙方个人应缴部分由甲方代扣代缴。
+
+第六条 劳动保护
+甲方提供必要的劳动保护用品和职业危害防护。
+
+第七条 合同解除
+乙方提前 30 日书面通知甲方，可以解除劳动合同；试用期内提前 3 日通知。`
   }
 ];
 
 const VERDICT_ORDER = {red:0,yellow:1,gray:2,green:3};
 const VERDICT_LABEL = {red:'红线',yellow:'黄线',gray:'灰线',green:'绿线'};
-const DOC_LABEL = {labor:'劳动合同',intern:'实习协议','three-party':'三方协议',loan:'培训贷',probation:'试用期条款'};
-const PACK_LABEL = {labor:'劳动合同', probation:'试用期', intern:'实习协议','three-party':'三方协议', loan:'培训贷'};
+const DOC_LABEL = {labor:'劳动合同',intern:'实习协议','three-party':'三方协议',loan:'培训贷',prepay:'预付课程',probation:'试用期条款'};
+const PACK_LABEL = {labor:'劳动合同', probation:'试用期', intern:'实习协议','three-party':'三方协议', loan:'培训贷', prepay:'预付课程'};
+// 规则包 → 实际执行的规则 ID。覆盖口径由这张表生成，避免页面/导出各写一套数字。
+const PACK_RULES = {
+  probation:['R1','R2','R3'],
+  labor:['R4','R5','R6','R7','R11','R12','R13','R14','R15','R16','R17','R18','R19','R21','R22','R23','R24','R25','R26','R27','R28','R29','R30'],
+  intern:['R10','R27','R29','R30'],
+  loan:['R9','R20','R31','R32','R33','R34','R35','R36'],
+  prepay:['R33','R34','R35','R36'],
+  'three-party':['R8','R29','R30']
+};
+function buildCoverage(packs){
+  const applied = new Set();
+  (packs || []).forEach(p => (PACK_RULES[p] || []).forEach(id => applied.add(id)));
+  const appliedRules = RULE_LIBRARY.filter(r => applied.has(r.id));
+  const uncoveredRules = RULE_LIBRARY.filter(r => !applied.has(r.id));
+  return {
+    libraryCount:RULE_LIBRARY.length,
+    appliedCount:appliedRules.length,
+    appliedIds:appliedRules.map(r => r.id),
+    appliedNames:appliedRules.map(r => r.name),
+    uncoveredCount:uncoveredRules.length,
+    uncoveredIds:uncoveredRules.map(r => r.id),
+    uncoveredNames:uncoveredRules.map(r => r.name),
+    labels:(packs || []).map(k => PACK_LABEL[k]).filter(Boolean)
+  };
+}
 
 function esc(s){
   return String(s == null ? '' : s).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
@@ -613,7 +712,7 @@ function clauseLabel(clause,fallbackIndex){
 function detectDocType(text){
   const t = String(text || '');
   const firstLines = t.split('\n').map(s => s.trim()).filter(Boolean).slice(0,5).join('\n');
-  const score = {labor:0,intern:0,'three-party':0,loan:0};
+  const score = {labor:0,intern:0,'three-party':0,loan:0,prepay:0};
   const add = (key,n) => { score[key] += n; };
 
   if(/(毕业生就业协议|三方协议|三方协议书|就业协议书)/.test(firstLines)) add('three-party',9);
@@ -623,6 +722,8 @@ function detectDocType(text){
   else if(/实习/.test(firstLines) && /(协议|合同)/.test(firstLines)) add('intern',4);
   if(/(培训贷|教育分期|分期贷款|助学贷款|培训分期|学费分期)/.test(firstLines)) add('loan',7);
   else if(/(培训|教育|课程|学员|学费)/.test(firstLines) && /(分期|贷款|还款|月供|服务费|利息)/.test(firstLines)) add('loan',3);
+  if(/(课程服务协议|课程购买协议|培训服务协议|培训合同|课程合同|预付式|课时服务|课程订单)/.test(firstLines)) add('prepay',8);
+  else if(/(课程|课时|学员|学费|课程费|培训班)/.test(firstLines) && /(退费|退款|不退|开课|上课|课时|迁址|转班)/.test(firstLines)) add('prepay',5);
 
   if(/(三方协议|三方协议书|毕业生就业协议|就业协议书)/.test(t)) add('three-party',4);
   if(/毕业生/.test(t) && /(学校|用人单位)/.test(t)) add('three-party',3);
@@ -634,6 +735,8 @@ function detectDocType(text){
   if(/(分期|贷款|放款|还款|月供|平台服务费)/.test(t)) add('loan',3);
   if(/(培训费|课程|学员|培训机构|教育科技|学费)/.test(t)) add('loan',3);
   if(/(贷款|借款|分期)[^。；\n]{0,20}(协议|合同)/.test(t)) add('loan',2);
+  if(/(课程|课时|培训班|学员|学费|课程费)/.test(t) && /(退费|退款|不退|不予退还|开课|上课|课时|转班|迁址)/.test(t)) add('prepay',4);
+  if(/(预付|预收|预交|一次性(?:支付|收取|付款))/.test(t) && /(课程|课时|培训|学费|课程费)/.test(t)) add('prepay',3);
 
   if(/(不构成劳动关系|不属于劳动关系|实习关系)/.test(t)) add('labor',-2);
   if(/(劳务(协议|合同)|承揽合同)/.test(firstLines) && !/劳动合同/.test(firstLines)) score.labor = 0;
@@ -642,6 +745,10 @@ function detectDocType(text){
   const coreFinancing = /(培训贷|分期|贷款|放款|还款|月供|利息|征信)/.test(t);
   if(!coreFinancing) score.loan = 0;
   if(score.loan > 0 && !/(培训|教育|课程|学员|学费|技能)/.test(t)) score.loan = 0;
+  // 有分期/贷款/月供时优先按培训贷处理，避免把贷款合同误判成纯预付课程。
+  if(coreFinancing) score.prepay -= 4;
+  const prepayRefund = /(课程|课时|培训班|学员|学费|课程费)/.test(t) && /(退费|退款|不退|不予退还|开课|上课|课时|转班|迁址)/.test(t);
+  if(!prepayRefund) score.prepay = Math.min(score.prepay, 0);
 
   const ranked = Object.entries(score).sort((a,b) => b[1] - a[1]);
   const [best,bestScore] = ranked[0];
@@ -814,7 +921,7 @@ function partTimeInfo(text){
 function evidenceOf(c,re,role){
   if(!c) return null;
   const q = re ? (qFilter(c,re) || qAny(c,re)) : null;
-  const ev = {clauseIndex:c.index,start:q ? q.start : null,end:q ? q.end : null,role,quote:q ? q.quote : ''};
+  const ev = {clauseIndex:c.index,location:clauseLabel(c,c.index),start:q ? q.start : null,end:q ? q.end : null,role,quote:q ? q.quote : '',raw:q ? (q.raw || q.quote || '') : ''};
   return ev;
 }
 function paymentDirection(sentence){
@@ -1013,8 +1120,8 @@ function runR2(ctx){
   const globalReg = parseRegWage(ctx.text);
   const noPayRe = /(?:试用期[^。；\n]{0,20}(?:无薪|不发工资|无工资|不支付工资|零工资|工资(?:为|是)?\s*0\s*元)|(?:无薪|免费)[^。；\n]{0,8}试用)/;
   const entries = [];
-
-  probationClauses.forEach(c => {
+  // 第一遍只收集全文事实；第二遍再出卡。先收集才能判断“本条没写，但另一条已写”。
+  const facts = probationClauses.map(c => {
     const full = clauseFull(c);
     const probPayMatch = full.match(/试用期(?:工资|月薪|薪资|报酬)?\s*(?:为|按|是|不低于|：|:)?\s*(?:每月|月)?\s*(?:人民币)?\s*([\d,]+(?:\.\d+)?|[一二两三四五六七八九十百千万]+)\s*(?:元|千元|万元)/);
     const probPay = probPayMatch ? parseAmount(probPayMatch[0]) : null;
@@ -1041,7 +1148,15 @@ function runR2(ctx){
     const floorCents = regCents != null ? Math.round(regCents * 0.8) : null;
     const amountTooLow = probCents != null && floorCents != null && probCents < floorCents;
     const percentTooLow = probPercent != null && probPercent < 80;
+    return {clause:c, full, noPay, probPay, probPercent, percentIsFloor, reg, amountTooLow, percentTooLow, months, q, loc, floorCents, probCents, regCents};
+  });
+  const hasExplicitWage = facts.some(f => f.noPay || f.probPay != null || f.probPercent != null);
+
+  facts.forEach(f => {
+    const {clause:c, full, noPay, probPay, probPercent, percentIsFloor, reg, amountTooLow, percentTooLow, months, q, loc, floorCents, probCents, regCents} = f;
     entries.push({clause:c, noPay, probPay, probPercent, reg, amountTooLow, percentTooLow, months, q, loc, floorCents, probCents});
+    // 本条只约定试用期期限，工资已在另一条写明：由写明的那条单独出卡，不再误报“工资未明确”。
+    if(!noPay && probPay == null && probPercent == null && hasExplicitWage) return;
 
     if(noPay){
       addPatternItem(ctx,c,{
@@ -1469,9 +1584,11 @@ function runR6(ctx){
     if(personnelRisk){
       addItem(ctx,{
         base:'R6',ruleId:'R6',verdict:'gray',ruleName:'竞业限制人员适用待核对',
-        short:'未接触保密事项，条款可能不生效',clauseIndex:c.index,location:loc,
-        quote:qPerson ? qPerson.quote : (q ? q.quote : ''),range:qPerson || null,
-        consequence:`本条竞业限制 ${dText}${hasComp ? `，并约定补偿${compAmount ? '' : '（标准待核对）'}` : ''}。${personnelNote} 只知道岗位名称、没有接触证据时，先按待确认处理。`,
+        short:'未接触保密事项，条款可能不生效',
+        clauseIndex:personnelClause.index,location:clauseLabel(personnelClause,personnelClause.index),
+        quote:qPerson ? qPerson.quote : '',range:qPerson || null,
+        evidence:[evidenceOf(c,/(竞业限制|竞业|不竞争|经济补偿|补偿|不得从事)/,'竞业限制条款')],
+        consequence:`竞业限制条款约定 ${dText}${hasComp ? `，并约定补偿${compAmount ? '' : '（标准待核对）'}` : ''}。${personnelNote} 只知道岗位名称、没有接触证据时，先按待确认处理。`,
         ask:'HR：乙方实际接触了哪些商业秘密或保密事项？竞业范围如何与这些事项对应？',
         counter:'把竞业范围限定到实际接触的保密事项和具体竞品；不接触保密事项的人员不纳入竞业限制。',
         basis:LAW.JI2_13,confidence:'中',loss:0
@@ -1733,10 +1850,13 @@ function runR9(ctx){
         && /(?:甲方|丙方|丁方|贷款人|平台|培训机构|雇主|用人单位|公司)[^。；\n]{0,20}(?:自行|另行|直接)?(?:承担|负担|支付|缴纳)[^。；\n]{0,24}(?:保险费|服务费|管理费|手续费|费用)/.test(seg);
       if(thirdPartyPays) continue;
       let freq = 'unknown';
+      const negIncluded = /(?:未|不)(?:包含|含)在[^。；\n]{0,16}(?:每期|每月|还款|月供)/.test(seg);
       if(/(?:一次性|一次收取|一次付清|只收一次|单次)/.test(seg)) freq = 'once';
-      else if(/(?:已含|已包含|包含在|含在|已包括|纳入)/.test(seg)) freq = 'included';
+      else if(!negIncluded && /(?:已含|已包含|包含在|含在|已包括|纳入)/.test(seg)) freq = 'included';
       else if(/每期[^。；\n]{0,16}(?:收取|另收|另付|服务费|手续费|管理费)/.test(seg)
-        || /(?:每期|每月)[^。；\n]{0,14}(?:另收|另行|另外|额外|收取)/.test(seg)) freq = 'period';
+        || /(?:每期|每月)[^。；\n]{0,14}(?:另收|另行|另外|额外|收取)/.test(seg)
+        || /每期\s*[¥￥]?\s*[\d,]+(?:\.\d+)?\s*(?:万元|万|千元|千|元)/.test(seg)
+        || /(?:月付|月缴|按月(?:支付|缴纳|收取))[^。；\n]{0,12}[\d,]+(?:\.\d+)?\s*(?:万元|万|千元|千|元)/.test(seg)) freq = 'period';
       out.push({name:fm[1],amount:parseAmount(am[0]),freq});
     }
     return out;
@@ -1861,24 +1981,32 @@ function runR9(ctx){
       || full.match(/([\d,]+(?:\.\d+)?)\s*元[^。；\n]{0,10}(?:固定违约金|违约金)/);
     const fixedAmount = fixedM ? parseAmount(fixedM[0]) : null;
     const allPrincipal = /(?:全部|全额)[^。；\n]{0,8}(?:尚欠|未还|剩余)本金|(?:尚欠|未还|剩余)本金[^。；\n]{0,10}(?:全部|全额)|按全部尚欠本金/.test(full);
+    const annualized = rate != null && (daily || monthly) ? (daily ? rate * 365 : rate * 12) : null;
     if(rate != null){
-      let cons = `逾期${daily ? '一天' : ''}加收未还金额的 ${rate}%${daily ? `，30 天就是 ${+(rate*30).toFixed(2)}%` : ''}`;
+      let cons = `逾期${daily ? '一天' : monthly ? '一个月' : ''}加收未还金额的 ${rate}%`;
+      if(annualized != null){
+        if(daily) cons += `，30 天就是 ${+(rate * 30).toFixed(2)}%`;
+        cons += `，按单利折算年化约 ${annualized >= 100 ? annualized.toFixed(0) : annualized.toFixed(1)}%`;
+      }else{
+        cons += '，合同没有写清计息周期，无法折算年化';
+      }
       if(fixedAmount != null) cons += `；合同还约定每次另收固定违约金 ${fmtYuan(fixedAmount)} 元，且与罚息同时计算`;
       if(allPrincipal) cons += '；即使只迟付一期，也按全部尚欠本金计提，实际金额会高于仅按逾期当期计算';
-      cons += '。高额逾期费用可请求调减，但催收和征信影响会先发生。';
+      cons += '。以上年化只是按合同数字折算，不是司法保护上限；民法典第五百八十五条和合同编通则解释第六十五条是违约金调减规则，不是罚息法定标准。';
+      if(licensedClaim) cons += ' 合同自称持牌机构，逾期成本还要按综合融资成本明示表核对。';
       addItem(ctx,{
         base:'R9',ruleId:'R9',verdict:'yellow',ruleName:'逾期违约金过高',
-        short:`逾期${daily ? '日息' : monthly ? '月' : ''} ${rate}%${fixedAmount != null ? `+${fmtYuan(fixedAmount)}元` : ''}`,clauseIndex:cP.index,location:clauseLabel(cP,cP.index),
+        short:`逾期${daily ? '日息' : monthly ? '月' : ''} ${rate}%${annualized != null ? ` ≈ 年化 ${annualized >= 100 ? annualized.toFixed(0) : annualized.toFixed(1)}%` : ''}${fixedAmount != null ? `+${fmtYuan(fixedAmount)}元` : ''}`,clauseIndex:cP.index,location:clauseLabel(cP,cP.index),
         quote:q ? q.quote : '',range:q||null,consequence:cons,
-        ask:`机构：逾期违约金为什么按${daily ? '日 ' : ''}${rate}% 计？${fixedAmount != null ? `固定 ${fmtYuan(fixedAmount)} 元与罚息为何叠加？` : ''}计提基础是全部尚欠本金还是逾期当期？`,counter:licensedClaim ? '按明示综合融资成本规则核算逾期成本，列明计费基数和封顶，并说明与持牌机构规则的对应关系。' : '改为不超过依法保护范围折算的逾期利率，删除开口或重复计费的条款。',
+        ask:`机构：逾期违约金为什么按${daily ? '日 ' : ''}${rate}% 计？折算年化是多少？${fixedAmount != null ? `固定 ${fmtYuan(fixedAmount)} 元与罚息为何叠加？` : ''}计提基础是全部尚欠本金还是逾期当期？`,counter:licensedClaim ? '按明示综合融资成本规则核算逾期成本，列明计费基数、年化和封顶，并说明与持牌机构规则的对应关系。' : '列明计费基数、折算年化和封顶；不要把第五百八十五条的调减规则当作罚息上限。',
         basis:LAW.C585,confidence:'高',loss:0
       });
     }else{
       addItem(ctx,{
         base:'R9',ruleId:'R9',verdict:'gray',ruleName:'逾期费用未写上限',
         short:'逾期费用没写清',clauseIndex:cP.index,location:clauseLabel(cP,cP.index),
-        quote:q ? q.quote : '',range:q||null,consequence:`写了逾期要收费${fixedAmount != null ? `，每次固定 ${fmtYuan(fixedAmount)} 元` : ''}，但没有写清比例或上限；一旦晚还，费用可能越滚越大，必须在签约前问明。`,
-        ask:'机构：逾期一天收多少？有没有封顶？',counter:'写明逾期利率和上限，且不超过司法保护范围。',
+        quote:q ? q.quote : '',range:q||null,consequence:`写了逾期要收费${fixedAmount != null ? `，每次固定 ${fmtYuan(fixedAmount)} 元` : ''}，但没有写清比例、计息周期或上限，无法折算年化；一旦晚还，费用可能越滚越大，必须在签约前问明。`,
+        ask:'机构：逾期一天收多少？折算年化是多少？有没有封顶？',counter:'写明逾期利率、计息基数、年化和上限；不要把调减规则当作罚息标准。',
         basis:LAW.C585,confidence:'中',loss:0
       });
     }
@@ -1892,7 +2020,7 @@ function runR9(ctx){
       short:'开课后不退费',clauseIndex:cR.index,location:clauseLabel(cR,cR.index),
       quote:q ? q.quote : '',range:q||null,consequence:`开课后不退费${/一次性结清/.test(cR.body) ? '，退学还要一次性结清剩余分期' : ''}；这类格式条款是否有效要看培训实际履行情况，退不成时先固定课时与服务证据。`,
       ask:'机构：开课前、开课后分别怎么退？剩余分期能否停止？',counter:'写明按已上课时比例退费；退学后未发生的贷款停止计息。',
-      basis:LAW.C497,confidence:'中',loss:0
+      basis:LAW.PREPAY9,confidence:'中',loss:0
     });
   });
   const refundFeeRe = /(?:退费|退款)[^。；\n]{0,24}(?:扣除|扣收|收取)[^。；\n]{0,14}(?:手续费|违约金|服务费|管理费)|(?:扣除|扣收)[^。；\n]{0,14}(?:手续费|违约金)[^。；\n]{0,20}(?:退费|退款|退还)/;
@@ -1904,7 +2032,7 @@ function runR9(ctx){
       short:'退费要扣手续费',clauseIndex:cR.index,location:clauseLabel(cR,cR.index),
       quote:q.quote,range:q,consequence:'退费要扣手续费或违约金，但扣多少、对应什么成本没写清；真退学时可能先扣一笔，再让你继续还剩余分期。',
       ask:'机构：退费手续费按什么比例？对应哪些已发生成本？',counter:'按已上课时和已发生费用结算，未发生的学费与分期应停止。',
-      basis:LAW.C497,confidence:'中',loss:0
+      basis:LAW.PREPAY15,confidence:'中',loss:0
     });
   });
   const upfrontRe = /(砍头息|前置利息|预先扣除[^。；\n]{0,10}(?:服务费|利息|手续费)|先扣[^。；\n]{0,10}(?:服务费|利息|手续费))/;
@@ -2158,7 +2286,9 @@ function runR12(ctx){
     const isTrial = /试用期/.test(clauseFull(c));
     let found = null;
     let trialFound = null;
-    sentenceList(c.body || '').forEach(s => {
+    const noticeSentences = sentenceList(c.body || '');
+    const hasTrialSentence = noticeSentences.some(s => /试用期/.test(s.quote));
+    noticeSentences.forEach(s => {
       const re = /提前\s*([一二两三四五六七八九十百零〇\d]{1,4})\s*(个?工作日|个?自然日|个?日历日|日|天|个月|月|周|星期)/g;
       let m;
       while((m = re.exec(s.quote))){
@@ -2172,8 +2302,12 @@ function runR12(ctx){
         if(subject === 'employer') continue;
         if(subject === 'unknown' && !employeeLeaningRe.test(s.quote)) continue;
         const candidate = {days, quote:clipQuote(s.quote, m.index, m.index + m[0].length), raw:s.quote, start:s.start, end:s.end};
-        if(isTrial && days > 3 && days <= 30 && (!trialFound || days > trialFound.days)) trialFound = candidate;
-        if(days > 30 && (!found || days > found.days)) found = candidate;
+        // 同一句里可能同时写“提前 30 日”和“试用期提前 3 日”；
+        // 只有匹配位置在“试用期”之后，才按试用期通知期判断。
+        const trialAt = s.quote.indexOf('试用期');
+        const matchTrial = trialAt >= 0 ? m.index >= trialAt : (isTrial && !hasTrialSentence);
+        if(matchTrial && days > 3 && days <= 30 && (!trialFound || days > trialFound.days)) trialFound = candidate;
+        if(!matchTrial && days > 30 && (!found || days > found.days)) found = candidate;
       }
     });
     if(found){
@@ -2754,6 +2888,18 @@ function runR21(ctx){
     {label:'劳动保护、劳动条件和职业危害防护', re:/(劳动保护|劳动条件|职业危害|安全生产)/}
   ];
   const scope = ctx.scope || 'unknown';
+  if(scope === 'excerpt'){
+    addItem(ctx,{
+      base:'R21',ruleId:'R21',verdict:'gray',ruleName:'仅条款摘录，未做全文缺项检查',
+      short:'只核对已出现条款',clauseIndex:null,location:'全文',
+      quote:'',range:null,
+      consequence:'当前只审阅条款摘录，不做全文必备条款缺项检查；以下结论只针对已出现的条款，不能据此判断整份合同缺哪些条款。',
+      ask:'如果这是整份合同，能否提供全文或未截断的 PDF？',
+      counter:'确认全文范围后再做必备条款检查；摘录阶段只核对具体条款内容。',
+      basis:LAW.L17,confidence:'中',loss:0
+    });
+    return;
+  }
   if(scope !== 'full'){
     addItem(ctx,{
       base:'R21',ruleId:'R21',verdict:'gray',ruleName:'审阅范围未确认',
@@ -2776,9 +2922,9 @@ function runR21(ctx){
   const blankTemplate = blankCount >= 3 && filled.filter(x => x.present).length <= 1;
   if(!missing.length){
     addItem(ctx,{
-      base:'R21',ruleId:'R21',verdict:'green',ruleName:'必备条款齐全',short:'八项条款均有填写',
+      base:'R21',ruleId:'R21',verdict:'green',ruleName:'必备条款均已填写',short:'八项均有填写（仅文本可见）',
       clauseIndex:null,location:'全文',quote:'',range:null,
-      consequence:'在已提供的全文里，八项法定必备条款位置都有非空内容；这只说明文本可见，不保证每项约定本身合法，也不替代逐条核对。',basis:LAW.L17,ask:'',counter:'',confidence:'中',loss:0
+      consequence:'在已提供的全文里，八项法定必备条款位置都有非空内容；这只说明这些项目已填写，不代表条款齐全、合法或对等，也不替代逐条核对。',basis:LAW.L17,ask:'',counter:'',confidence:'中',loss:0
     });
     return;
   }
@@ -3038,7 +3184,7 @@ function runR26(ctx){
       base:'R26',ruleId:'R26',verdict:'yellow',ruleName:'商业险替代工伤保险',
       short:'商业险代替工伤保险',consequence:'商业意外险不能替代工伤保险；未参保时，工伤待遇仍应由单位按条例支付。',
       ask:'HR：除了商业意外险，公司是否缴纳工伤保险？',counter:'依法参加工伤保险；商业险只能作为补充。',
-      basis:LAW.GSW17,confidence:'中',loss:0
+      basis:LAW.GSW62,confidence:'中',loss:0
     },commercialRe);
     return;
   }
@@ -3048,7 +3194,7 @@ function runR26(ctx){
       base:'R26',ruleId:'R26',verdict:'yellow',ruleName:'工伤期间按病假处理',
       short:'工伤按病假处理',consequence:'工伤停工留薪期内原工资福利待遇不变，不能按病假或事假处理。',
       ask:'HR：工伤停工留薪期的工资按什么标准发？',counter:'按原工资福利待遇支付，医疗费按工伤保险规定处理。',
-      basis:LAW.GSW17,confidence:'中',loss:0
+      basis:LAW.GSW33,confidence:'中',loss:0
     },sickRe);
     return;
   }
@@ -3268,7 +3414,8 @@ function contractDateKey(text){
 }
 
 /* 消费培训与分期：预付退款、单方变更、免责、维权和隐私 */
-function runLoanConsumer(ctx){
+function runLoanConsumer(ctx, options){
+  const consumerOnly = !!(options && options.consumerOnly);
   const text = ctx.text || '';
   const consumerText = /(学员|消费者|课程|课时|直播课|录播|开课|上课|培训)/.test(text);
   const licensedClaim = /(持牌消费金融(?:机构|公司)?|消费金融(?:股份)?有限公司|消费金融公司)/.test(text);
@@ -3283,6 +3430,7 @@ function runLoanConsumer(ctx){
       ? '合同签署日期早于2026年8月1日，不能直接套用届时才施行的规定；如实际签约或放款发生在施行后，应按下列要求核对。'
       : '';
 
+  if(!consumerOnly){
   const c10 = ctx.clauses.find(cl => /(综合融资成本|明示表)/.test(clauseFull(cl)) && /(签署|签约|支付页|月供)/.test(clauseFull(cl)));
   if(c10){
     const t10 = clauseFull(c10);
@@ -3345,6 +3493,7 @@ function runLoanConsumer(ctx){
       ask:'机构：改价后如何通知我？我付款时在哪里能看到调整后的息费？',counter:'改为书面或可确认收悉的方式通知，并保证借款人在付款前能看到调整项目。',
       basis:LAW.IR26_4,confidence:'高',loss:0
     });
+  }
   }
 
   if(!consumerText) return;
@@ -4077,11 +4226,48 @@ function runLoanConsumer(ctx){
   }
 }
 
+// 纯预付课程合同：不依赖贷款词也能触发 R33 的通用退款审查。
+function runPrepayFallback(ctx){
+  if(ctx.items.some(it => it.ruleId === 'R33')) return;
+  const pay = ctx.clauses.find(cl => {
+    const t = clauseFull(cl);
+    return /(预付|预收|预交|课程费|学费|培训费|课程款|一次性(?:支付|收取|付款))/.test(t) && parseAmount(cl.body);
+  });
+  const refuse = ctx.clauses.find(cl => /(不退|不予退还|概不退还|不予退款|不退费|不得退款|费用不予退还)/.test(clauseFull(cl)));
+  if(!pay && !refuse) return;
+  if(refuse){
+    const amount = pay ? (maxAmountAfter(clauseFull(pay), /(预付|预收|预交|课程费|学费|培训费|课程款|一次性(?:支付|收取|付款))/) || parseAmount(pay.body)) : null;
+    const q = qAny(refuse, /(不退|不予退还|概不退还|不予退款|不退费|不得退款|费用不予退还)/)
+      || (pay ? qAny(pay, /(预付|预收|预交|学费|课程费|培训费)/) : null);
+    addItem(ctx,{
+      base:'R33',ruleId:'R33',verdict:'red',ruleName:'预付课程拒绝退款',
+      short:amount ? `${fmtWan(amount)}预付款不退` : '预付款不退',clauseIndex:refuse.index,location:clauseLabel(refuse,refuse.index),
+      quote:q ? q.quote : '',range:q||null,
+      evidence:pay && pay.index !== refuse.index ? [evidenceOf(pay,/(预付|预收|预交|课程费|学费|培训费|课程款)/,'预付款条款')] : [],
+      consequence:`合同约定${amount ? `预付的 ${fmtYuan(amount)} 元` : '已付费用'}不退或不予退还。预付式消费中，以格式条款排除或者限制消费者解除合同、请求返还预付款等权利的，可能被认定无效；付款后七日内还可能适用预付款本金返还规则（存在法定例外）。`,
+      ask:'机构：不开课、停课、迁址或者我七日内提出解除时，预付款怎么退？为什么约定一律不退？',
+      counter:'删除一律不退；写明解除条件、退款比例和办理时限，未消费部分按约定或法定规则返还。',
+      basis:LAW.PREPAY9,confidence:'高',loss:amount || 0
+    });
+    return;
+  }
+  addItem(ctx,{
+    base:'R33',ruleId:'R33',verdict:'gray',ruleName:'预付课程未约定退款',
+    short:'预付款怎么退没写',clauseIndex:pay.index,location:clauseLabel(pay,pay.index),
+    quote:(qAny(pay,/(预付|预收|预交|课程费|学费|培训费|课程款)/) || {}).quote || '',
+    range:qAny(pay,/(预付|预收|预交|课程费|学费|培训费|课程款)/)||null,
+    consequence:'合同写了预付课程费用，但没有约定解除、退费和未消费课时的处理方式；真停课或想退时，退款比例和办理时限都无法核对。',
+    ask:'机构：停课、迁址、转班或者我提出解除时，未消费课时怎么退？多久到账？',
+    counter:'写明解除条件、未消费课时的折算方式和退款时限，并给出书面申请渠道。',
+    basis:LAW.PREPAY9,confidence:'中',loss:0
+  });
+}
+
 function buildPending(ctx){
   const items = ctx.items;
   const has = re => items.some(it => re.test(it.ruleName || '') || re.test(it.short || ''));
   const list = [];
-  const push = arr => (arr || []).forEach(p => { if(p && !list.includes(p) && list.length < 5) list.push(p); });
+  const push = arr => (arr || []).forEach(p => { if(p && !list.includes(p)) list.push(p); });
   const packs = ctx.packs && ctx.packs.length ? ctx.packs : [ctx.docType];
   packs.forEach(pack => {
     if(pack === 'labor'){
@@ -4115,10 +4301,10 @@ function buildPending(ctx){
     }
   });
   if(!list.length) push(['合同主体、金额、附件和口头承诺仍要人工核对']);
-  ctx.pending = list.slice(0,5);
+  ctx.pending = list;
 }
 
-function makeOneLiner(items,counts){
+function makeOneLiner(items,counts,coverage){
   const top = items.find(it => it.verdict !== 'green');
   let s;
   if(counts.red){
@@ -4127,10 +4313,18 @@ function makeOneLiner(items,counts){
     s = `没有红线，但有 ${counts.yellow} 处不利条款，最重的是「${top.short}」；能谈，别默认接受。`;
   }else if(counts.gray){
     s = `没有明显红线；${counts.gray} 件事要确认，先看「${top.short}」。`;
+  }else if(coverage && coverage.appliedCount){
+    const names = coverage.uncoveredNames.slice(0,4).join('、');
+    const more = coverage.uncoveredCount > 4 ? `等 ${coverage.uncoveredCount} 类` : '';
+    const lead = counts.green
+      ? `本次应用的 ${coverage.appliedCount} 类规则未发现红/黄/灰线`
+      : `本次只核对 ${coverage.appliedCount} 类规则（${coverage.labels.join(' / ')}）`;
+    s = `${lead}，未覆盖${names}${more}；没扫到 ≠ 没风险。`;
   }else{
-    s = `这 ${RULE_LIBRARY.length} 类规则没有扫到明显风险；金额、合同主体和附件仍要人工核对。`;
+    s = '本次没有可执行的规则包，未核对任何规则；没扫到 ≠ 没风险。';
   }
-  return s.length > 60 ? s.slice(0,58) + '…' : s;
+  const limit = top ? 60 : 110;
+  return s.length > limit ? s.slice(0,limit - 2) + '…' : s;
 }
 
 function firstLinesOf(text, n){
@@ -4163,12 +4357,20 @@ function hasThreePartySignals(text){
   if(/(三方协议|三方协议书|毕业生就业协议|就业协议书)/.test(head)) return true;
   return /毕业生/.test(head) && /学校/.test(t) && /用人单位/.test(t);
 }
+function hasPrepaySignals(text){
+  const t = String(text || '');
+  if(hasLoanSignals(t)) return false;
+  if(/劳动合同|劳动者|用人单位/.test(t) && /(工资|社会保险|试用期|解除|竞业限制|服务期)/.test(t)) return false;
+  return /(课程|课时|培训班|学员|学费|课程费)/.test(t)
+    && /(退费|退款|不退|不予退还|开课|上课|课时|转班|迁址|预付|预交|一次性支付)/.test(t);
+}
 function resolveRulePacks(text, primaryKey){
   const packs = [];
   const add = key => { if(key && key !== 'other' && !packs.includes(key)) packs.push(key); };
   if(primaryKey === 'labor') add('labor');
   else if(primaryKey === 'intern') add('intern');
   else if(primaryKey === 'loan') add('loan');
+  else if(primaryKey === 'prepay') add('prepay');
   else if(primaryKey === 'three-party') add('three-party');
   else if(primaryKey === 'probation') add('probation');
   const laborSignals = hasLaborSignals(text, primaryKey);
@@ -4178,6 +4380,7 @@ function resolveRulePacks(text, primaryKey){
   if(primaryKey === 'other' && trialLike && !packs.length) add('probation');
   if(hasInternSignals(text)) add('intern');
   if(hasLoanSignals(text)) add('loan');
+  if(hasPrepaySignals(text)) add('prepay');
   if(hasThreePartySignals(text)) add('three-party');
   return packs;
 }
@@ -4262,7 +4465,7 @@ function shouldAcceptInput(text, options){
   if(packs.length) return {accept:true,docKey:detected === 'other' ? packs[0] : detected,packs};
   if(/(试用期|试岗期|见习期|适应期)/.test(t)) return {accept:true,docKey:'probation',packs:['probation']};
   if(looksLikeContract(t)) return {accept:true,docKey:detected,packs};
-  return {accept:false,docKey:detected,packs,reason:'没有识别到劳动合同、实习、培训分期或三方协议条款。如果这是合同摘录，请先选择文档类型；如果是普通文本，请粘贴合同条款。'};
+  return {accept:false,docKey:detected,packs,reason:'没有识别到劳动合同、实习、培训贷、预付课程或三方协议条款。如果这是合同摘录，请先选择文档类型；如果是普通文本，请粘贴合同条款。'};
 }
 
 function analyzeContract(text, options){
@@ -4272,7 +4475,7 @@ function analyzeContract(text, options){
   let primaryKey = forcedKey || detectedKey;
   let packs = resolveRulePacks(clean, primaryKey);
   if(primaryKey === 'other' && packs.length){
-    const promoted = packs.find(k => k === 'labor' || k === 'intern' || k === 'three-party' || k === 'loan' || k === 'probation');
+    const promoted = packs.find(k => k === 'labor' || k === 'intern' || k === 'three-party' || k === 'loan' || k === 'prepay' || k === 'probation');
     if(promoted){
       primaryKey = promoted;
       packs = resolveRulePacks(clean, primaryKey);
@@ -4285,13 +4488,17 @@ function analyzeContract(text, options){
     docType:primaryKey,
     detectedKey,
     packs,
-    scope:scopeInfo.full ? 'full' : 'unknown',
+    scope:scopeInfo.scope,
     items:[],pending:[],seq:{},step:0
   };
   if(packs.includes('probation')){ runR1(ctx);runR2(ctx);runR3(ctx); }
   if(packs.includes('labor')){ runR4(ctx);runR5(ctx);runR6(ctx);runR7(ctx);runR11(ctx);runR12(ctx);runR13(ctx);runR14(ctx);runR15(ctx);runR16(ctx);runR17(ctx);runR18(ctx);runR19(ctx);runR21(ctx);runR22(ctx);runR23(ctx);runR24(ctx);runR25(ctx);runR26(ctx);runR27(ctx);runR28(ctx);runR29(ctx);runR30(ctx);runLaborGreens(ctx); }
   if(packs.includes('intern')){ runR10(ctx);runR27(ctx);runR29(ctx);runR30(ctx); }
   if(packs.includes('loan')){ runR9(ctx);runR20(ctx);runLoanConsumer(ctx); }
+  if(packs.includes('prepay')){
+    if(!packs.includes('loan')) runLoanConsumer(ctx, { consumerOnly:true });
+    runPrepayFallback(ctx);
+  }
   if(packs.includes('three-party')){ runR8(ctx);runR29(ctx);runR30(ctx); }
   ctx.items.sort((a,b) => (VERDICT_ORDER[a.verdict] - VERDICT_ORDER[b.verdict]) || ((b.loss || 0) - (a.loss || 0)) || (a.seq - b.seq));
   const counts = {red:0,yellow:0,gray:0,green:0};
@@ -4303,6 +4510,10 @@ function analyzeContract(text, options){
   const title = firstLine.length <= 30 && /(合同|协议)/.test(firstLine) && !/^第[一二三四五六七八九十百零〇\d]+条/.test(firstLine)
     ? firstLine
     : (DOC_LABEL[ctx.docType] || '协议');
+  const coverage = buildCoverage(ctx.packs);
+  const formatWarning = numbered === 0 && substantive.length <= 1 && clean.length > 80
+    ? '没有识别到「第X条」等条款编号，正文接近一整段；可能是换行或段落丢失，规则会集中命中一段。建议保留原段落或按条款重新粘贴。'
+    : '';
   return {
     docKey:ctx.docType,
     docType:DOC_LABEL[ctx.docType] || '其他',
@@ -4312,6 +4523,7 @@ function analyzeContract(text, options){
     packs:ctx.packs,
     packLabels:ctx.packs.map(k => PACK_LABEL[k]).filter(Boolean),
     extraPackLabels:ctx.packs.filter(k => k !== ctx.docType).map(k => PACK_LABEL[k]).filter(Boolean),
+    sourceName:(options && options.sourceName) ? String(options.sourceName) : '',
     title,
     clauses:ctx.clauses,
     numberedCount:numbered,
@@ -4323,7 +4535,9 @@ function analyzeContract(text, options){
     scope:scopeInfo.scope,
     scopeInfo,
     importInfo:scopeInfo.importInfo,
-    oneLiner:makeOneLiner(ctx.items,counts),
+    coverage,
+    formatWarning,
+    oneLiner:makeOneLiner(ctx.items,counts,coverage),
     topVerdict:counts.red ? 'red' : counts.yellow ? 'yellow' : counts.gray ? 'gray' : 'green',
     insufficient:substantive.length < 3
   };
@@ -4337,19 +4551,35 @@ function escapeHtml(s){
 
 function buildExportHTML(analysis){
   const now = new Date().toLocaleString('zh-CN',{hour12:false});
-  const items = (analysis.items || []).map(it => `
+  const items = (analysis.items || []).map(it => {
+    const evidence = (it.evidence || []).filter(ev => ev && (ev.raw || ev.quote)).map(ev => `
+      <p class="quote evidence">依据原文${ev.location ? `（${escapeHtml(ev.location)}）` : ''}：“${escapeHtml(ev.raw || ev.quote)}”</p>`).join('');
+    const fullQuote = (it.range && it.range.raw) || it.quote;
+    return `
     <article class="item v-${escapeHtml(it.verdict)}">
       <div class="item-top"><span class="tag">${escapeHtml(VERDICT_LABEL[it.verdict] || it.verdict)}</span><strong>${escapeHtml(it.ruleName)}</strong><span class="loc">${escapeHtml(it.location)}</span></div>
-      <p class="cons"><b>最坏会发生：</b>${escapeHtml(it.consequence)}</p>
-      ${it.quote ? `<p class="quote">原文：“${escapeHtml(it.quote)}”</p>` : ''}
-      ${it.basis ? `<div class="basis"><b>依据：</b>${escapeHtml(it.basis.law)} ${escapeHtml(it.basis.article === '需核对' ? '（条文序号需核对）' : it.basis.article)}<br>${escapeHtml(it.basis.text)}</div>` : ''}
+      <p class="cons"><b>${it.verdict === 'red' ? '最坏会发生' : it.verdict === 'yellow' ? '可能吃亏' : it.verdict === 'gray' ? '需要确认' : '规则核对'}：</b>${escapeHtml(it.consequence)}</p>
+      ${fullQuote ? `<p class="quote">原文：“${escapeHtml(fullQuote)}”</p>` : ''}
+      ${evidence}
+      ${it.basis ? `<div class="basis"><b>依据：</b>${escapeHtml(it.basis.law)} ${escapeHtml(it.basis.article === '需核对' ? '（条文序号需核对）' : it.basis.article)}${it.basis.docNo ? ` · ${escapeHtml(it.basis.docNo)}` : ''}${it.basis.effectiveAt ? ` · 施行日期 ${escapeHtml(it.basis.effectiveAt)}` : ''}<br>${escapeHtml(it.basis.text)}${it.basis.checkedAt ? `<br>法源核对日期：${escapeHtml(it.basis.checkedAt)}${it.basis.url ? ` · <a href="${escapeHtml(it.basis.url)}">官方文本</a>` : ''}` : ''}</div>` : ''}
       ${it.ask ? `<p><b>问谁 · 问什么：</b>${escapeHtml(it.ask)}</p>` : ''}
       ${it.counter ? `<p><b>可以怎么改：</b>${escapeHtml(it.counter)}</p>` : ''}
       <p class="meta">规则 ${escapeHtml(it.ruleId)} · 把握：${escapeHtml(it.confidence)}</p>
-    </article>`).join('');
+    </article>`;
+  }).join('');
   const pending = analysis.pending && analysis.pending.length ? `<section class="pending"><h2>还要确认 ${analysis.pending.length} 件事</h2><ol>${analysis.pending.map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ol></section>` : '';
   const scope = analysis.scopeInfo || buildScopeInfo(analysis.scope, analysis.importInfo);
   const riskCount = (analysis.items || []).filter(it => it.verdict !== 'green').length;
+  const insufficient = analysis.insufficient
+    ? '<p class="warn"><b>信息不足：</b>这份文本只拆出少量条款，可能不是完整合同；以下结论只针对已提供的部分。</p>'
+    : '';
+  const formatWarning = analysis.formatWarning
+    ? `<p class="warn"><b>格式提醒：</b>${escapeHtml(analysis.formatWarning)}</p>`
+    : '';
+  const coverage = analysis.coverage || null;
+  const coverageLine = coverage
+    ? `本次应用 ${coverage.appliedCount}/${coverage.libraryCount} 类规则（${(coverage.labels || []).join(' / ') || '无'}）${coverage.uncoveredCount ? `；未覆盖 ${coverage.uncoveredCount} 类：${coverage.uncoveredNames.slice(0,6).join('、')}${coverage.uncoveredCount > 6 ? '…' : ''}` : ''}`
+    : '';
   return `<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><title>签约前风险提示 · ${escapeHtml(analysis.docType)}</title>
   <style>
     @page{margin:16mm 14mm}
@@ -4358,6 +4588,9 @@ function buildExportHTML(analysis){
     .head{border-bottom:1.5pt solid #20251F;padding-bottom:10pt;margin-bottom:12pt;display:flex;justify-content:space-between;align-items:flex-end;gap:20pt}
     h1{font-size:20pt;margin:0;letter-spacing:.06em}
     .sub{font-family:"Noto Sans SC","Microsoft YaHei",sans-serif;font-size:9pt;color:#5F6257;text-align:right;line-height:1.7}
+    .identity{font-family:"Noto Sans SC","Microsoft YaHei",sans-serif;font-size:9pt;color:#5F6257;margin-top:3pt}
+    .print-note{font-family:"Noto Sans SC","Microsoft YaHei",sans-serif;font-size:8.5pt;color:#5F6257;border:0.6pt solid #DCD5C3;border-radius:3pt;padding:5pt 7pt;margin:0 0 10pt;line-height:1.65}
+    .warn{font-family:"Noto Sans SC","Microsoft YaHei",sans-serif;font-size:9pt;color:#5A3C00;background:#FFF5DC;border:0.6pt solid #EFDFB7;border-radius:3pt;padding:5pt 7pt;margin:0 0 10pt;line-height:1.65}
     .one{font-size:13pt;font-weight:700;line-height:1.6;border-left:3pt solid #A33327;padding-left:8pt;margin:0 0 8pt}
     .counts{font-family:"Noto Sans SC","Microsoft YaHei",sans-serif;font-size:9.5pt;color:#5F6257;margin:0 0 8pt}
     .scope{font-family:"Noto Sans SC","Microsoft YaHei",sans-serif;font-size:9pt;color:#5F6257;border:0.6pt solid #DCD5C3;border-radius:3pt;padding:6pt 8pt;margin:0 0 14pt;line-height:1.65}
@@ -4370,7 +4603,9 @@ function buildExportHTML(analysis){
     p{margin:3pt 0}
     .cons{font-family:"Noto Sans SC","Microsoft YaHei",sans-serif;font-size:9.5pt;line-height:1.7}
     .quote{color:#42483F;font-size:10pt;padding-left:7pt;border-left:1.5pt solid #DCD5C3}
+    .quote.evidence{font-size:9pt;margin-top:4pt}
     .basis{font-size:8.5pt;color:#5F6257;line-height:1.65;margin-top:4pt}
+    .basis a{color:#8E2B1E}
     .meta{font-family:"Noto Sans SC","Microsoft YaHei",sans-serif;font-size:8pt;color:#5F6257}
     .pending{border:0.6pt solid #DCD5C3;border-radius:3pt;padding:8pt 10pt;margin-top:12pt;break-inside:avoid}
     .pending h2{font-size:11pt;margin:0 0 4pt}
@@ -4379,11 +4614,14 @@ function buildExportHTML(analysis){
     .brand{font-size:9pt;letter-spacing:.12em;color:#153B32}
   </style></head><body>
     <header class="head">
-      <div><h1>签约前风险提示</h1><p class="brand">红笔 · 签字前 5 分钟</p></div>
-      <div class="sub">${escapeHtml(analysis.docType)} · ${analysis.numberedCount || (analysis.clauses || []).length} 条 · 约 ${Number(analysis.charCount || 0).toLocaleString('zh-CN')} 字<br>应用规则：${escapeHtml((analysis.packLabels || []).join(' / '))}${analysis.forced ? '（手动指定类型）' : ''}<br>生成时间：${escapeHtml(now)}</div>
+      <div><h1>签约前风险提示</h1><p class="brand">红笔 · 签字前 5 分钟</p><p class="identity">${escapeHtml(analysis.title)}${analysis.sourceName ? ` · ${escapeHtml(analysis.sourceName)}` : ''}</p></div>
+      <div class="sub">${escapeHtml(analysis.docType)} · ${analysis.numberedCount || (analysis.clauses || []).length} 条 · 约 ${Number(analysis.charCount || 0).toLocaleString('zh-CN')} 字<br>应用规则：${escapeHtml((analysis.packLabels || []).join(' / '))}${analysis.forced ? '（手动指定类型）' : ''}<br>${escapeHtml(coverageLine)}<br>生成时间：${escapeHtml(now)}</div>
     </header>
+    <p class="print-note">本报告基于你提供的文本和通用规定生成，不构成法律意见；签字前请对照原件核对金额、日期和条款编号。</p>
     <p class="one">${escapeHtml(analysis.oneLiner)}</p>
-    <p class="counts">红线 ${analysis.counts.red} · 黄线 ${analysis.counts.yellow} · 灰线 ${analysis.counts.gray} · 绿线 ${analysis.counts.green}${riskCount ? '' : ' · 本次规则未命中风险'}</p>
+    <p class="counts">红线 ${analysis.counts.red} · 黄线 ${analysis.counts.yellow} · 灰线 ${analysis.counts.gray} · 绿线 ${analysis.counts.green}${riskCount ? '' : ' · 本次应用规则未命中 ≠ 无风险'}</p>
+    ${insufficient}
+    ${formatWarning}
     <p class="scope"><b>审阅范围：${escapeHtml(scope.label)}。</b>${escapeHtml(scope.note)}</p>
     ${items || '<p>没有命中规则。</p>'}
     ${pending}
@@ -4393,6 +4631,7 @@ function buildExportHTML(analysis){
 
 return {
   LAW,
+  LAW_CHECKED_AT,
   RULE_LIBRARY,
   SAMPLES,
   VERDICT_ORDER,

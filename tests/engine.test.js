@@ -1,6 +1,8 @@
 const test = require('node:test');
 const assert = require('node:assert/strict');
-const { analyzeContract, SAMPLES } = require('../engine.js');
+const fs = require('node:fs');
+const path = require('node:path');
+const { analyzeContract, buildExportHTML, RULE_LIBRARY, SAMPLES } = require('../engine.js');
 
 function byRule(analysis, ruleId) {
   return analysis.items.filter(item => item.ruleId === ruleId);
@@ -470,4 +472,325 @@ test('R30 识别排除法定管辖，法定管辖不误报', () => {
   assert.ok(byRule(bad, 'R30').some(item => item.verdict === 'red'));
   const good = analyzeContract(withClause('双方发生劳动争议，可向劳动合同履行地或用人单位所在地劳动争议仲裁委员会申请仲裁。'));
   assert.ok(good.items.some(item => item.verdict === 'green' && item.ruleName === '争议管辖'));
+});
+
+test('零命中只声明本次应用的规则，并列出未覆盖的规则包', () => {
+  const analysis = analyzeContract('乙方在试用期内参加甲方安排的岗前培训。', { scope: 'excerpt' });
+  assert.equal(analysis.docKey, 'probation');
+  assert.deepEqual(analysis.packs, ['probation']);
+  assert.equal(analysis.coverage.appliedCount, 3);
+  assert.equal(analysis.coverage.uncoveredCount, RULE_LIBRARY.length - 3);
+  assert.ok(!analysis.oneLiner.includes('36 类规则没有扫到'));
+  assert.ok(analysis.oneLiner.includes('只核对 3 类'));
+  assert.ok(analysis.oneLiner.includes('未覆盖'));
+  assert.ok(analysis.oneLiner.includes('没扫到'));
+  const html = buildExportHTML(analysis);
+  assert.ok(html.includes('本次应用 3/36 类规则'));
+  assert.ok(html.includes('本次应用规则未命中 ≠ 无风险'));
+  assert.ok(!html.includes('本次规则未命中风险'));
+});
+
+test('R2 不因期限条未写工资而误报，工资已写在其他条款时只出实际结论', () => {
+  const analysis = analyzeContract(sample('labor').text, { scope: 'full' });
+  const r2 = byRule(analysis, 'R2');
+  assert.ok(!r2.some(item => item.ruleName === '试用期工资未明确'));
+  assert.ok(r2.some(item => item.verdict === 'red' && item.consequence.includes('4,800')));
+});
+
+test('R6 人员适用卡定位到人员条款，range 与 clauseIndex 同坐标系', () => {
+  const text = `劳动合同书
+甲方（用人单位）：测试公司
+乙方（劳动者）：测试学生
+
+第一条 合同期限
+本合同期限为 2 年。
+
+第二条 工作内容
+乙方不知悉、接触甲方商业秘密或与知识产权相关的保密事项。
+
+第三条 竞业限制
+乙方离职后 2 年内不得从事同类业务，甲方按月支付经济补偿。
+
+第四条 劳动报酬
+月工资 15000 元，试用期工资 12000 元。`;
+  const analysis = analyzeContract(text, { scope: 'full' });
+  const item = byRule(analysis, 'R6').find(it => it.ruleName === '竞业限制人员适用待核对');
+  assert.ok(item);
+  const clause = analysis.clauses[item.clauseIndex];
+  assert.ok(clause.body.includes('不知悉'));
+  assert.equal(clause.body.slice(item.range.start, item.range.end), item.range.raw);
+  assert.ok(item.evidence.some(ev => ev.clauseIndex === 3 && ev.quote));
+});
+
+test('所有样本的 range 都落在 item.clauseIndex 指向的条款 body 内', () => {
+  for (const s of SAMPLES) {
+    const analysis = analyzeContract(s.text, { scope: 'full' });
+    for (const item of analysis.items) {
+      if (!item.range || item.range.start == null || item.clauseIndex == null) continue;
+      const clause = analysis.clauses[item.clauseIndex];
+      assert.ok(clause, `${s.id} ${item.id} clause missing`);
+      assert.equal(clause.body.slice(item.range.start, item.range.end), item.range.raw, `${s.id} ${item.id}`);
+    }
+  }
+});
+
+test('培训贷样本把每期服务费计入总额，不再报频次不明', () => {
+  const loan = sample('loan');
+  const analysis = analyzeContract(loan.text, { scope: 'full' });
+  const r9 = byRule(analysis, 'R9');
+  assert.ok(r9.some(item => item.consequence.includes('38,400')));
+  assert.ok(!r9.some(item => item.ruleName === '服务费收取频次不明'));
+  assert.ok(loan.sub.includes('8600'));
+});
+
+test('冲突卡的 evidence 会进入导出报告，而不是只留在引擎数据里', () => {
+  const text = `劳动合同书
+甲方（用人单位）：测试公司
+乙方（劳动者）：测试学生
+
+第一条 合同期限
+本合同期限为 2 年。
+
+第二条 试用期
+试用期 3 个月，试用期工资为每月 5000 元，转正后工资为每月 8000 元。
+
+第三条 补充约定
+试用期工资为每月 3000 元。`;
+  const analysis = analyzeContract(text, { scope: 'full' });
+  const conflict = byRule(analysis, 'R2').find(item => item.ruleName === '试用期工资约定冲突');
+  assert.ok(conflict);
+  assert.ok(conflict.evidence.length >= 2);
+  const html = buildExportHTML(analysis);
+  assert.ok(html.includes('依据原文'));
+  assert.ok(html.includes('5,000'));
+  assert.ok(html.includes('3,000'));
+});
+
+test('双端规则注册表：App 与网页端规则一致，PDF 页脚不再写死规则数', () => {
+  const root = path.join(__dirname, '..');
+  const dart = fs.readFileSync(path.join(root, 'client', 'lib', 'engine', 'engine.dart'), 'utf8');
+  const ids = Array.from(dart.matchAll(/RuleInfo\(\s*'(R\d+)'/g)).map(m => m[1]);
+  const webIds = RULE_LIBRARY.map(r => r.id);
+  assert.ok(ids.length > 0, 'Dart rule library should not be empty');
+  assert.deepEqual(ids, webIds, 'Dart rules must match the web rule registry');
+  const gapMatch = dart.match(/const List<String> ruleLibraryGap = \[([^\]]*)\]/);
+  assert.ok(gapMatch, 'ruleLibraryGap must be declared');
+  const gap = Array.from(gapMatch[1].matchAll(/'(R\d+)'/g)).map(m => m[1]);
+  assert.deepEqual(gap, webIds.filter(id => !ids.includes(id)), 'declared gap must equal web minus app');
+  const pdf = fs.readFileSync(path.join(root, 'client', 'lib', 'services', 'pdf_export.dart'), 'utf8');
+  assert.ok(!pdf.includes('规则库 20 类'));
+  assert.ok(pdf.includes('ruleLibrary.length'));
+  assert.ok(!pdf.includes('R31–R36 未移植'));
+  const about = fs.readFileSync(path.join(root, 'client', 'lib', 'pages', 'about_page.dart'), 'utf8');
+  assert.ok(about.includes('ruleLibrarySnapshotNote'));
+});
+
+test('导出报告带合同身份与完整原文，不再被 60 字截断', () => {
+  const text = `劳动合同书
+甲方（用人单位）：测试公司
+乙方（劳动者）：测试学生
+
+第一条 合同期限
+本合同期限为 2 年。
+
+第二条 劳动报酬
+乙方试用期工资为每月 3000 元，转正后工资为每月 8000 元，甲方可根据经营情况单方调整工资标准且乙方不得异议。`;
+
+  const analysis = analyzeContract(text, { scope: 'full', sourceName: '测试合同.pdf' });
+  assert.equal(analysis.sourceName, '测试合同.pdf');
+  const html = buildExportHTML(analysis);
+  assert.ok(html.includes('测试合同.pdf'));
+  assert.ok(html.includes('不得异议'));
+  assert.ok(html.includes('本报告基于你提供的文本'));
+});
+
+test('纯预付课程合同自动识别为预付课程，并触发 R33 退款红线', () => {
+  const text = `课程服务协议
+甲方：某教育公司
+乙方：学员
+
+第一条 课程与费用
+乙方一次性支付课程费 12000 元，购买 60 课时。
+
+第二条 退款
+开课后费用一律不予退还。`;
+  const analysis = analyzeContract(text, { scope: 'full' });
+  assert.equal(analysis.docKey, 'prepay');
+  assert.equal(analysis.docType, '预付课程');
+  assert.ok(analysis.packs.includes('prepay'));
+  const r33 = byRule(analysis, 'R33');
+  assert.ok(r33.some(item => item.verdict === 'red' && item.ruleName.includes('拒绝退款')));
+  assert.ok(r33.some(item => item.loss === 12000));
+});
+
+test('预付课程无退款约定时给灰卡，含迁址不退的手动贷款合同仍出 R33', () => {
+  const noRefund = analyzeContract(`课程购买协议
+甲方：某机构
+乙方：学员
+第一条 费用
+乙方支付学费 8000 元，共 40 课时。`, { scope: 'full' });
+  assert.ok(byRule(noRefund, 'R33').some(item => item.verdict === 'gray' && item.ruleName.includes('未约定退款')));
+
+  const relocation = analyzeContract(`培训服务协议
+甲方：某机构
+乙方：学员
+第一条 费用
+乙方支付培训费 9000 元。
+第二条 服务地点
+甲方关闭原服务点、改由外省合作方提供服务的，余款不退。`, { docType: 'loan', scope: 'full' });
+  assert.ok(byRule(relocation, 'R33').some(item => item.verdict === 'red' && /迁址|跨省/.test(item.ruleName)));
+});
+
+test('法源元数据带核对日期与官方入口，R10 不再写“需核对”', () => {
+  const analysis = analyzeContract(`实习协议
+甲方（实习单位）：测试公司
+乙方（实习学生）：测试学生
+第一条 实习期限
+实习期自 2026 年 1 月 1 日起至 2026 年 6 月 30 日止。
+第二条 实习内容
+乙方每周实习 5 天，每天 8 小时。`, { scope: 'excerpt' });
+  const r10 = analysis.items.find(item => item.ruleId === 'R10' && item.basis);
+  assert.ok(r10);
+  assert.ok(r10.basis.article !== '需核对');
+  assert.ok(r10.basis.checkedAt);
+  assert.ok(r10.basis.url.includes('flk.npc.gov.cn'));
+  const html = buildExportHTML(analysis);
+  assert.ok(html.includes('法源核对日期'));
+  assert.ok(html.includes('官方文本'));
+});
+
+test('商业险替代工伤与工伤按病假分别引用第六十二条和第三十三条', () => {
+  const commercial = analyzeContract(`劳动合同
+甲方（用人单位）：测试公司
+乙方（劳动者）：测试学生
+第一条 合同期限
+本合同期限 2 年。
+第二条 保险
+公司为乙方购买商业意外险，替代工伤保险，不再缴纳工伤保险。`, { scope: 'excerpt' });
+  const commercialItem = commercial.items.find(item => item.ruleName === '商业险替代工伤保险');
+  assert.ok(commercialItem);
+  assert.equal(commercialItem.basis.article, '第六十二条');
+
+  const sick = analyzeContract(`劳动合同
+甲方（用人单位）：测试公司
+乙方（劳动者）：测试学生
+第一条 合同期限
+本合同期限 2 年。
+第二条 工伤
+工伤停工留薪期按病假处理，不发工资。`, { scope: 'excerpt' });
+  const sickItem = sick.items.find(item => item.ruleName === '工伤期间按病假处理');
+  assert.ok(sickItem);
+  assert.equal(sickItem.basis.article, '第三十三条');
+});
+
+test('待确认事项不再静默截断到 5 条', () => {
+  const analysis = analyzeContract(sample('labor').text, { scope: 'full' });
+  assert.ok(analysis.pending.length > 5);
+});
+
+test('R9 逾期违约金给出折算年化，并区分调减规则与罚息上限', () => {
+  const text = `培训分期协议
+甲方：某培训机构
+乙方：学员
+第一条 付款
+分 12 期，每期还款 1000 元。
+第二条 逾期
+乙方逾期还款的，每日按未还金额的 1% 支付逾期违约金。`;
+  const analysis = analyzeContract(text, { docType: 'loan', scope: 'excerpt' });
+  const item = byRule(analysis, 'R9').find(it => it.ruleName === '逾期违约金过高');
+  assert.ok(item);
+  assert.match(item.consequence, /年化约 365%/);
+  assert.match(item.consequence, /不是司法保护上限/);
+  assert.match(item.short, /年化 365%/);
+
+  const fixedOnly = analyzeContract(`培训分期协议
+甲方：某培训机构
+乙方：学员
+第一条 付款
+分 12 期，每期还款 1000 元。
+第二条 逾期
+乙方逾期还款的，每次支付违约金 300 元。`, { docType: 'loan', scope: 'excerpt' });
+  const gray = byRule(fixedOnly, 'R9').find(it => it.ruleName === '逾期费用未写上限');
+  assert.ok(gray);
+  assert.match(gray.consequence, /无法折算年化/);
+});
+
+test('重复分析同一文本结果稳定，不带入上一次状态', () => {
+  const first = analyzeContract(sample('labor').text, { scope: 'full' });
+  const second = analyzeContract(sample('labor').text, { scope: 'full' });
+  assert.deepEqual(second.items, first.items);
+  assert.deepEqual(second.counts, first.counts);
+  assert.equal(second.oneLiner, first.oneLiner);
+  assert.deepEqual(second.pending, first.pending);
+});
+
+test('所有带依据的发现都有核对日期和官方入口', () => {
+  for (const s of SAMPLES) {
+    const analysis = analyzeContract(s.text, { scope: 'full' });
+    for (const item of analysis.items) {
+      if (!item.basis) continue;
+      assert.ok(item.basis.checkedAt, `${s.id} ${item.id} checkedAt`);
+      assert.ok(item.basis.url, `${s.id} ${item.id} url`);
+      assert.notEqual(item.basis.article, '需核对', `${s.id} ${item.id} article`);
+    }
+  }
+});
+
+test('正常劳动合同对照不产生红线或黄线', () => {
+  const text = `劳动合同书
+甲方（用人单位）：示例科技有限公司
+乙方（劳动者）：测试员工
+
+第一条 合同期限
+本合同期限自 2026 年 1 月 1 日起至 2028 年 12 月 31 日止，试用期 2 个月。
+
+第二条 工作内容与地点
+乙方担任产品助理，工作地点为杭州市西湖区。
+
+第三条 工作时间
+甲方实行标准工时制，每日工作 8 小时，每周工作 40 小时，依法安排休息休假。
+
+第四条 劳动报酬
+乙方试用期工资为每月 6400 元，转正后工资为每月 8000 元，每月 10 日发放。
+
+第五条 社会保险
+甲方依法为乙方缴纳社会保险，个人部分由甲方代扣代缴。
+
+第六条 劳动保护
+甲方提供必要的劳动保护用品和职业危害防护。
+
+第七条 合同解除
+乙方提前 30 日书面通知甲方，可以解除劳动合同；试用期内提前 3 日通知。`;
+  const analysis = analyzeContract(text, { scope: 'full' });
+  assert.equal(analysis.counts.red, 0);
+  assert.equal(analysis.counts.yellow, 0);
+});
+
+test('正常劳动合同样本作为对照，不产生红黄灰线', () => {
+  const analysis = analyzeContract(sample('normal').text, { scope: 'full' });
+  assert.equal(analysis.counts.red, 0);
+  assert.equal(analysis.counts.yellow, 0);
+  assert.equal(analysis.counts.gray, 0);
+  assert.ok(analysis.counts.green > 0);
+});
+
+test('同一句同时写转正 30 日和试用期 3 日，不误报试用期通知期过高', () => {
+  const text = `劳动合同书
+甲方（用人单位）：测试公司
+乙方（劳动者）：测试学生
+第一条 合同期限
+本合同期限 2 年，试用期 2 个月。
+第二条 解除
+乙方提前 30 日书面通知甲方，可以解除劳动合同；试用期内提前 3 日通知。`;
+  const analysis = analyzeContract(text, { scope: 'full' });
+  assert.ok(!analysis.items.some(item => /试用期通知期高于/.test(item.ruleName)));
+});
+
+test('无条款编号的长文本给出换行丢失提醒，并进入导出', () => {
+  const longText = '甲方：测试公司 乙方：测试学生 乙方同意根据甲方需要从事运营工作，工作地点为杭州市，工资为每月8000元，试用期2个月，试用期工资6400元，双方按国家规定缴纳社会保险，甲方可随时调整岗位和工资，乙方应服从安排。';
+  const analysis = analyzeContract(longText, { scope: 'unknown' });
+  assert.ok(analysis.formatWarning);
+  assert.match(analysis.formatWarning, /换行|段落/);
+  const html = buildExportHTML(analysis);
+  assert.ok(html.includes('格式提醒'));
 });
