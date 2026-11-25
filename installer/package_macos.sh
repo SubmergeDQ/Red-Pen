@@ -3,7 +3,7 @@
 #
 #   ./installer/package_macos.sh
 #
-# 产物：dist/macos/红笔-1.1.0-macos.dmg
+# 产物：dist/macos/红笔-1.2.0-macos.dmg
 #
 # 前置：
 #   - Xcode 15+ 与命令行工具（xcode-select --install）
@@ -14,7 +14,7 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 APP_NAME="红笔"
-VERSION="1.1.0"
+VERSION="1.2.0"
 BUILD_DIR="$ROOT/client/build/macos/Build/Products/Release"
 OUT_DIR="$ROOT/dist/macos"
 CODESIGN_ID="${CODESIGN_ID:-}"

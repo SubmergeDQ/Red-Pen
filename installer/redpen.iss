@@ -3,7 +3,7 @@
 ; 依赖：client\build\windows\x64\runner\Release 已由 flutter build windows --release 生成
 
 #define AppName "红笔"
-#define AppVersion "1.1.0"
+#define AppVersion "1.2.0"
 #define AppPublisher "Red Pen"
 #define AppExe "red_pen.exe"
 #define SourceDir "..\client\build\windows\x64\runner\Release"
@@ -14,7 +14,7 @@ AppName={#AppName}
 AppVersion={#AppVersion}
 AppVerName={#AppName} {#AppVersion}
 AppPublisher={#AppPublisher}
-VersionInfoVersion=1.1.0.4
+VersionInfoVersion=1.2.0.5
 VersionInfoCompany={#AppPublisher}
 VersionInfoDescription={#AppName} 安装程序
 VersionInfoProductName={#AppName}
@@ -25,7 +25,7 @@ DisableProgramGroupPage=yes
 PrivilegesRequired=lowest
 PrivilegesRequiredOverridesAllowed=dialog
 OutputDir=..\dist\installer
-OutputBaseFilename=红笔-1.1.0-windows-x64-setup
+OutputBaseFilename=红笔-1.2.0-windows-x64-setup
 Compression=lzma2/ultra64
 SolidCompression=yes
 WizardStyle=modern

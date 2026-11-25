@@ -20,7 +20,7 @@ Windows 安装程序（Inno Setup 6）：
 
 ```powershell
 iscc installer\redpen.iss
-# 产物：dist\installer\红笔-1.1.0-windows-x64-setup.exe
+# 产物：dist\installer\红笔-1.2.0-windows-x64-setup.exe
 ```
 
 macOS 需在 macOS 上执行 `installer/package_macos.sh`（Windows 无法交叉编译）。
