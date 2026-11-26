@@ -9,3 +9,27 @@ dist/
 
 # 本地 HTML 分享打包缓存
 .trae-html-share-packages/
+
+# 宣传片工程与渲染产物（Remotion，体积大，与软件本体无关）
+promo/
+
+# Qoder 站点导出的工程文件（可从 Qoder 重新导出）
+.*.qoder.site
+
+# 本地临时截图
+.screenshots/
+
+# Flutter / Dart 构建缓存
+client/.dart_tool/
+client/build/
+client/windows/flutter/ephemeral/
+client/third_party/*/android/.cxx/
+client/third_party/*/android/.lib/
+
+# 依赖目录
+node_modules/
+
+# 系统与编辑器
+.DS_Store
+Thumbs.db
+*.iml
